@@ -1,10 +1,10 @@
 ﻿<Properties StartupConfiguration="{505561AC-CFC9-49E1-CD93-3FC2A572734F}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/egfwughkw.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/GameManager.cs">
     <Files>
-      <File FileName="Assets/Scripts/MiniBlock.cs" Line="8" Column="9" />
-      <File FileName="Assets/Scripts/GameManager.cs" Line="48" Column="47" />
+      <File FileName="Assets/Scripts/MiniBlock.cs" Line="11" Column="1" />
+      <File FileName="Assets/Scripts/GameManager.cs" Line="72" Column="43" />
       <File FileName="Assets/Scripts/InputManager.cs" Line="21" Column="1" />
-      <File FileName="Assets/Scripts/egfwughkw.cs" Line="8" Column="1" />
+      <File FileName="Assets/Scripts/egfwughkw.cs" Line="15" Column="32" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

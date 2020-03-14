@@ -1,7 +1,12 @@
 ﻿namespace Gameplay
 {
-	public class SessionRequest
+	public abstract class SessionRequest
 	{
-		public Letter Prefab;
+		public readonly Letter Prefab;
+
+		protected SessionRequest(Letter prefab)
+		{
+			Prefab = prefab;
+		}
 	}
 }

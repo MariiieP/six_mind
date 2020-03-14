@@ -33,7 +33,7 @@ namespace Managers
 			boundsPositions[3] = new Vector2(boundsPositions[0].x, boundsPositions[1].y); // upperLeft
 
 			var bounds = Instantiate(BoundsPrefab);
-			for (int i = 0; i < bounds.transform.childCount; ++i)
+			for (var i = 0; i < bounds.transform.childCount; ++i)
 			{
 				var child = bounds.transform.GetChild(i);
 				child.position = boundsPositions[i];

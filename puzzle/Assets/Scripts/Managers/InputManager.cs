@@ -1,4 +1,5 @@
-﻿using Gameplay;
+﻿using System;
+using Gameplay;
 using UnityEngine;
 
 namespace Managers
@@ -14,35 +15,32 @@ namespace Managers
 			if (Input.GetMouseButton(0))
 			{
 				var mousePosition = Input.mousePosition;
+				Debug.Assert(Camera.main != null, "Camera.main != null");// todo ?
 				var worldPosition = Camera.main.ScreenToWorldPoint(mousePosition);
 				var rayHit = Physics2D.Raycast(worldPosition, Vector2.zero);
 
-				if (rayHit.transform != null)
+				if (!ReferenceEquals(rayHit.transform, null))
 				{
 					GetTarget(rayHit);
 
-					if (_target != null)
+					if (!_isMoving)// delete if and
+                                   // if(!ReferenceEquals(rayHit.transform, null) && !_isMoving ??
 					{
-						if (!_isMoving) // first time
-						{
-							_delta = worldPosition - _target.transform.position;
-						}
+						_delta = worldPosition - _target.transform.position;
 						_isMoving = true;
 					}
 				}
-
 				MoveTarget(worldPosition - _delta);
+				return;
 			}
-			else
-			{
-				_target = null;
-				_isMoving = false;
-			}
+			
+			_target = null;
+			_isMoving = false;
 		}
 
 		private void MoveTarget(Vector2 position)
 		{
-			if (_isMoving && _target != null)
+			if (_isMoving && !(ReferenceEquals(_target, null))) // todo хотелось бы одну проверку с null на уровень выше
 			{
 				_target.Body.MovePosition(position);
 			}
@@ -50,7 +48,7 @@ namespace Managers
 
 		private void GetTarget(RaycastHit2D rayHit)
 		{
-			if (_target == null)
+			if(ReferenceEquals(_target, null))
 			{
 				_target = rayHit.transform.GetComponent<LetterPart>();
 			}

@@ -1,19 +1,20 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Gameplay
 {
 	[DisallowMultipleComponent]
 	public class LetterPart : MonoBehaviour
 	{
-		public Vector3 CorrectPosition;
-		public Vector3 CorrectRotation;
+		[FormerlySerializedAs("CorrectPosition")] [HideInInspector] public Vector3 correctPosition;
+		[FormerlySerializedAs("CorrectRotation")] [HideInInspector] public Vector3 correctRotation;
 
-		public Rigidbody2D Body;
+		[FormerlySerializedAs("Body")] public Rigidbody2D body;
 
 		private void Awake()
 		{
-			Body = GetComponent<Rigidbody2D>();
+			body = GetComponent<Rigidbody2D>();
 		}
 	}
 }

@@ -11,11 +11,16 @@ namespace Utils
 		{
 			get
 			{
-				if (!ReferenceEquals(_instance, null) || _isBehaviourDestroyed) return null;
+				if (_isBehaviourDestroyed) return null;
+
+				if (!ReferenceEquals(_instance, null)) return _instance;
+				_instance = FindObjectOfType<T>();
+
+				if (!ReferenceEquals(_instance, null)) return _instance;
 				
 				var singleton = new GameObject("[Singleton] " + typeof(T));
-				_instance = FindObjectOfType<T>();
 				_instance = singleton.AddComponent<T>();
+
 				return _instance;
 			}
 		}

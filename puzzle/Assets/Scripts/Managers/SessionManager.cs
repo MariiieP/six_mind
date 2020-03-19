@@ -1,20 +1,21 @@
 ﻿using Gameplay;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Utils;
 
 namespace Managers
 {
 	public class SessionManager : MonoBehaviourSingleton<SessionManager>
 	{
-		public Letter Letter;
-		[SerializeField] private GameObject BoundsPrefab;
+		[FormerlySerializedAs("Letter")] public Letter letter;
+		[FormerlySerializedAs("BoundsPrefab")] [SerializeField] private GameObject boundsPrefab;
 
 		private void Start()
 		{
 			SetupBounds();
-			Letter.gameObject.SetActive(true);
-			Letter.TrackCorrectData();
-			Letter.MixParts();
+			letter.gameObject.SetActive(true);
+			letter.TrackCorrectData();
+			letter.MixParts();
 		}
 
 		public void StartSession(SessionRequest request)
@@ -32,7 +33,7 @@ namespace Managers
 			boundsPositions[2] = new Vector2(boundsPositions[1].x, boundsPositions[0].y); // lowerRight
 			boundsPositions[3] = new Vector2(boundsPositions[0].x, boundsPositions[1].y); // upperLeft
 
-			var bounds = Instantiate(BoundsPrefab);
+			var bounds = Instantiate(boundsPrefab);
 			for (var i = 0; i < bounds.transform.childCount; ++i)
 			{
 				var child = bounds.transform.GetChild(i);

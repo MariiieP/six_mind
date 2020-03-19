@@ -1,5 +1,4 @@
-﻿using System;
-using Gameplay;
+﻿using Gameplay;
 using UnityEngine;
 
 namespace Managers
@@ -15,22 +14,23 @@ namespace Managers
 			if (Input.GetMouseButton(0))
 			{
 				var mousePosition = Input.mousePosition;
-				Debug.Assert(Camera.main != null, "Camera.main != null");// todo ?
 				var worldPosition = Camera.main.ScreenToWorldPoint(mousePosition);
 				var rayHit = Physics2D.Raycast(worldPosition, Vector2.zero);
 
-				if (!ReferenceEquals(rayHit.transform, null))
+				if (!_isMoving && !ReferenceEquals(rayHit.transform, null))
 				{
-					GetTarget(rayHit);
+					// GetTarget(rayHit);
+					_target = rayHit.transform.GetComponent<LetterPart>();
 
-					if (!_isMoving)// delete if and
-                                   // if(!ReferenceEquals(rayHit.transform, null) && !_isMoving ??
+					if (!ReferenceEquals(_target, null))
 					{
 						_delta = worldPosition - _target.transform.position;
 						_isMoving = true;
 					}
 				}
-				MoveTarget(worldPosition - _delta);
+				
+				// MoveTarget(worldPosition - _delta);
+				_target.body.MovePosition(worldPosition - _delta);
 				return;
 			}
 			
@@ -42,7 +42,7 @@ namespace Managers
 		{
 			if (_isMoving && !(ReferenceEquals(_target, null))) // todo хотелось бы одну проверку с null на уровень выше
 			{
-				_target.Body.MovePosition(position);
+				_target.body.MovePosition(position);
 			}
 		}
 

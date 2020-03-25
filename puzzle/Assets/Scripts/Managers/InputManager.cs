@@ -5,52 +5,64 @@ namespace Managers
 {
 	public class InputManager : MonoBehaviour
 	{
+		[SerializeField] private Camera _camera;
+		
 		private bool _isMoving = false;
+		private bool _targetCaptured = false;
 		private LetterPart _target = null;
-		private Vector3 _delta = new Vector2(0, 0);
+		private Vector3 _targetDelta = new Vector2(0, 0);
 
 		private void FixedUpdate()
 		{
 			if (Input.GetMouseButton(0))
 			{
 				var mousePosition = Input.mousePosition;
-				var worldPosition = Camera.main.ScreenToWorldPoint(mousePosition);
-				var rayHit = Physics2D.Raycast(worldPosition, Vector2.zero);
+				var worldPosition = _camera.ScreenToWorldPoint(mousePosition);
 
-				if (!_isMoving && !ReferenceEquals(rayHit.transform, null))
+				if (_targetCaptured)
 				{
-					// GetTarget(rayHit);
-					_target = rayHit.transform.GetComponent<LetterPart>();
-
-					if (!ReferenceEquals(_target, null))
+					if (!_isMoving)
 					{
-						_delta = worldPosition - _target.transform.position;
+						_targetDelta = worldPosition - _target.transform.position;
+						_target.body.constraints = RigidbodyConstraints2D.FreezeRotation;
 						_isMoving = true;
 					}
+					else
+					{
+						_target.body.MovePosition(worldPosition - _targetDelta);
+					}
 				}
-				
-				// MoveTarget(worldPosition - _delta);
-				_target.body.MovePosition(worldPosition - _delta);
-				return;
+				else
+                {
+                	var rayHit = Physics2D.Raycast(worldPosition, Vector2.zero);
+                	if (rayHit.transform == null)
+                	{
+                		return;
+                	}
+    
+                	var letterPart = rayHit.transform.GetComponent<LetterPart>();
+                	if (letterPart == null)
+                	{
+                		return;
+                	}
+    
+                	_target = letterPart;
+                	_targetCaptured = true;
+                }
 			}
 			
-			_target = null;
-			_isMoving = false;
-		}
-
-		private void MoveTarget(Vector2 position)
-		{
-			if (_isMoving && !(ReferenceEquals(_target, null))) // todo хотелось бы одну проверку с null на уровень выше
+			if (Input.GetMouseButtonUp(0))
 			{
-				_target.body.MovePosition(position);
-			}
-		}
-
-		private void GetTarget(RaycastHit2D rayHit)
-		{
-			if(ReferenceEquals(_target, null))
-			{
-				_target = rayHit.transform.GetComponent<LetterPart>();
+				if (_target != null)
+				{
+					_target.body.constraints =
+						  RigidbodyConstraints2D.FreezeRotation
+						| RigidbodyConstraints2D.FreezePositionX
+						| RigidbodyConstraints2D.FreezePositionY;
+					_target = null;
+					_isMoving = false;
+					_targetCaptured = false;
+				}
 			}
 		}
 	}

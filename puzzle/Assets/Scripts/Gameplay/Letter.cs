@@ -1,15 +1,13 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Serialization;
 using Utils;
-using Random = UnityEngine.Random;
 
 namespace Gameplay
 {
     [DisallowMultipleComponent]
     public class Letter : MonoBehaviour
     {
-        [FormerlySerializedAs("LetterParts")] public LetterPart[] letterParts; 
+        [FormerlySerializedAs("LetterParts")] [SerializeField] public LetterPart[] letterParts;
 
         public void TrackCorrectData()
         {
@@ -24,33 +22,32 @@ namespace Gameplay
 
         public void MixParts()
         {
-            var isFoundedPlaceColliders = new Collider2D[letterParts.Length+4];
+            var colliders = new Collider2D[letterParts.Length];
+            var isFoundedPlaceColliders = new Collider2D[letterParts.Length+5];
             var contactFilter = new ContactFilter2D();
-            var colliderCount = -1;
-            
+            var partPosition = new Vector2(0, 0);
+            int colliderCount = -1;
             var lowerLeft = (Vector2)Camera.main.ScreenToWorldPoint(new Vector3(0, 0, 0));
             var upperRight = (Vector2)Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0));
             var lowerRight = new Vector2(upperRight.x, lowerLeft.y);
             var upperLeft = new Vector2(lowerLeft.x, upperRight.y);
 
-            var startTime = DateTime.Now.Ticks;
-            var estimatedTime = 0.0;
-            foreach (var itemPart in letterParts)
+            for (int i = 0; i < letterParts.Length; ++i)
             {
-                while (colliderCount != 0) //&& estimatedTime < 30000
+                do
                 {
-                    var randomPositionX = Random.Range(upperLeft.x, upperRight.x);
-                    var randomPositionY = Random.Range(upperRight.y, lowerRight.y);
-                    itemPart.body.position = new Vector2(randomPositionX, randomPositionY);
-                    itemPart.body.rotation = Random.Range(0, 360);
+                    var positionX = Random.Range(upperLeft.x, upperRight.x);
+                    var positionY = Random.Range(upperRight.y, lowerRight.y);
+                    var part = letterParts[i];
+                    part.body.position = new Vector2(positionX, positionY);
+                    part.body.rotation = Random.Range(0, 360);
+                    
+                    colliderCount = part.body.OverlapCollider(contactFilter, colliders);
+                    ;
+                } while (colliderCount != 0);
 
-                    colliderCount = itemPart.body.OverlapCollider(contactFilter,isFoundedPlaceColliders);
-                    estimatedTime = DateTime.Now.Ticks - startTime;
-                }
-                
-                
-                estimatedTime = 0.0;
-                colliderCount = -1;
+
+
             }
         }
     }

@@ -7,8 +7,8 @@ namespace Managers
 {
 	public class SessionManager : MonoBehaviourSingleton<SessionManager>
 	{
-		[FormerlySerializedAs("Letter")] public Letter letter;
-		[FormerlySerializedAs("BoundsPrefab")] [SerializeField] private GameObject boundsPrefab;
+		public Letter letter;
+		[SerializeField] private GameObject boundsPrefab;
 
 		private void Start()
 		{

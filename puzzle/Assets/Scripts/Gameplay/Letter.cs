@@ -1,13 +1,11 @@
 ﻿using UnityEngine;
-using UnityEngine.Serialization;
-using Utils;
 
 namespace Gameplay
 {
     [DisallowMultipleComponent]
     public class Letter : MonoBehaviour
     {
-        [FormerlySerializedAs("LetterParts")] [SerializeField] public LetterPart[] letterParts;
+        public LetterPart[] letterParts;
 
         public void TrackCorrectData()
         {
@@ -23,7 +21,7 @@ namespace Gameplay
         public void MixParts()
         {
             var colliders = new Collider2D[letterParts.Length];
-            var isFoundedPlaceColliders = new Collider2D[letterParts.Length+5];
+            var isFoundedPlaceColliders = new Collider2D[letterParts.Length + 5];
             var contactFilter = new ContactFilter2D();
             var partPosition = new Vector2(0, 0);
             int colliderCount = -1;
@@ -41,7 +39,7 @@ namespace Gameplay
                     var part = letterParts[i];
                     part.body.position = new Vector2(positionX, positionY);
                     part.body.rotation = Random.Range(0, 360);
-                    
+
                     colliderCount = part.body.OverlapCollider(contactFilter, colliders);
                     ;
                 } while (colliderCount != 0);

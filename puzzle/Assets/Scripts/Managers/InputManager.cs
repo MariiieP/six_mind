@@ -1,68 +1,139 @@
 ﻿using Gameplay;
+using System;
 using UnityEngine;
 
 namespace Managers
 {
+	[RequireComponent(typeof(Rigidbody2D))]
+	[RequireComponent(typeof(Collider2D))]
 	public class InputManager : MonoBehaviour
 	{
-		[SerializeField] private Camera _camera;
-		
-		private bool _isMoving = false;
-		private bool _targetCaptured = false;
-		private LetterPart _target = null;
-		private Vector3 _targetDelta = new Vector2(0, 0);
+		private enum MouseButtons { Left = 0, Right = 1 }
 
-		private void FixedUpdate()
+		[SerializeField] private Camera _camera;
+
+		private bool _targetCaptured = false;
+		private bool _isMoving = false;
+		private bool _isRotating = false;
+		private LetterPart _target = null;
+		private Vector3 _positionDelta = new Vector2(0, 0);
+		private Vector3 _onScreenPosition = new Vector2(0, 0);
+		private float _angleDelta = 0f;
+
+		public static Action TargetDropped; 
+		
+		private void Update()
 		{
-			if (Input.GetMouseButton(0))
+			if (Input.GetMouseButton((int)MouseButtons.Left))
+			{
+				Manage(MouseButtons.Left);
+			}
+
+			if (Input.GetMouseButton((int)MouseButtons.Right))
+			{
+				Manage(MouseButtons.Right);
+			}
+
+			if (Input.GetMouseButtonUp((int)MouseButtons.Left) 
+				|| Input.GetMouseButtonUp((int)MouseButtons.Right))
+			{
+				DropTarget();
+				TargetDropped?.Invoke();
+			}
+		}
+
+		private void Manage(MouseButtons button)
+		{
+			if (_targetCaptured)
+			{
+				if (button == MouseButtons.Left)
+				{
+					MoveTarget();
+				}
+				else if (button == MouseButtons.Right)
+				{
+					RotateTarget();					
+				}
+			}
+			else
+			{
+				CaptureTarget();
+			}
+		}
+
+		private Vector3 MouseWorldPosition
+		{
+			get
 			{
 				var mousePosition = Input.mousePosition;
-				var worldPosition = _camera.ScreenToWorldPoint(mousePosition);
-
-				if (_targetCaptured)
-				{
-					if (!_isMoving)
-					{
-						_targetDelta = worldPosition - _target.transform.position;
-						_target.body.constraints = RigidbodyConstraints2D.FreezeRotation;
-						_isMoving = true;
-					}
-					else
-					{
-						_target.body.MovePosition(worldPosition - _targetDelta);
-					}
-				}
-				else
-                {
-                	var rayHit = Physics2D.Raycast(worldPosition, Vector2.zero);
-                	if (rayHit.transform == null)
-                	{
-                		return;
-                	}
-    
-                	var letterPart = rayHit.transform.GetComponent<LetterPart>();
-                	if (letterPart == null)
-                	{
-                		return;
-                	}
-    
-                	_target = letterPart;
-                	_targetCaptured = true;
-                }
+				return _camera.ScreenToWorldPoint(mousePosition);
 			}
-			
-			if (Input.GetMouseButtonUp(0))
+		}
+
+		private void MoveTarget()
+		{
+			if (!_isMoving)
 			{
-				if (_target != null)
-				{
-					_target.body.constraints =
-						  RigidbodyConstraints2D.FreezeRotation
-						| RigidbodyConstraints2D.FreezePositionX
-						| RigidbodyConstraints2D.FreezePositionY;
-					_target = null;
-					_isMoving = false;
-					_targetCaptured = false;
-				}
+				_positionDelta = MouseWorldPosition - _target.transform.position;
+				_target.body.constraints = RigidbodyConstraints2D.FreezeRotation;
+				_isMoving = true;
+
+			}
+			else
+			{
+				_target.body.MovePosition(MouseWorldPosition - _positionDelta);
+			}
+		}
+
+		private void RotateTarget()
+		{
+			if (!_isRotating)
+			{
+				_onScreenPosition = _camera.WorldToScreenPoint(_target.transform.position);
+				var delta = Input.mousePosition - _onScreenPosition;
+				_angleDelta = (Mathf.Atan2(_target.transform.right.y, _target.transform.right.x) - Mathf.Atan2(delta.y, delta.x)) * Mathf.Rad2Deg;
+				_target.body.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezePositionY;
+				_isRotating = true;
+			}
+			else
+			{
+				var delta = Input.mousePosition - _onScreenPosition;
+				float angle = Mathf.Atan2(delta.y, delta.x) * Mathf.Rad2Deg;
+				_target.body.MoveRotation(angle + _angleDelta);
+			}
+		}
+
+		private void CaptureTarget()
+		{
+			var rayHit = Physics2D.Raycast(MouseWorldPosition, Vector2.zero);
+			if (rayHit.transform == null)
+			{
+				return;
+			}
+
+			var letterPart = rayHit.transform.GetComponent<LetterPart>();
+
+			if (letterPart == null)
+			{
+				return;
+			}
+
+			_target = letterPart;
+			_targetCaptured = true;
+		}
+
+		private void DropTarget()
+		{
+			if (_target != null)
+			{
+				_target.body.constraints =
+					RigidbodyConstraints2D.FreezePositionX
+					| RigidbodyConstraints2D.FreezePositionY
+					| RigidbodyConstraints2D.FreezeRotation;
+				_target = null;
+				_isMoving = false;
+				_isRotating = false;
+				_targetCaptured = false;
 			}
 		}
 	}

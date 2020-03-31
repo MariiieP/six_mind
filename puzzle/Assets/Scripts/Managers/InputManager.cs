@@ -1,4 +1,5 @@
 ﻿using Gameplay;
+using System;
 using UnityEngine;
 
 namespace Managers
@@ -19,6 +20,8 @@ namespace Managers
 		private Vector3 _onScreenPosition = new Vector2(0, 0);
 		private float _angleDelta = 0f;
 
+		public static Action TargetDropped; 
+		
 		private void Update()
 		{
 			if (Input.GetMouseButton((int)MouseButtons.Left))
@@ -35,6 +38,7 @@ namespace Managers
 				|| Input.GetMouseButtonUp((int)MouseButtons.Right))
 			{
 				DropTarget();
+				TargetDropped?.Invoke();
 			}
 		}
 

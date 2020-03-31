@@ -31,16 +31,6 @@ namespace Gameplay
 				return false;
 			}
 
-			if (currentNeighbourRotation - 360f < rotationMin || currentNeighbourRotation - 360f > rotationMax)
-			{
-				return false;
-			}
-
-			if (currentNeighbourRotation + 360f < rotationMin || currentNeighbourRotation + 360f > rotationMax)
-			{
-				return false;
-			}
-
 			var dist = transform.position - Neighbour.transform.position;
 			var currentNeighbourDistance = Mathf.Sqrt(dist.x * dist.x + dist.y * dist.y);
 

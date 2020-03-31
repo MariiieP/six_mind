@@ -1,28 +1,84 @@
 ﻿using Gameplay;
+using System;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Utils;
 
 namespace Managers
 {
 	public class SessionManager : MonoBehaviourSingleton<SessionManager>
 	{
-		public Letter letter;
-		[SerializeField] private GameObject boundsPrefab;
+		[SerializeField] private Letter _letterPrefab;
+		[SerializeField] private GameObject _boundsPrefab;
+		[SerializeField] private Transform _spawnPoint;
+		[SerializeField] private float _distanceDelta;
+		[SerializeField] private float _rotationDelta;
+
+		private Letter _letterInstance;
 
 		private void Start()
 		{
-			SetupBounds();
-			letter.gameObject.SetActive(true);
-			letter.TrackCorrectData();
-			letter.MixParts();
+			StartSession();
 		}
 
-		public void StartSession(SessionRequest request)
+		private void OnEnable()
 		{
-			var letter = Instantiate(request.Prefab);
-			letter.gameObject.SetActive(false);
+			InputManager.TargetDropped += OnTargetDropped;
+		}
 
+		private void OnDisable()
+		{
+			InputManager.TargetDropped -= OnTargetDropped;
+		}
+
+		private void OnTargetDropped()
+		{
+			Debug.Log(CheckWin());
+		}
+
+		private bool CheckWin()
+		{
+			foreach (var letterPart in _letterInstance.letterParts)
+			{
+				if (!letterPart.NeighbourCorrect(_rotationDelta, _distanceDelta))
+				{
+					return false;
+				}
+			}
+
+			return true;
+		}
+
+		private void StartSession()
+		{
+			SetupBounds();
+
+			_letterInstance = Instantiate(_letterPrefab, _spawnPoint.position, Quaternion.identity);
+			_letterInstance.gameObject.SetActive(true);
+			TrackCorrectData();
+			_letterInstance.MixParts();
+		}
+
+		private void TrackCorrectData()
+		{
+			for (int currentIdx = 0, neighbourIdx = 0; currentIdx < _letterInstance.letterParts.Length; ++currentIdx, ++neighbourIdx)
+			{
+				if (neighbourIdx == _letterInstance.letterParts.Length - 1)
+				{
+					neighbourIdx = -1;
+				}
+
+				var neighbour = _letterInstance.letterParts[neighbourIdx + 1];
+				var neighbourRotation = neighbour.transform.eulerAngles.z;
+				var current = _letterInstance.letterParts[currentIdx];
+				var dist = current.transform.position - neighbour.transform.position;
+				var neighbourDistance = Mathf.Sqrt(dist.x * dist.x + dist.y * dist.y);
+
+				current.Neighbour = neighbour;
+				current.NeighbourRotation = neighbourRotation;
+				current.NeighbourDistance = neighbourDistance;
+
+				Debug.Log($"Current: {current.name} -> Neighbor: {neighbour.name}, rotation: {neighbourRotation}, distance: {neighbourDistance}");
+			}
 		}
 
 		private void SetupBounds()
@@ -33,7 +89,7 @@ namespace Managers
 			boundsPositions[2] = new Vector2(boundsPositions[1].x, boundsPositions[0].y); // lowerRight
 			boundsPositions[3] = new Vector2(boundsPositions[0].x, boundsPositions[1].y); // upperLeft
 
-			var bounds = Instantiate(boundsPrefab);
+			var bounds = Instantiate(_boundsPrefab);
 			for (int i = 0; i < bounds.transform.childCount; ++i)
 			{
 				var child = bounds.transform.GetChild(i);

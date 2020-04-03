@@ -1,6 +1,7 @@
 ﻿using Gameplay;
 using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Managers
 {
@@ -11,7 +12,8 @@ namespace Managers
 		private enum MouseButtons { Left = 0, Right = 1 }
 
 		[SerializeField] private Camera _camera;
-
+		[SerializeField] private Button[] _flipButtons;
+		
 		private bool _targetCaptured = false;
 		private bool _isMoving = false;
 		private bool _isRotating = false;
@@ -20,7 +22,9 @@ namespace Managers
 		private Vector3 _onScreenPosition = new Vector2(0, 0);
 		private float _angleDelta = 0f;
 
-		public static Action TargetDropped; 
+		public static Action TargetDropped;
+		[HideInInspector] public LetterPart LastTarget;
+		
 		
 		private void Update()
 		{
@@ -99,7 +103,7 @@ namespace Managers
 			{
 				var delta = Input.mousePosition - _onScreenPosition;
 				float angle = Mathf.Atan2(delta.y, delta.x) * Mathf.Rad2Deg;
-				_target.body.MoveRotation(angle + _angleDelta);
+				_target.body.MoveRotation(angle);
 			}
 		}
 
@@ -130,10 +134,15 @@ namespace Managers
 					RigidbodyConstraints2D.FreezePositionX
 					| RigidbodyConstraints2D.FreezePositionY
 					| RigidbodyConstraints2D.FreezeRotation;
+				LastTarget = _target;
 				_target = null;
 				_isMoving = false;
 				_isRotating = false;
 				_targetCaptured = false;
+				foreach (var flipButton in _flipButtons)
+				{
+					flipButton.interactable = true;
+				}
 			}
 		}
 	}

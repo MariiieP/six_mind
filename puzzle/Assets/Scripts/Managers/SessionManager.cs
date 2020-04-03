@@ -53,21 +53,21 @@ namespace Managers
 			SetupBounds();
 
 			_letterInstance = Instantiate(_letterPrefab, _spawnPoint.position, Quaternion.identity);
-			_letterInstance.gameObject.SetActive(true);
+			// _letterInstance.gameObject.SetActive(true);
 			TrackCorrectData();
 			_letterInstance.MixParts();
 		}
 
 		private void TrackCorrectData()
 		{
-			for (int currentIdx = 0, neighbourIdx = 0; currentIdx < _letterInstance.letterParts.Length; ++currentIdx, ++neighbourIdx)
+			for (int currentIdx = 0, neighbourIdx = 1; currentIdx < _letterInstance.letterParts.Length; ++currentIdx, ++neighbourIdx)
 			{
 				if (neighbourIdx == _letterInstance.letterParts.Length - 1)
 				{
-					neighbourIdx = -1;
+					neighbourIdx = 0;
 				}
 
-				var neighbour = _letterInstance.letterParts[neighbourIdx + 1];
+				var neighbour = _letterInstance.letterParts[neighbourIdx];
 				var neighbourRotation = neighbour.transform.eulerAngles.z;
 				var current = _letterInstance.letterParts[currentIdx];
 				var dist = current.transform.position - neighbour.transform.position;

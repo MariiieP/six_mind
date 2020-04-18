@@ -1,8 +1,4 @@
 ﻿using Gameplay;
-using System;
-using System.Collections.Generic;
-using TMPro.EditorUtilities;
-using UnityEditor.Experimental.RestService;
 using UnityEngine;
 using Utils;
 
@@ -10,44 +6,31 @@ namespace Managers
 {
 	public class SessionManager : MonoBehaviourSingleton<SessionManager>
 	{
-		[SerializeField] private Letter _letterPrefab;
+		//[SerializeField] private Letter _letterPrefab;
 		[SerializeField] private GameObject _boundsPrefab;
 		[SerializeField] private Transform _spawnPoint;
 		[SerializeField] private float _distanceDelta;
 		[SerializeField] private float _rotationDelta;
 
-		private PlayerData.RestoreData.Level _currentLevel;
 		private Letter _letterInstance;
+
 
 		private void Start()
 		{
 			PlayerData.LoadSessionData();
-			PlayerData.LoadRestoreData();
-
-			var restoreData = PlayerData.RestoreConfiguration;
 			var sessionData = PlayerData.SessionConfiguration;
 
-			_currentLevel = null;
-			
-			foreach (var level in restoreData.Levels)
+			PlayerData.LoadRestoreData(sessionData.LevelId);
+			var restoreData = PlayerData.RestoreConfiguration;
+
+			if (restoreData == null)
 			{
-				if (level.LevelId == sessionData.LevelId)
-				{
-					_currentLevel = level;
-				}
+				StartCleanSession();
 			}
-			
-			 if (_currentLevel == null)
-			 {
-			     _currentLevel = new PlayerData.RestoreData.Level();
-			     restoreData.Levels.Add(_currentLevel);
-			     StartCleanSession();
-			 }
-			 else
-			 {
-				 StartRestoredSession();
-			 }
-		
+			else
+			{
+				StartRestoredSession();
+			}
 		}
 
 		private void OnEnable()
@@ -80,45 +63,48 @@ namespace Managers
 
 		private void StartCleanSession()
 		{
+			var sessionData = PlayerData.SessionConfiguration;
+
 			SetupBounds();
 
-			_letterInstance = Instantiate(_letterPrefab, _spawnPoint.position, Quaternion.identity);
+			_letterInstance = Instantiate(sessionData.LetterPrefab, _spawnPoint.position, Quaternion.identity);
 			TrackCorrectData();
 			_letterInstance.MixParts();
 		}
 
 		private void StartRestoredSession()
 		{
+			var restoreData = PlayerData.RestoreConfiguration;
+
 			SetupBounds();
-			_letterInstance = Instantiate(_currentLevel.LetterPrefab, _spawnPoint.position, Quaternion.identity);
+			_letterInstance = Instantiate(restoreData.LetterPrefab, _spawnPoint.position, Quaternion.identity);
 			TrackCorrectData();
 
 			for (int i = 0; i < _letterInstance.letterParts.Length; ++i)
 			{
 				var part = _letterInstance.letterParts[i];
-				part.transform.localPosition = _currentLevel.LetterParts[i].Position;
-				part.transform.eulerAngles = _currentLevel.LetterParts[i].Rotation;
+				part.transform.localPosition = restoreData.LetterParts[i].Position;
+				part.transform.eulerAngles = restoreData.LetterParts[i].Rotation;
 			}
 
 		}
 
 		private void OnApplicationQuit()
 		{
+			PlayerData.RestoreConfiguration = new PlayerData.RestoreData();
 			var restoreData = PlayerData.RestoreConfiguration;
 			var sessionData = PlayerData.SessionConfiguration;
 
-			_currentLevel.LetterPrefab = _letterPrefab;
-			_currentLevel.LevelId = sessionData.LevelId;
-			_currentLevel.LetterParts.Clear();
+			restoreData.LetterPrefab = sessionData.LetterPrefab;
 			foreach (var letterPart in _letterInstance.letterParts)
-            {
-                var letterData = new PlayerData.RestoreData.Level.LetterPart();
-                letterData.Position = letterPart.transform.localPosition;
-                letterData.Rotation = letterPart.transform.eulerAngles;
-                _currentLevel.LetterParts.Add(letterData);
-            }
-			
-			PlayerData.SaveRestoreData();
+			{
+				var letterData = new PlayerData.RestoreData.LetterPart();
+				letterData.Position = letterPart.transform.localPosition;
+				letterData.Rotation = letterPart.transform.eulerAngles;
+				restoreData.LetterParts.Add(letterData);
+			}
+
+			PlayerData.SaveRestoreData(sessionData.LevelId);
 		}
 
 		private void TrackCorrectData()

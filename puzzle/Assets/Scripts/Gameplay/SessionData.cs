@@ -11,6 +11,7 @@ namespace Gameplay
 
 		public void EntryGame()
 		{
+			PlayerData.SessionConfiguration = new PlayerData.SessionData();
 			PlayerData.SessionConfiguration.LetterPrefab = Prefab;
 			PlayerData.SessionConfiguration.LevelId = LevelId;
 			PlayerData.SaveSessionData();

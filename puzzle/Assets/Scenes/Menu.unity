@@ -920,7 +920,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LevelId: 1
-  Prefab: {fileID: 1310443541809835595, guid: 8ab23f3d5d9e19e4d800dd5fda3afa0b, type: 3}
+  Prefab: {fileID: 4157269338421473921, guid: 94e2ed54437bf48bdabe557ddfbd9c9a, type: 3}
 --- !u!114 &1327402201
 MonoBehaviour:
   m_ObjectHideFlags: 0

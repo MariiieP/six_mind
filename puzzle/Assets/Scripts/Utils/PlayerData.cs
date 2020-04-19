@@ -4,7 +4,6 @@ using Gameplay;
 using UnityEngine;
 using static UnityEngine.JsonUtility;
 
-
 namespace Utils
 {
     public static class PlayerData
@@ -17,21 +16,14 @@ namespace Utils
         public class RestoreData
         {
             [Serializable]
-            public class Level
+            public struct LetterPart 
             {
-                [Serializable]
-                public struct LetterPart 
-                  {
-                      public Vector3 Rotation;
-                      public Vector3 Position;
-                  }
-    
-                public List<LetterPart> LetterParts = new List<LetterPart>();
-                public Letter LetterPrefab;
-                public int LevelId;
+                public Vector3 Rotation;
+                public Vector3 Position;
             }
-
-            public List<Level> Levels = new List<Level>();
+    
+            public List<LetterPart> LetterParts = new List<LetterPart>();
+            public Letter LetterPrefab;
         }
 
         [Serializable]
@@ -40,9 +32,9 @@ namespace Utils
             public int LevelId;
             public Letter LetterPrefab;
         }
-        
-        public static SessionData SessionConfiguration = new SessionData();
-        public static RestoreData RestoreConfiguration = new RestoreData();
+
+        public static SessionData SessionConfiguration;
+        public static RestoreData RestoreConfiguration;
         
         public static void LoadSessionData()
         {
@@ -60,19 +52,27 @@ namespace Utils
             PlayerPrefs.Save();
         }
 
-        public static void LoadRestoreData()
+        public static void LoadRestoreData(int levelId)
         {
-            if (PlayerPrefs.HasKey(_restoreKey))
+            var restoreKey = _restoreKey + levelId;
+            if (PlayerPrefs.HasKey(restoreKey))
             {
-                string json = PlayerPrefs.GetString(_restoreKey);
+                string json = PlayerPrefs.GetString(restoreKey);
                 RestoreConfiguration = FromJson<RestoreData>(json);
             }
         }
 
-        public static void SaveRestoreData()
+        public static void SaveRestoreData(int levelId)
         {
             string json = ToJson(RestoreConfiguration);
-            PlayerPrefs.SetString(_restoreKey, json);
+            var restoreKey = _restoreKey + levelId;
+            PlayerPrefs.SetString(restoreKey, json);
+            PlayerPrefs.Save();
+        }
+
+        public static void ClearRestoreData()
+        {
+            PlayerPrefs.DeleteAll();
             PlayerPrefs.Save();
         }
     }

@@ -103,7 +103,7 @@ namespace Managers
 			{
 				var delta = Input.mousePosition - _onScreenPosition;
 				float angle = Mathf.Atan2(delta.y, delta.x) * Mathf.Rad2Deg;
-				_target.body.MoveRotation(angle);
+				_target.body.MoveRotation(angle + _angleDelta);
 			}
 		}
 

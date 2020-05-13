@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using Managers;
 
 namespace Gameplay
 {
@@ -11,10 +12,12 @@ namespace Gameplay
         {
             var colliders = new Collider2D[letterParts.Length + 5];
             var contactFilter = new ContactFilter2D();
-            var lowerLeft = (Vector2)Camera.main.ScreenToWorldPoint(Vector3.zero);
-            var upperRight = (Vector2)Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0f));
-            var lowerRight = new Vector2(upperRight.x, lowerLeft.y);
-            var upperLeft = new Vector2(lowerLeft.x, upperRight.y);
+            var boundsCoordinates = SessionManager.Instance.BoundsCoordinates;
+            var upperLeft = boundsCoordinates[0].transform.position;
+            var upperRight = boundsCoordinates[1].transform.position;
+            var lowerLeft = boundsCoordinates[2].transform.position;
+            var lowerRight = boundsCoordinates[3].transform.position;
+
             for (int i = 0, colliderCount; i < letterParts.Length; ++i)
             {
                 do
@@ -23,7 +26,10 @@ namespace Gameplay
                     var positionY = Random.Range(upperRight.y, lowerRight.y);
                     var part = letterParts[i];
                     part.body.position = new Vector2(positionX, positionY);
-                    part.body.rotation = Random.Range(0, 360);
+                    part.transform.rotation = Quaternion.Euler(180f * Random.Range(0, 2), 
+                                                               180f * Random.Range(0, 2), 
+                                                               Random.Range(0, 361f));
+                    //part.body.rotation = Random.Range(0, 360);
                     colliderCount = part.body.OverlapCollider(contactFilter, colliders);
                 } while (colliderCount != 0);
             }

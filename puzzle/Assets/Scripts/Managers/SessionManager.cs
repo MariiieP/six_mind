@@ -25,10 +25,12 @@ namespace Managers
 			if (restoreData == null)
 			{
 				StartCleanSession();
+				Debug.Log("Clean session loaded");
 			}
 			else
 			{
 				StartRestoredSession();
+				Debug.Log("Restored session loaded");
 			}
 		}
 
@@ -44,7 +46,7 @@ namespace Managers
 
 		private void OnTargetDropped()
 		{
-			Debug.Log(CheckWin());
+			CheckWin();
 		}
 
 		private bool CheckWin()
@@ -124,19 +126,11 @@ namespace Managers
 				current.Neighbour = neighbour;
 				current.NeighbourRotation = neighbourRotation;
 				current.NeighbourDistance = neighbourDistance;
-
-				//Debug.Log($"Current: {current.name} -> Neighbor: {neighbour.name}, rotation: {neighbourRotation}, distance: {neighbourDistance}");
 			}
 		}
 
 		private void SetupBounds()
 		{
-			//Vector2[] boundsPositions = new Vector2[4];
-			//boundsPositions[0] = Camera.main.ScreenToWorldPoint(new Vector3(0, 0, 0)); // lowerLeft
-			//boundsPositions[1] = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0)); // upperRight
-			//boundsPositions[2] = new Vector2(boundsPositions[1].x, boundsPositions[0].y); // lowerRight
-			//boundsPositions[3] = new Vector2(boundsPositions[0].x, boundsPositions[1].y); // upperLeft
-
 			var bounds = Instantiate(_boundsPrefab);
 			for (int i = 0; i < bounds.transform.childCount; ++i)
 			{

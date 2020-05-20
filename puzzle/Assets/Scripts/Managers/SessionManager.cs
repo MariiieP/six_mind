@@ -1,6 +1,10 @@
-﻿using Gameplay;
+﻿using App;
+using Data;
+using Gameplay;
 using UnityEngine;
 using Utils;
+using System;
+using UnityEngine.UI;
 
 namespace Managers
 {
@@ -10,41 +14,52 @@ namespace Managers
 		[SerializeField] private Transform _spawnPoint;
 		[SerializeField] private float _distanceDelta;
 		[SerializeField] private float _rotationDelta;
+		[SerializeField] private Image _noticeImage; 
 		public RectTransform[] BoundsCoordinates;
 
 		private Letter _letterInstance;
 
 		private void Start()
 		{
-			PlayerData.LoadSessionData();
-			var sessionData = PlayerData.SessionConfiguration;
+			var levelConfig = AppController.Instance.GetLevelConfig();
+			SetupBounds();
 
-			PlayerData.LoadRestoreData(sessionData.LevelId);
-			var restoreData = PlayerData.RestoreConfiguration;
+			_letterInstance = Instantiate(levelConfig.LetterPrefab, _spawnPoint.position, Quaternion.identity);
+			TrackCorrectData();
 
-			if (restoreData == null)
+			_noticeImage.sprite = levelConfig.NoticeIcon;
+
+			var restoreData = AppController.Instance.GetRestoreData();
+			if (restoreData == null) // means that first time
 			{
-				StartCleanSession();
+				_letterInstance.MixParts();
 			}
 			else
 			{
-				StartRestoredSession();
+				for (int i = 0; i < _letterInstance.letterParts.Length; ++i)
+				{
+					var part = _letterInstance.letterParts[i];
+					part.transform.localPosition = restoreData.LetterParts[i].Position;
+					part.transform.eulerAngles = restoreData.LetterParts[i].Rotation;
+				}
 			}
 		}
 
 		private void OnEnable()
 		{
 			InputManager.TargetDropped += OnTargetDropped;
+			SceneLoader.SceneChangeEvent += OnSceneChangeEvent;
 		}
 
 		private void OnDisable()
 		{
 			InputManager.TargetDropped -= OnTargetDropped;
+			SceneLoader.SceneChangeEvent -= OnSceneChangeEvent;
 		}
 
-		private void OnTargetDropped()
+		private void OnTargetDropped(LetterPart obj)
 		{
-			Debug.Log(CheckWin());
+			CheckWin();
 		}
 
 		private bool CheckWin()
@@ -60,50 +75,33 @@ namespace Managers
 			return true;
 		}
 
-		public void StartCleanSession()
-		{
-			var sessionData = PlayerData.SessionConfiguration;
-
-			SetupBounds();
-
-			_letterInstance = Instantiate(sessionData.LetterPrefab, _spawnPoint.position, Quaternion.identity);
-			TrackCorrectData();
-			_letterInstance.MixParts();
-		}
-
-		private void StartRestoredSession()
-		{
-			var restoreData = PlayerData.RestoreConfiguration;
-
-			SetupBounds();
-			_letterInstance = Instantiate(restoreData.LetterPrefab, _spawnPoint.position, Quaternion.identity);
-			TrackCorrectData();
-
-			for (int i = 0; i < _letterInstance.letterParts.Length; ++i)
-			{
-				var part = _letterInstance.letterParts[i];
-				part.transform.localPosition = restoreData.LetterParts[i].Position;
-				part.transform.eulerAngles = restoreData.LetterParts[i].Rotation;
-			}
-
-		}
-
 		private void OnApplicationQuit()
 		{
-			PlayerData.RestoreConfiguration = new PlayerData.RestoreData();
-			var restoreData = PlayerData.RestoreConfiguration;
-			var sessionData = PlayerData.SessionConfiguration;
+			SaveSessionData();
+		}
 
-			restoreData.LetterPrefab = sessionData.LetterPrefab;
+		private void OnSceneChangeEvent()
+		{
+			SaveSessionData();
+		}
+
+		private void SaveSessionData()
+		{
+			var restoreData = new RestoreData();
+			var levelConfig = AppController.Instance.GetLevelConfig();
+
+			restoreData.LetterPrefab = levelConfig.LetterPrefab;
 			foreach (var letterPart in _letterInstance.letterParts)
 			{
-				var letterData = new PlayerData.RestoreData.LetterPart();
-				letterData.Position = letterPart.transform.localPosition;
-				letterData.Rotation = letterPart.transform.eulerAngles;
+				var letterData = new RestoreData.LetterPart
+				{
+					Position = letterPart.transform.localPosition,
+					Rotation = letterPart.transform.eulerAngles
+				};
 				restoreData.LetterParts.Add(letterData);
 			}
 
-			PlayerData.SaveRestoreData(sessionData.LevelId);
+			AppController.Instance.SaveLastSession(restoreData);
 		}
 
 		private void TrackCorrectData()
@@ -124,19 +122,11 @@ namespace Managers
 				current.Neighbour = neighbour;
 				current.NeighbourRotation = neighbourRotation;
 				current.NeighbourDistance = neighbourDistance;
-
-				//Debug.Log($"Current: {current.name} -> Neighbor: {neighbour.name}, rotation: {neighbourRotation}, distance: {neighbourDistance}");
 			}
 		}
 
 		private void SetupBounds()
 		{
-			//Vector2[] boundsPositions = new Vector2[4];
-			//boundsPositions[0] = Camera.main.ScreenToWorldPoint(new Vector3(0, 0, 0)); // lowerLeft
-			//boundsPositions[1] = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0)); // upperRight
-			//boundsPositions[2] = new Vector2(boundsPositions[1].x, boundsPositions[0].y); // lowerRight
-			//boundsPositions[3] = new Vector2(boundsPositions[0].x, boundsPositions[1].y); // upperLeft
-
 			var bounds = Instantiate(_boundsPrefab);
 			for (int i = 0; i < bounds.transform.childCount; ++i)
 			{

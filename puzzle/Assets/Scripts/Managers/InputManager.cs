@@ -5,11 +5,9 @@ using UnityEngine.UI;
 
 namespace Managers
 {
-	[RequireComponent(typeof(Rigidbody2D))]
-	[RequireComponent(typeof(Collider2D))]
 	public class InputManager : MonoBehaviour
 	{
-		private enum MouseButtons { Left = 0, Right = 1 }
+		private enum MouseState { SingleClick = 0, DoubleClick = 1 }
 
 		[SerializeField] private Camera _camera;
 		[SerializeField] private Button[] _flipButtons;
@@ -22,39 +20,64 @@ namespace Managers
 		private Vector3 _onScreenPosition = new Vector2(0, 0);
 		private float _angleDelta = 0f;
 
-		public static Action TargetDropped;
-		[HideInInspector] public LetterPart LastTarget;
-		
-		
+		public static Action<LetterPart> TargetDropped;
+
+		private bool _isDoubleClick = false;
+		private int _mouseClicks;
+		private float _holdTimer;
+		private float _holdTimerLimit = 0.19f;
+
 		private void Update()
 		{
-			if (Input.GetMouseButton((int)MouseButtons.Left))
+			if (Input.GetMouseButton(0))
 			{
-				Manage(MouseButtons.Left);
-			}
+				CalcClickCount();
 
-			if (Input.GetMouseButton((int)MouseButtons.Right))
-			{
-				Manage(MouseButtons.Right);
+				Manage(_isDoubleClick? MouseState.DoubleClick : MouseState.SingleClick);
 			}
-
-			if (Input.GetMouseButtonUp((int)MouseButtons.Left) 
-				|| Input.GetMouseButtonUp((int)MouseButtons.Right))
+			else if (Input.GetMouseButtonUp(0))
 			{
 				DropTarget();
-				TargetDropped?.Invoke();
+				_isDoubleClick = false;
 			}
 		}
 
-		private void Manage(MouseButtons button)
+		private void CalcClickCount()
+		{
+			if (Input.GetMouseButtonDown(0) && GUIUtility.hotControl == 0)
+			{
+				_mouseClicks++;
+			}
+
+			if (_mouseClicks >= 1 && _mouseClicks < 3)
+			{
+				_holdTimer += Time.deltaTime;
+
+				if (_mouseClicks == 2 && _holdTimer - _holdTimerLimit < 0f)
+				{
+					_holdTimer = 0f;
+					_mouseClicks = 0;
+					_isDoubleClick = true;
+				}
+
+				if (_holdTimer > _holdTimerLimit)
+				{
+					_holdTimer = 0f;
+					_mouseClicks = 0;
+					_isDoubleClick = false;
+				}
+			}
+		}
+
+		private void Manage(MouseState state)
 		{
 			if (_targetCaptured)
 			{
-				if (button == MouseButtons.Left)
+				if (state == MouseState.SingleClick)
 				{
 					MoveTarget();
 				}
-				else if (button == MouseButtons.Right)
+				else if (state == MouseState.DoubleClick)
 				{
 					RotateTarget();					
 				}
@@ -134,7 +157,7 @@ namespace Managers
 					RigidbodyConstraints2D.FreezePositionX
 					| RigidbodyConstraints2D.FreezePositionY
 					| RigidbodyConstraints2D.FreezeRotation;
-				LastTarget = _target;
+				TargetDropped?.Invoke(_target);
 				_target = null;
 				_isMoving = false;
 				_isRotating = false;

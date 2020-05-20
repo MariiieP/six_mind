@@ -8,33 +8,35 @@ namespace Gameplay
         [SerializeField] private float _xAngle;
         [SerializeField] private float _yAngle;
 
-        private InputManager _inputManager;
-        
-        private void Awake()
+        private LetterPart _lastLetterPart;
+
+        private void OnEnable()
         {
-            _inputManager = GetComponent<InputManager>();
+            InputManager.TargetDropped += OnTargetDropped;
         }
 
-        public void FlipTargetX()
+        private void OnDisable()
         {
-            var target = _inputManager.LastTarget;
-            var currentEulerAngles = target.transform.eulerAngles;
-            target.transform.eulerAngles = new Vector3(
-                 currentEulerAngles.x + _xAngle,
-                     currentEulerAngles.y,
-                     currentEulerAngles.z
-                );
+            InputManager.TargetDropped -= OnTargetDropped;
         }
 
-        public void FlipTargetY()
+        private void OnTargetDropped(LetterPart last)
         {
-            var target = _inputManager.LastTarget;
-            var currentEulerAngles = target.transform.eulerAngles;
-            target.transform.eulerAngles = new Vector3(
-                currentEulerAngles.x,
-                currentEulerAngles.y + _yAngle,
-                currentEulerAngles.z
-            );
+            _lastLetterPart = last;
+        }
+
+        public void FlipTarget(bool xAxis)
+        {
+            var currentEulerAngles = _lastLetterPart.transform.eulerAngles;
+            if (xAxis)
+            {
+                currentEulerAngles.x += _xAngle;
+            }
+            else
+            {
+                currentEulerAngles.y += _yAngle;
+            }
+            _lastLetterPart.transform.eulerAngles = currentEulerAngles;
         }
     }
 }

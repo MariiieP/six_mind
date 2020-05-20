@@ -7,38 +7,40 @@ namespace UI
 {
     public class VolumeSlider : MonoBehaviour
     {
-        public enum Listener { Music, Sounds };
+        [SerializeField] private Slider _musicSlider;
+        [SerializeField] private Slider _soundSlider;
 
-        [SerializeField] private Slider _slider;
-        public Listener CurrentListener;
         private SettingsData _settingsData;
 
         private void OnEnable()
         {
             _settingsData = AppController.Instance.GetSettingsData();
-            _slider.value = CurrentListener == Listener.Music ? _settingsData.MusicVolume : _settingsData.SoundVolume;
 
-            _slider.onValueChanged.AddListener(OnValueChanged);
+            _soundSlider.value = _settingsData.SoundVolume;
+            _musicSlider.value = _settingsData.MusicVolume;
+
+            _soundSlider.onValueChanged.AddListener(OnSoundValueChanged);
+            _musicSlider.onValueChanged.AddListener(OnMusicValueChanged);
         }
 
         private void OnDisable()
         {
             AppController.Instance.SaveSettings(_settingsData);
-            _slider.onValueChanged.RemoveListener(OnValueChanged);
+
+            _soundSlider.onValueChanged.RemoveListener(OnSoundValueChanged);
+            _musicSlider.onValueChanged.RemoveListener(OnMusicValueChanged);
         }
 
-        private void OnValueChanged(float value)
+        private void OnMusicValueChanged(float value)
         {
-            if (CurrentListener == Listener.Music)
-            {
-                AppController.Instance.SetMusicVolume(value);
-                _settingsData.MusicVolume = value;
-            }
-            else
-            {
-                AppController.Instance.SetSoundVolume(value);
-                _settingsData.SoundVolume = value;
-            }
+            AppController.Instance.SetMusicVolume(value);
+            _settingsData.MusicVolume = value;
+        }
+
+        private void OnSoundValueChanged(float value)
+        {
+            AppController.Instance.SetSoundVolume(value);
+            _settingsData.SoundVolume = value;
         }
     }
 }

@@ -15,16 +15,16 @@ namespace Managers
 		[SerializeField] private float _distanceDelta;
 		[SerializeField] private float _rotationDelta;
 		[SerializeField] private Image _noticeImage; 
-		public RectTransform[] BoundsCoordinates;
 
-		private Letter _letterInstance;
+		public RectTransform[] BoundsCoordinates;
+		public Letter LetterInstance;
 
 		private void Start()
 		{
 			var levelConfig = AppController.Instance.GetLevelConfig();
 			SetupBounds();
 
-			_letterInstance = Instantiate(levelConfig.LetterPrefab, _spawnPoint.position, Quaternion.identity);
+			LetterInstance = Instantiate(levelConfig.LetterPrefab, _spawnPoint.position, Quaternion.identity);
 			TrackCorrectData();
 
 			_noticeImage.sprite = levelConfig.NoticeIcon;
@@ -32,13 +32,13 @@ namespace Managers
 			var restoreData = AppController.Instance.GetRestoreData();
 			if (restoreData == null) // means that first time
 			{
-				_letterInstance.MixParts();
+				LetterInstance.MixParts();
 			}
 			else
 			{
-				for (int i = 0; i < _letterInstance.letterParts.Length; ++i)
+				for (int i = 0; i < LetterInstance.LetterParts.Length; ++i)
 				{
-					var part = _letterInstance.letterParts[i];
+					var part = LetterInstance.LetterParts[i];
 					part.transform.localPosition = restoreData.LetterParts[i].Position;
 					part.transform.eulerAngles = restoreData.LetterParts[i].Rotation;
 				}
@@ -64,7 +64,7 @@ namespace Managers
 
 		private bool CheckWin()
 		{
-			foreach (var letterPart in _letterInstance.letterParts)
+			foreach (var letterPart in LetterInstance.LetterParts)
 			{
 				if (!letterPart.NeighbourCorrect(_rotationDelta, _distanceDelta))
 				{
@@ -91,7 +91,7 @@ namespace Managers
 			var levelConfig = AppController.Instance.GetLevelConfig();
 
 			restoreData.LetterPrefab = levelConfig.LetterPrefab;
-			foreach (var letterPart in _letterInstance.letterParts)
+			foreach (var letterPart in LetterInstance.LetterParts)
 			{
 				var letterData = new RestoreData.LetterPart
 				{
@@ -106,16 +106,16 @@ namespace Managers
 
 		private void TrackCorrectData()
 		{
-			for (int currentIdx = 0, neighbourIdx = 1; currentIdx < _letterInstance.letterParts.Length; ++currentIdx, ++neighbourIdx)
+			for (int currentIdx = 0, neighbourIdx = 1; currentIdx < LetterInstance.LetterParts.Length; ++currentIdx, ++neighbourIdx)
 			{
-				if (neighbourIdx == _letterInstance.letterParts.Length - 1)
+				if (neighbourIdx == LetterInstance.LetterParts.Length - 1)
 				{
 					neighbourIdx = 0;
 				}
 
-				var neighbour = _letterInstance.letterParts[neighbourIdx];
+				var neighbour = LetterInstance.LetterParts[neighbourIdx];
 				var neighbourRotation = neighbour.transform.eulerAngles.z;
-				var current = _letterInstance.letterParts[currentIdx];
+				var current = LetterInstance.LetterParts[currentIdx];
 				var dist = current.transform.position - neighbour.transform.position;
 				var neighbourDistance = Mathf.Sqrt(dist.x * dist.x + dist.y * dist.y);
 

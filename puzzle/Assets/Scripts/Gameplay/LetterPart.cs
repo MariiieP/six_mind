@@ -5,7 +5,8 @@ namespace Gameplay
 	[DisallowMultipleComponent]
 	public class LetterPart : MonoBehaviour
 	{
-		[HideInInspector] public Rigidbody2D body;
+		[HideInInspector] public Rigidbody2D Body;
+		[HideInInspector] public SpriteRenderer SpriteRenderer;
 
 		public LetterPart Neighbour;
 		public float NeighbourRotation;
@@ -13,7 +14,8 @@ namespace Gameplay
 
 		private void Awake()
 		{
-			body = GetComponent<Rigidbody2D>();
+			Body = GetComponent<Rigidbody2D>();
+			SpriteRenderer = GetComponent<SpriteRenderer>();
 		}
 
 		public bool NeighbourCorrect(float rotationDelta, float distanceDelta)
@@ -37,10 +39,17 @@ namespace Gameplay
 			if (currentNeighbourDistance < distanceMin || currentNeighbourDistance > distanceMax)
 			{
 				return false;
-			}
+			}      
 
 			return true;
 		}
 
+
+		public void SetSpriteAlpha(float alpha)
+		{
+			var color = SpriteRenderer.color;
+			color.a = alpha;
+			SpriteRenderer.color = color;
+		}
 	}
 }

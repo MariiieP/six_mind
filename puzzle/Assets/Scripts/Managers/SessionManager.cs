@@ -1,10 +1,10 @@
 ﻿using App;
 using Data;
 using Gameplay;
+using System.Collections;
 using UnityEngine;
-using Utils;
-using System;
 using UnityEngine.UI;
+using Utils;
 
 namespace Managers
 {
@@ -14,16 +14,22 @@ namespace Managers
 		[SerializeField] private Transform _spawnPoint;
 		[SerializeField] private float _distanceDelta;
 		[SerializeField] private float _rotationDelta;
-		[SerializeField] private Image _noticeImage; 
-
+		[SerializeField] private Image _noticeImage;
 		public RectTransform[] BoundsCoordinates;
+
 		public Letter LetterInstance;
 
 		private void Start()
 		{
-			var levelConfig = AppController.Instance.GetLevelConfig();
 			SetupBounds();
+			StartCoroutine(NextFrameCallback());
+		}
 
+		private IEnumerator NextFrameCallback()
+		{
+			yield return 0; // wait 1 frame
+
+			var levelConfig = AppController.Instance.GetLevelConfig();
 			LetterInstance = Instantiate(levelConfig.LetterPrefab, _spawnPoint.position, Quaternion.identity);
 			TrackCorrectData();
 

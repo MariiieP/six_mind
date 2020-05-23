@@ -36,14 +36,19 @@ namespace Gameplay
             {
                 do
                 {
+                    var part = LetterParts[i];
+
                     var positionX = Random.Range(upperLeft.x, upperRight.x);
                     var positionY = Random.Range(upperRight.y, lowerRight.y);
-                    var part = LetterParts[i];
                     part.Body.position = new Vector2(positionX, positionY);
-                    part.transform.rotation = Quaternion.Euler(180f * Random.Range(0, 2), 
-                                                               180f * Random.Range(0, 2), 
-                                                               Random.Range(0, 360f));
+
+                    var rotationX = 180f * Random.Range(0, 2);
+                    var rotationY = 180f * Random.Range(0, 2);
+                    var rotationZ = Random.Range(0, 360f);
+                    part.transform.rotation = Quaternion.Euler(rotationX, rotationY, rotationZ);
+
                     colliderCount = part.Body.OverlapCollider(contactFilter, colliders);
+
                 } while (colliderCount != 0);
             }
         }

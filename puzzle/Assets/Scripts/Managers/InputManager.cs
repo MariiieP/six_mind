@@ -136,7 +136,7 @@ namespace Managers
 
 		private void RotateTarget()
 		{
-			var delta = TouchPosition - _onScreenPosition; // ?
+			var delta = TouchPosition - _onScreenPosition;
 			if (!_isRotating)
 			{
 				_onScreenPosition = _camera.WorldToScreenPoint(_target.transform.position);

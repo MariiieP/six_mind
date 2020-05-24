@@ -27,6 +27,10 @@ namespace Gameplay
 
         public void FlipTarget(bool xAxis)
         {
+            if (_lastLetterPart == null)
+            {
+                return;
+            }
             var currentEulerAngles = _lastLetterPart.transform.eulerAngles;
             if (xAxis)
             {

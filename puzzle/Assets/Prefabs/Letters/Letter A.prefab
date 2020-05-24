@@ -97,7 +97,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: baed87292ece4624c90a8f6fdf2009b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  body: {fileID: 0}
+  Body: {fileID: 0}
+  SpriteRenderer: {fileID: 0}
   Neighbour: {fileID: 0}
   NeighbourRotation: 0
   NeighbourDistance: 0
@@ -279,7 +280,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: baed87292ece4624c90a8f6fdf2009b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  body: {fileID: 0}
+  Body: {fileID: 0}
+  SpriteRenderer: {fileID: 0}
   Neighbour: {fileID: 0}
   NeighbourRotation: 0
   NeighbourDistance: 0
@@ -460,7 +462,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: baed87292ece4624c90a8f6fdf2009b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  body: {fileID: 0}
+  Body: {fileID: 0}
+  SpriteRenderer: {fileID: 0}
   Neighbour: {fileID: 0}
   NeighbourRotation: 0
   NeighbourDistance: 0
@@ -593,12 +596,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d201ef1bb7fa1c54cb247ff991c4e158, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  letterParts:
-  - {fileID: 280900129929590216}
-  - {fileID: 280900129929590217}
-  - {fileID: 280900129929590222}
-  - {fileID: 280900129929590223}
-  - {fileID: 4725813102868886429}
+  LetterParts: []
 --- !u!1 &4340365734424213250
 GameObject:
   m_ObjectHideFlags: 0
@@ -696,7 +694,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: baed87292ece4624c90a8f6fdf2009b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  body: {fileID: 0}
+  Body: {fileID: 0}
+  SpriteRenderer: {fileID: 0}
   Neighbour: {fileID: 0}
   NeighbourRotation: 0
   NeighbourDistance: 0
@@ -890,7 +889,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: baed87292ece4624c90a8f6fdf2009b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  body: {fileID: 0}
+  Body: {fileID: 0}
+  SpriteRenderer: {fileID: 0}
   Neighbour: {fileID: 0}
   NeighbourRotation: 0
   NeighbourDistance: 0

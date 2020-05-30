@@ -60,6 +60,16 @@ namespace App
 			PlayerData.SaveData(data, KeyList.SettingsKey, string.Empty);
 		}
 
+		public void SaveLastPlayedLevelId(int id)
+		{
+			PlayerData.SaveInt(id, KeyList.LastPlayedLevelIdKey, string.Empty);
+		}
+
+		public int GetLastPlayedLevelId()
+		{
+			return PlayerData.LoadInt(KeyList.LastPlayedLevelIdKey, string.Empty);
+		}
+
 		#endregion
 	}
 }

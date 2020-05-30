@@ -150,6 +150,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d048d43a4355ef24daca46f688d6e798, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _playButton: {fileID: 1323957877}
 --- !u!4 &43209990
 Transform:
   m_ObjectHideFlags: 0
@@ -1098,7 +1099,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 944046320e9466f4c9a96ac3712467cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _tapToPlayButton: {fileID: 1323957877}
   _musicSource: {fileID: 204317679}
   _soundSource: {fileID: 1088623162}
   LevelsConfig: {fileID: 11400000, guid: 783672291b4768b4e814ed41a34397fc, type: 2}

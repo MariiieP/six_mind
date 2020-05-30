@@ -112,6 +112,7 @@ namespace Managers
 			}
 
 			AppController.Instance.SaveLastSession(restoreData);
+			AppController.Instance.SaveLastPlayedLevelId(levelConfig.LevelId);
 		}
 
 		private void TrackCorrectData()

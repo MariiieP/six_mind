@@ -16,7 +16,7 @@ MonoBehaviour:
   - LevelId: 0
     LetterPrefab: {fileID: 1310443541809835595, guid: 8ab23f3d5d9e19e4d800dd5fda3afa0b,
       type: 3}
-    NoticeIcon: {fileID: 0}
+    NoticeIcon: {fileID: 21300000, guid: bdf635836a70948eaa7565e49b4a3247, type: 3}
     Complexity: 0
   - LevelId: 1
     LetterPrefab: {fileID: 7827805484679388246, guid: 277b11573209b42f78b68e594d20165c,
@@ -58,3 +58,33 @@ MonoBehaviour:
       type: 3}
     NoticeIcon: {fileID: 21300000, guid: bf13a196945768a4ea6b7e1eb09cb26d, type: 3}
     Complexity: 0
+  - LevelId: 9
+    LetterPrefab: {fileID: 6789885375417059363, guid: e40f8aded5455474a83d8f6f27ab3b12,
+      type: 3}
+    NoticeIcon: {fileID: 21300000, guid: 7a2c39a9b12f14121868081c0eb8a5e6, type: 3}
+    Complexity: 1
+  - LevelId: 10
+    LetterPrefab: {fileID: 1494871103396467604, guid: 5a091d7b667ba43d9926fead24220f9a,
+      type: 3}
+    NoticeIcon: {fileID: 21300000, guid: 9a712e6e1409846ca832e468ae917aa8, type: 3}
+    Complexity: 1
+  - LevelId: 11
+    LetterPrefab: {fileID: 7862219995958319392, guid: e01c57bd8c22e4e0dba5df457c428a61,
+      type: 3}
+    NoticeIcon: {fileID: 21300000, guid: 01021c83b03b64c868dd22cfe4c96ddd, type: 3}
+    Complexity: 1
+  - LevelId: 12
+    LetterPrefab: {fileID: 366561870684419649, guid: 4f45436bf2a6b414e8acf28f929fa152,
+      type: 3}
+    NoticeIcon: {fileID: 21300000, guid: 2276527fcd682414bb3ca46212f2b597, type: 3}
+    Complexity: 1
+  - LevelId: 13
+    LetterPrefab: {fileID: 459994961556638482, guid: b4176d4f903214674ab54c485d0f1a16,
+      type: 3}
+    NoticeIcon: {fileID: 21300000, guid: 2f5c266d9987143d8870cc670b2ec172, type: 3}
+    Complexity: 1
+  - LevelId: 14
+    LetterPrefab: {fileID: 7321154452056616694, guid: 123b21b5c1ab24205aa88daf30e892b1,
+      type: 3}
+    NoticeIcon: {fileID: 21300000, guid: 579a7e28a88e64f7b8a6c0e7fc4d3963, type: 3}
+    Complexity: 1

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Linq;
+using UnityEngine;
 
 namespace Utils
 {
@@ -22,16 +23,19 @@ namespace Utils
 					return _instance;
 				}
 
-				var singleton = new GameObject("[Singleton] " + typeof(T));
-				_instance = singleton.AddComponent<T>();
+				var prefab = Resources.LoadAll<T>(string.Empty).FirstOrDefault();
+
+				if (prefab == null)
+				{
+					Debug.LogErrorFormat("[Singleton] No instance of {0} found!", typeof(T).ToString());
+				}
+				else
+				{
+					_instance = Instantiate(prefab);
+				}
 
 				return _instance;
 			}
-		}
-
-		public virtual void OnDestroy()
-		{
-			_instance = null;
 		}
 	}
 

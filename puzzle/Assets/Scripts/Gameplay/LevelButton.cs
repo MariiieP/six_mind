@@ -13,8 +13,12 @@ namespace Gameplay
 
 		public void EntryCurrentLevel()
 		{
-			AppController.Instance.CurrentLevelId = LevelId;
-			SceneManager.LoadScene("Game");
+			var app = AppController.Instance;
+			if (!app.LevelProgressController.IsLevelLocked(LevelId))
+			{
+				AppController.Instance.CurrentLevelId = LevelId;
+				SceneManager.LoadScene("Game");
+			}
 		}
 	}
 }

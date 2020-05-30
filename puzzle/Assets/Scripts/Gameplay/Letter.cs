@@ -25,8 +25,6 @@ namespace Gameplay
 
         public void MixParts()
         {
-            var colliders = new Collider2D[LetterParts.Length + 5];
-            var contactFilter = new ContactFilter2D();
             var boundsCoordinates = SessionManager.Instance.BoundsCoordinates;
             var upperLeft = boundsCoordinates[0].transform.position;
             var upperRight = boundsCoordinates[1].transform.position;
@@ -47,7 +45,7 @@ namespace Gameplay
                     var rotationZ = Random.Range(0, 360f);
                     part.transform.rotation = Quaternion.Euler(rotationX, rotationY, rotationZ);
 
-                    colliderCount = part.Body.OverlapCollider(contactFilter, colliders);
+                    colliderCount = part.GetCollisionsCount();
 
                 } while (colliderCount != 0);
             }

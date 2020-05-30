@@ -19,6 +19,8 @@ namespace Managers
 
 		public Letter LetterInstance;
 
+		private AppController _app => AppController.Instance;
+
 		private void Start()
 		{
 			SetupBounds();
@@ -29,13 +31,13 @@ namespace Managers
 		{
 			yield return 0; // wait 1 frame
 
-			var levelConfig = AppController.Instance.GetLevelConfig();
+			var levelConfig = _app.GetLevelConfig();
 			LetterInstance = Instantiate(levelConfig.LetterPrefab, _spawnPoint.position, Quaternion.identity);
 			TrackCorrectData();
 
 			_noticeImage.sprite = levelConfig.NoticeIcon;
 
-			var restoreData = AppController.Instance.GetRestoreData();
+			var restoreData = _app.GetRestoreData();
 			if (restoreData == null) // means that first time
 			{
 				LetterInstance.MixParts();
@@ -65,7 +67,13 @@ namespace Managers
 
 		private void OnTargetDropped(LetterPart obj)
 		{
-			CheckWin();
+			var result = CheckWin();
+			if (result)
+			{
+				_app.LevelProgressController.AddCompletedLevel(_app.CurrentLevelId);
+				_app.LevelProgressController.AddUnfulfilledLevel(_app.CurrentLevelId + 1);
+				Debug.Log("Победа!");
+			}
 		}
 
 		private bool CheckWin()
@@ -94,7 +102,7 @@ namespace Managers
 		private void SaveSessionData()
 		{
 			var restoreData = new RestoreData();
-			var levelConfig = AppController.Instance.GetLevelConfig();
+			var levelConfig = _app.GetLevelConfig();
 
 			restoreData.LetterPrefab = levelConfig.LetterPrefab;
 			foreach (var letterPart in LetterInstance.LetterParts)
@@ -107,7 +115,8 @@ namespace Managers
 				restoreData.LetterParts.Add(letterData);
 			}
 
-			AppController.Instance.SaveLastSession(restoreData);
+			_app.SaveLastSession(restoreData);
+			_app.SaveLastPlayedLevelId(levelConfig.LevelId);
 		}
 
 		private void TrackCorrectData()

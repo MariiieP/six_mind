@@ -1,5 +1,3 @@
-using Data;
-using System;
 using UnityEngine;
 using static UnityEngine.JsonUtility;
 
@@ -18,10 +16,27 @@ namespace Utils
             return default;
         }
 
+        public static int LoadInt(string key, string extraOptions)
+        {
+            var extraKey = key + extraOptions;
+            int result = 0;
+            if (PlayerPrefs.HasKey(extraKey))
+            {
+                result = PlayerPrefs.GetInt(extraKey);
+            }
+            return result;
+        }
+
         public static void SaveData<T>(T data, string key, string extraOptions)
         {
             string json = ToJson(data);
             PlayerPrefs.SetString(key + extraOptions, json);
+            PlayerPrefs.Save();
+        }
+
+        public static void SaveInt(int data, string key, string extraOptions)
+        {
+            PlayerPrefs.SetInt(key + extraOptions, data);
             PlayerPrefs.Save();
         }
 

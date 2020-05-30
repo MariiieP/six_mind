@@ -1,6 +1,6 @@
-﻿using Configs;
+﻿using Gameplay;
+using Configs;
 using Data;
-using Gameplay;
 using UnityEngine;
 using Utils;
 
@@ -9,10 +9,12 @@ namespace App
 	public class AppController : MonoBehaviourSingleton<AppController>
 	{
 		public int CurrentLevelId { get; set; }
+		public LevelProgressController LevelProgressController;
 
 		private void Awake()
 		{
 			DontDestroyOnLoad(gameObject);
+			LevelProgressController = new LevelProgressController();
 		}
 
 		#region Sounds & Music
@@ -58,6 +60,26 @@ namespace App
 		public void SaveSettings(SettingsData data)
 		{
 			PlayerData.SaveData(data, KeyList.SettingsKey, string.Empty);
+		}
+
+		public void SaveLastPlayedLevelId(int id)
+		{
+			PlayerData.SaveInt(id, KeyList.LastPlayedLevelIdKey, string.Empty);
+		}
+
+		public int GetLastPlayedLevelId()
+		{
+			return PlayerData.LoadInt(KeyList.LastPlayedLevelIdKey, string.Empty);
+		}
+
+		public void SaveProgressData(ProgressData data)
+		{
+			PlayerData.SaveData(data, KeyList.ProgressKey, string.Empty);
+		}
+
+		public ProgressData GetProgressData()
+		{
+			return PlayerData.LoadData<ProgressData>(KeyList.ProgressKey, string.Empty);
 		}
 
 		#endregion

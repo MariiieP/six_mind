@@ -785,6 +785,7 @@ GameObject:
   - component: {fileID: 1403507367}
   - component: {fileID: 1403507369}
   - component: {fileID: 1403507368}
+  - component: {fileID: 1403507370}
   m_Layer: 5
   m_Name: LevelNumberText
   m_TagString: Untagged
@@ -853,6 +854,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1403507366}
   m_CullTransparentMesh: 0
+--- !u!114 &1403507370
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1403507366}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d7c8eb9c6a78274ba739be1eb0b7d04, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _idType: 1
 --- !u!1 &1523940519
 GameObject:
   m_ObjectHideFlags: 0

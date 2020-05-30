@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Managers;
+using UnityEngine;
 
 namespace Gameplay
 {
@@ -44,6 +45,16 @@ namespace Gameplay
 			return true;
 		}
 
+		public int GetCollisionsCount()
+		{
+			var contactFilter = new ContactFilter2D
+			{
+				useTriggers = false
+			};
+			var colliders = new Collider2D[SessionManager.Instance.LetterInstance.LetterParts.Length + 5];
+			int collisionsCount = Body.OverlapCollider(contactFilter, colliders);
+			return collisionsCount;
+		}
 
 		public void SetSpriteAlpha(float alpha)
 		{

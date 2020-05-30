@@ -47,11 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d201ef1bb7fa1c54cb247ff991c4e158, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  letterParts:
-  - {fileID: 2917138715101620482}
-  - {fileID: 2917138715101620483}
-  - {fileID: 2917138715101620484}
-  - {fileID: 2917138715101620485}
+  LetterParts: []
 --- !u!1 &921379618003471333
 GameObject:
   m_ObjectHideFlags: 0
@@ -186,7 +182,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: baed87292ece4624c90a8f6fdf2009b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  body: {fileID: 0}
+  Body: {fileID: 0}
+  SpriteRenderer: {fileID: 0}
   Neighbour: {fileID: 0}
   NeighbourRotation: 0
   NeighbourDistance: 0
@@ -218,7 +215,7 @@ CircleCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 921379618003471333}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 1
@@ -324,7 +321,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: baed87292ece4624c90a8f6fdf2009b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  body: {fileID: 0}
+  Body: {fileID: 0}
+  SpriteRenderer: {fileID: 0}
   Neighbour: {fileID: 0}
   NeighbourRotation: 0
   NeighbourDistance: 0
@@ -390,7 +388,7 @@ CircleCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1702963986160053192}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 1
@@ -496,7 +494,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: baed87292ece4624c90a8f6fdf2009b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  body: {fileID: 0}
+  Body: {fileID: 0}
+  SpriteRenderer: {fileID: 0}
   Neighbour: {fileID: 0}
   NeighbourRotation: 0
   NeighbourDistance: 0
@@ -528,7 +527,7 @@ CircleCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4277593196830644195}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 1
@@ -718,7 +717,7 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 0.90999997, y: -0.61}
+    - - {x: 0.82, y: -0.57}
       - {x: 0.55, y: -0.35}
       - {x: 0.41, y: -0.25}
       - {x: -0.61, y: 0.48}
@@ -742,7 +741,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: baed87292ece4624c90a8f6fdf2009b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  body: {fileID: 0}
+  Body: {fileID: 0}
+  SpriteRenderer: {fileID: 0}
   Neighbour: {fileID: 0}
   NeighbourRotation: 0
   NeighbourDistance: 0
@@ -774,7 +774,7 @@ CircleCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7521381643129259899}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 1

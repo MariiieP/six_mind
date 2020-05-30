@@ -65,7 +65,11 @@ namespace Managers
 
 		private void OnTargetDropped(LetterPart obj)
 		{
-			CheckWin();
+			var result = CheckWin();
+			if (result)
+			{
+				Debug.Log("Победа!");
+			}
 		}
 
 		private bool CheckWin()

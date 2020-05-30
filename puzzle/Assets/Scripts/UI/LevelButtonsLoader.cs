@@ -1,7 +1,7 @@
 ﻿using App;
+using Data;
 using Gameplay;
 using UnityEngine;
-using UnityEngine.UI;
 using Complexity = Configs.LevelsConfig.Complexity;
 
 namespace UI
@@ -10,6 +10,8 @@ namespace UI
 	{
 		[SerializeField] private LevelButton _levelButtonPrefab;
 		[SerializeField] private RectTransform _buttonsLayout;
+
+		private AppController _app => AppController.Instance;
 
 		#region Icons
 
@@ -27,32 +29,79 @@ namespace UI
 
 		#endregion
 
-		private void Start()
+		private void Start() 
 		{
-			var levelsList = AppController.Instance.LevelsConfig.Levels;
-
-			for (int levelId = 0; levelId < levelsList.Count; ++levelId) 
+			for (int levelId = 0; levelId < _app.LevelsConfig.Levels.Count; ++levelId)
 			{
-				var dataLevelConfig = levelsList[levelId];
 				var buttonGameObject = Instantiate(_levelButtonPrefab, _buttonsLayout);
 				var levelButton = buttonGameObject.GetComponent<LevelButton>();
 
 				levelButton.LevelId = levelId;
-				levelButton.ButtonText.text = (levelId + 1).ToString(); // потому что с 0
-
-				switch (dataLevelConfig.Complexity) // до тех пор пока не сделаем проверку доступности уровня
+				if (!_app.LevelProgressController.IsLevelLocked(levelId))
 				{
-					case Complexity.Easy:
-						levelButton.ButtonImage.sprite = _levelEasyPlayIcon;
-						break;
-					case Complexity.Normal:
-						levelButton.ButtonImage.sprite = _levelNormalPlayIcon;
-						break;
-					case Complexity.Hard:
-						levelButton.ButtonImage.sprite = _levelHardPlayIcon;
-						break;
+					levelButton.ButtonText.text = (levelId + 1).ToString(); // потому что с 0
+				}
+
+				var sprite = GetLevelButtonSprite(levelId);
+				levelButton.ButtonImage.sprite = sprite;
+			}
+		}
+
+		private Sprite GetLevelButtonSprite(int levelId) // TODO: обдумать простыню
+		{
+			var unfulfilledLevelIds = _app.LevelProgressController.GetUnfulfilledLevels();
+			var completedLevelIds = _app.LevelProgressController.GetCompletedLevels();
+			var dataLevelConfig = _app.LevelsConfig.Levels[levelId];
+
+			Sprite result = null;
+
+			if (unfulfilledLevelIds.Contains(levelId))
+			{
+				if (dataLevelConfig.Complexity == Complexity.Easy)
+				{
+					result = _levelEasyPlayIcon;
+				}
+				else if (dataLevelConfig.Complexity == Complexity.Normal)
+				{
+					result = _levelNormalPlayIcon;
+				}
+				else if (dataLevelConfig.Complexity == Complexity.Hard)
+				{
+					result = _levelHardPlayIcon;
 				}
 			}
+			else if (completedLevelIds.Contains(levelId))
+			{
+				if (dataLevelConfig.Complexity == Complexity.Easy)
+				{
+					result = _levelEasyDoneIcon;
+				}
+				else if (dataLevelConfig.Complexity == Complexity.Normal)
+				{
+					result = _levelNormalDoneIcon;
+				}
+				else if (dataLevelConfig.Complexity == Complexity.Hard)
+				{
+					result = _levelHardDoneIcon;
+				}
+			}
+			else // means unavailable
+			{
+				if (dataLevelConfig.Complexity == Complexity.Easy)
+				{
+					result = _levelEasyLockedIcon;
+				}
+				else if (dataLevelConfig.Complexity == Complexity.Normal)
+				{
+					result = _levelNormalLockedIcon;
+				}
+				else if (dataLevelConfig.Complexity == Complexity.Hard)
+				{
+					result = _levelHardLockedIcon;
+				}
+			}
+
+			return result;
 		}
 	}
 }

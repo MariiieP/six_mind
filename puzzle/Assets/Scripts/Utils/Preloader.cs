@@ -2,6 +2,7 @@
 using Data;
 using Gameplay;
 using UnityEngine;
+using System.Collections.Generic;
 
 namespace Utils
 {
@@ -9,17 +10,20 @@ namespace Utils
 	{
 		private SettingsData _settingsData;
 		[SerializeField] private LevelButton _playButton;
+		private AppController _app => AppController.Instance;
 
 		private void Start()
 		{
 			CheckSettingsData();
+			CheckProgressData();
 			SetVolumes();
 			SetDesiredLevel();
 		}
 
+		#region SettingsData
 		private void CheckSettingsData()
 		{
-			_settingsData = AppController.Instance.GetSettingsData();
+			_settingsData = _app.GetSettingsData();
 			if (_settingsData == null)
 			{
 				CreateSettingsData();
@@ -33,18 +37,28 @@ namespace Utils
 				MusicVolume = 0.5f,
 				SoundVolume = 0.5f,
 			};
-			AppController.Instance.SaveSettings(_settingsData);
+			_app.SaveSettings(_settingsData);
+		}
+		#endregion
+
+		private void CheckProgressData()
+		{
+			var progressData = _app.GetProgressData();
+			if (progressData == null)
+			{
+				_app.LevelProgressController.CreateProgressData();
+			}
 		}
 
 		private void SetVolumes()
 		{
-			AppController.Instance.SetMusicVolume(_settingsData.MusicVolume);
-			AppController.Instance.SetSoundVolume(_settingsData.SoundVolume);
+			_app.SetMusicVolume(_settingsData.MusicVolume);
+			_app.SetSoundVolume(_settingsData.SoundVolume);
 		}
 
 		private void SetDesiredLevel()
 		{
-			var levelId = AppController.Instance.GetLastPlayedLevelId();
+			var levelId = _app.GetLastPlayedLevelId();
 			_playButton.LevelId = levelId;
 		}
 	}

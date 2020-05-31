@@ -1,16 +1,14 @@
 ﻿using App;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using Utils;
 
-namespace Utils {
+namespace Utils
+{
     public class PlayerDataHack : MonoBehaviour
     {
-        public void Remove()
+        public void ClearAllData()
         {
-            PlayerData.ClearRestoreData();
+            PlayerData.ClearAllData();
             SceneManager.LoadScene("Preloader");
         }
 

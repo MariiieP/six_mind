@@ -31,9 +31,8 @@ namespace Gameplay
             var lowerRight = boundsCoordinates[3].transform.position;
 
             const int maxTryCount = 1000;
-            int tryCount = 0;
 
-            for (int i = 0, colliderCount; i < LetterParts.Length; ++i)
+            for (int i = 0, colliderCount, tryCount = 0; i < LetterParts.Length; ++i)
             {
                 do
                 {

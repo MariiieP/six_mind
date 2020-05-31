@@ -24,6 +24,17 @@ namespace Managers
 
 		private AppController _app => AppController.Instance;
 
+		private void OnEnable()
+		{
+			InputManager.TargetDropped += OnTargetDropped;
+			SceneLoader.SceneChangeEvent += OnSceneChangeEvent;
+		}
+
+		private void OnDisable()
+		{
+			InputManager.TargetDropped -= OnTargetDropped;
+			SceneLoader.SceneChangeEvent -= OnSceneChangeEvent;
+		}
 		private void Start()
 		{
 			SetupBounds();
@@ -54,18 +65,6 @@ namespace Managers
 					part.transform.eulerAngles = restoreData.LetterParts[i].Rotation;
 				}
 			}
-		}
-
-		private void OnEnable()
-		{
-			InputManager.TargetDropped += OnTargetDropped;
-			SceneLoader.SceneChangeEvent += OnSceneChangeEvent;
-		}
-
-		private void OnDisable()
-		{
-			InputManager.TargetDropped -= OnTargetDropped;
-			SceneLoader.SceneChangeEvent -= OnSceneChangeEvent;
 		}
 
 		private void OnTargetDropped(LetterPart obj)

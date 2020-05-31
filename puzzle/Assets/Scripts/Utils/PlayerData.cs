@@ -40,7 +40,7 @@ namespace Utils
             PlayerPrefs.Save();
         }
 
-        public static void ClearRestoreData()
+        public static void ClearAllData()
         {
             PlayerPrefs.DeleteAll();
             PlayerPrefs.Save();

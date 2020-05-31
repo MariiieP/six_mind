@@ -343,7 +343,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4624998c3b654684b20b2b6882f0799, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _camera: {fileID: 534669904}
   _flipButtons:
   - {fileID: 280898762}
   - {fileID: 2025336199}

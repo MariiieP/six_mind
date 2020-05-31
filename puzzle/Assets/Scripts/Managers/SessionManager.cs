@@ -2,6 +2,7 @@
 using Data;
 using Gameplay;
 using System.Collections;
+using UI;
 using UnityEngine;
 using UnityEngine.UI;
 using Utils;
@@ -15,6 +16,8 @@ namespace Managers
 		[SerializeField] private float _distanceDelta;
 		[SerializeField] private float _rotationDelta;
 		[SerializeField] private Image _noticeImage;
+		[SerializeField] private Popup _winPopup;
+		[SerializeField] private LevelButton _nextLevelButton;
 		public RectTransform[] BoundsCoordinates;
 
 		public Letter LetterInstance;
@@ -70,9 +73,14 @@ namespace Managers
 			var result = CheckWin();
 			if (result)
 			{
-				_app.LevelProgressController.AddCompletedLevel(_app.CurrentLevelId);
-				_app.LevelProgressController.AddUnfulfilledLevel(_app.CurrentLevelId + 1);
+				var wasAdded = _app.LevelProgressController.AddCompletedLevel(_app.CurrentLevelId);
+				if (wasAdded) 
+				{
+					_app.LevelProgressController.AddUnfulfilledLevel(_app.LevelProgressController.GetFirstLockedLevelId());
+				}
+				_nextLevelButton.LevelId = ++_app.CurrentLevelId;
 				Debug.Log("Победа!");
+				_winPopup.gameObject.SetActive(true);
 			}
 		}
 

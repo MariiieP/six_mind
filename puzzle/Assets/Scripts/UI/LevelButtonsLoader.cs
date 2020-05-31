@@ -2,6 +2,7 @@
 using Data;
 using Gameplay;
 using UnityEngine;
+using UnityEngine.UI;
 using Complexity = Configs.LevelsConfig.Complexity;
 
 namespace UI
@@ -10,6 +11,7 @@ namespace UI
 	{
 		[SerializeField] private LevelButton _levelButtonPrefab;
 		[SerializeField] private RectTransform _buttonsLayout;
+		[SerializeField] private ScrollRect _buttonsScrollRect;
 
 		private AppController _app => AppController.Instance;
 
@@ -45,7 +47,9 @@ namespace UI
 				var sprite = GetLevelButtonSprite(levelId);
 				levelButton.ButtonImage.sprite = sprite;
 			}
+			_buttonsScrollRect.verticalNormalizedPosition = 1f;
 		}
+
 
 		private Sprite GetLevelButtonSprite(int levelId) // TODO: обдумать простыню
 		{

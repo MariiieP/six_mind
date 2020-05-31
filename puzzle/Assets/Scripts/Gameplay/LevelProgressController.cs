@@ -7,7 +7,7 @@ namespace Gameplay
 	public class LevelProgressController
 	{
 		private AppController _app => AppController.Instance;
-		private ProgressData _progressData = AppController.Instance.GetProgressData();
+		private ProgressData _progressData => AppController.Instance.GetProgressData();
 
 		public void CreateProgressData()
 		{
@@ -18,7 +18,6 @@ namespace Gameplay
 			};
 			int firstLevelId = 0;
 			progressData.UnfulfilledLevelIds.Add(firstLevelId);
-			_progressData = progressData;
 			_app.SaveProgressData(progressData);
 		}
 
@@ -52,15 +51,16 @@ namespace Gameplay
 		public void AddUnfulfilledLevel(int levelId)
 		{
 			var unfulfilledLevels = GetUnfulfilledLevels();
-			if (!unfulfilledLevels.Contains(levelId))
+			if (IsLevelLocked(levelId))
 			{
 				unfulfilledLevels.Add(levelId);
 				_app.SaveProgressData(_progressData);
 			}
 		}
 
-		public void AddCompletedLevel(int levelId)
+		public bool AddCompletedLevel(int levelId)
 		{
+			bool wasAdded = false;
 			var completedLevels = GetCompletedLevels();
 			if (!completedLevels.Contains(levelId))
 			{
@@ -68,7 +68,9 @@ namespace Gameplay
 				var unfulfilledLevels = GetUnfulfilledLevels();
 				unfulfilledLevels.Remove(levelId);
 				_app.SaveProgressData(_progressData);
+				wasAdded = true;
 			}
+			return wasAdded;
 		}
 
 		public bool IsLevelLocked(int levelId)
@@ -76,6 +78,11 @@ namespace Gameplay
 			var unfulfilledLevels = GetUnfulfilledLevels();
 			var completedLevels = GetCompletedLevels();
 			return !completedLevels.Contains(levelId) && !unfulfilledLevels.Contains(levelId);
+		}
+
+		public int GetFirstLockedLevelId()
+		{
+			return GetLockedLevels()[0];
 		}
 	}
 }

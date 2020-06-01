@@ -1,6 +1,8 @@
 ﻿using App;
 using Data;
+using System;
 using System.Collections.Generic;
+using Utils;
 
 namespace Gameplay
 {
@@ -8,6 +10,16 @@ namespace Gameplay
 	{
 		private AppController _app => AppController.Instance;
 		private ProgressData _cachedProgressData = AppController.Instance.GetProgressData();
+
+		public LevelProgressController()
+		{
+			SceneLoader.SceneChangeEvent += OnSceneChanged;
+		}
+
+		~LevelProgressController()
+		{
+			SceneLoader.SceneChangeEvent -= OnSceneChanged;
+		}
 
 		public void CreateProgressData()
 		{
@@ -83,6 +95,12 @@ namespace Gameplay
 		public int GetFirstLockedLevelId()
 		{
 			return GetLockedLevels()[0];
+		}
+
+
+		private void OnSceneChanged()
+		{
+			_cachedProgressData = AppController.Instance.GetProgressData();
 		}
 	}
 }

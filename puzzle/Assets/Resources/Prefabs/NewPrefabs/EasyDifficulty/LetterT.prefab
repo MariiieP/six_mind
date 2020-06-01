@@ -68,7 +68,7 @@ Rigidbody2D:
   m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 1
-  m_Constraints: 6
+  m_Constraints: 7
 --- !u!58 &4460544243468459436
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -152,7 +152,7 @@ Rigidbody2D:
   m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 1
-  m_Constraints: 6
+  m_Constraints: 7
 --- !u!58 &5293194915344400339
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -236,7 +236,7 @@ Rigidbody2D:
   m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 1
-  m_Constraints: 6
+  m_Constraints: 7
 --- !u!58 &3978224850772144254
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -319,7 +319,7 @@ Rigidbody2D:
   m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 1
-  m_Constraints: 6
+  m_Constraints: 7
 --- !u!58 &4813412816939993307
 CircleCollider2D:
   m_ObjectHideFlags: 0

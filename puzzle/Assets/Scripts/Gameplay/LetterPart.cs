@@ -64,20 +64,5 @@ namespace Gameplay
 			color.a = alpha;
 			SpriteRenderer.color = color;
 		}
-
-		private float GetAngleBetween(Vector2 one, Vector2 another)
-		{
-			var from = another - one;
-			var to = new Vector2(1f, 0f);
-			float result = Vector2.Angle(from, to);
-			var cross = Vector3.Cross(from, to);
-
-			if (cross.z > 0)
-			{
-				result = 360f - result;
-			}
-
-			return result;
-		}
 	}
 }

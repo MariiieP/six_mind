@@ -22,7 +22,7 @@ namespace Utils
                 progressData.CompletedLevelIds.Add(cfg.LevelId);
             }
             AppController.Instance.SaveProgressData(progressData);
-            SceneManager.LoadScene("Menu");
+            SceneManager.LoadScene("Preloader");
         }
     }
 }

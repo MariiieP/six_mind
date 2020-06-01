@@ -75,9 +75,10 @@ namespace Managers
 				var wasAdded = _app.LevelProgressController.AddCompletedLevel(_app.CurrentLevelId);
 				if (wasAdded) 
 				{
-					_app.LevelProgressController.AddUnfulfilledLevel(_app.LevelProgressController.GetFirstLockedLevelId());
+					var firstLockedLevel = _app.LevelProgressController.GetFirstLockedLevelId();
+					_app.LevelProgressController.AddUnfulfilledLevel(firstLockedLevel);
 				}
-				_nextLevelButton.LevelId = ++_app.CurrentLevelId;
+				_nextLevelButton.LevelId = _app.CurrentLevelId + 1;
 				Debug.Log("Победа!");
 				_winPopup.gameObject.SetActive(true);
 			}

@@ -26,8 +26,7 @@ namespace Managers
 		public void Rotate(LetterPart target)
 		{
 #if UNITY_IPHONE || UNITY_ANDROID && !UNITY_EDITOR
-			//SmartPhoneCast(target);
-			EditorCast(target);
+			SmartPhoneCast(target);
 #endif
 
 #if UNITY_EDITOR
@@ -55,6 +54,12 @@ namespace Managers
 
 		private void SmartPhoneCast(LetterPart target)
 		{
+			if (!IsRotating)
+			{
+				IsRotating = true;
+				target.Body.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezePositionY;
+			}
+
 			var desiredRotation = target.transform.rotation;
 
 			CalcAngle();
@@ -66,7 +71,7 @@ namespace Managers
 				desiredRotation *= Quaternion.Euler(rotationDeg);
 			}
 
-			target.Body.MoveRotation(desiredRotation);
+			target.Body.MoveRotation(desiredRotation); 
 		}
 
 		private void CalcAngle()

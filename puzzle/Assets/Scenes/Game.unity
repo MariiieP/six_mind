@@ -306,7 +306,7 @@ MonoBehaviour:
   _boundsPrefab: {fileID: 4445985759295879068, guid: 483e756abcf9d624785e26e5de295c87,
     type: 3}
   _spawnPoint: {fileID: 49177847}
-  _distanceDelta: 1.1
+  _distanceDelta: 0.25
   _rotationDelta: 5
   _noticeImage: {fileID: 1698394300}
   _winPopup: {fileID: 84703759}

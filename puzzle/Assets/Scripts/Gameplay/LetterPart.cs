@@ -9,9 +9,9 @@ namespace Gameplay
 		[HideInInspector] public Rigidbody2D Body;
 		[HideInInspector] public SpriteRenderer SpriteRenderer;
 
-		public LetterPart Neighbour;
-		public float NeighbourRotation;
-		public float NeighbourDistance;
+		[HideInInspector] public LetterPart Neighbour;
+		[HideInInspector] public float NeighbourRotation;
+		[HideInInspector] public float NeighbourDistance;
 
 		private void Awake()
 		{
@@ -29,7 +29,9 @@ namespace Gameplay
 
 			float currentNeighbourRotation = Neighbour.transform.eulerAngles.z;
 
-			if (currentNeighbourRotation < rotationMin || currentNeighbourRotation > rotationMax)
+			if ((currentNeighbourRotation < rotationMin || currentNeighbourRotation > rotationMax) 
+				&& (currentNeighbourRotation - 360f < rotationMin || currentNeighbourRotation - 360f > rotationMax) 
+				&& (currentNeighbourRotation + 360f < rotationMin || currentNeighbourRotation + 360f > rotationMax))
 			{
 				return false;
 			}

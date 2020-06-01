@@ -6,7 +6,7 @@ namespace Gameplay
     [DisallowMultipleComponent]
     public class Letter : MonoBehaviour
     {
-        public LetterPart[] LetterParts;
+        [HideInInspector] public LetterPart[] LetterParts;
 
         private void Awake()
         {
@@ -30,7 +30,9 @@ namespace Gameplay
             var upperRight = boundsCoordinates[1].transform.position;
             var lowerRight = boundsCoordinates[3].transform.position;
 
-            for (int i = 0, colliderCount; i < LetterParts.Length; ++i)
+            const int maxTryCount = 1000;
+
+            for (int i = 0, colliderCount, tryCount = 0; i < LetterParts.Length; ++i)
             {
                 do
                 {
@@ -46,6 +48,14 @@ namespace Gameplay
                     part.transform.rotation = Quaternion.Euler(rotationX, rotationY, rotationZ);
 
                     colliderCount = part.GetCollisionsCount();
+
+                    ++tryCount;
+
+                    if (tryCount >= maxTryCount)
+                    {
+                        Debug.LogError("Number of attempts exceeded");
+                        break;
+                    }
 
                 } while (colliderCount != 0);
             }

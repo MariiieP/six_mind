@@ -2,6 +2,7 @@
 using Data;
 using Gameplay;
 using System.Collections;
+using UI;
 using UnityEngine;
 using UnityEngine.UI;
 using Utils;
@@ -15,12 +16,25 @@ namespace Managers
 		[SerializeField] private float _distanceDelta;
 		[SerializeField] private float _rotationDelta;
 		[SerializeField] private Image _noticeImage;
+		[SerializeField] private Popup _winPopup;
+		[SerializeField] private LevelButton _nextLevelButton;
 		public RectTransform[] BoundsCoordinates;
 
 		public Letter LetterInstance;
 
 		private AppController _app => AppController.Instance;
 
+		private void OnEnable()
+		{
+			InputManager.TargetDropped += OnTargetDropped;
+			SceneLoader.SceneChangeEvent += OnSceneChangeEvent;
+		}
+
+		private void OnDisable()
+		{
+			InputManager.TargetDropped -= OnTargetDropped;
+			SceneLoader.SceneChangeEvent -= OnSceneChangeEvent;
+		}
 		private void Start()
 		{
 			SetupBounds();
@@ -53,26 +67,20 @@ namespace Managers
 			}
 		}
 
-		private void OnEnable()
-		{
-			InputManager.TargetDropped += OnTargetDropped;
-			SceneLoader.SceneChangeEvent += OnSceneChangeEvent;
-		}
-
-		private void OnDisable()
-		{
-			InputManager.TargetDropped -= OnTargetDropped;
-			SceneLoader.SceneChangeEvent -= OnSceneChangeEvent;
-		}
-
 		private void OnTargetDropped(LetterPart obj)
 		{
 			var result = CheckWin();
 			if (result)
 			{
-				_app.LevelProgressController.AddCompletedLevel(_app.CurrentLevelId);
-				_app.LevelProgressController.AddUnfulfilledLevel(_app.CurrentLevelId + 1);
+				var wasAdded = _app.LevelProgressController.AddCompletedLevel(_app.CurrentLevelId);
+				if (wasAdded) 
+				{
+					var firstLockedLevel = _app.LevelProgressController.GetFirstLockedLevelId();
+					_app.LevelProgressController.AddUnfulfilledLevel(firstLockedLevel);
+				}
+				_nextLevelButton.LevelId = _app.CurrentLevelId + 1;
 				Debug.Log("Победа!");
+				_winPopup.gameObject.SetActive(true);
 			}
 		}
 

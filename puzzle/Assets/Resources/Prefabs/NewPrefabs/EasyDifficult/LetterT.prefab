@@ -84,7 +84,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 2.1595929
+  m_Radius: 0.87
 --- !u!60 &5295896769608855255
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -168,7 +168,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 2.4214628
+  m_Radius: 1.61
 --- !u!60 &7034134533276949660
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -252,7 +252,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 1.3013675
+  m_Radius: 0.87
 --- !u!60 &5336119417556050615
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -335,7 +335,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.918204
+  m_Radius: 0.87
 --- !u!60 &9004354654299022736
 PolygonCollider2D:
   m_ObjectHideFlags: 0

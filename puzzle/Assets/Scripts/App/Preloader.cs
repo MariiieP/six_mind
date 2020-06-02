@@ -1,15 +1,13 @@
-﻿using App;
-using Data;
-using Gameplay;
+﻿using Data;
 using UnityEngine;
-using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
-namespace Utils
+namespace App
 {
 	public class Preloader : MonoBehaviour
 	{
 		private SettingsData _settingsData;
-		[SerializeField] private LevelButton _playButton;
+		[SerializeField] private GameObject _playButton;
 		private AppController _app => AppController.Instance;
 
 		private void Start()
@@ -17,10 +15,9 @@ namespace Utils
 			CheckSettingsData();
 			CheckProgressData();
 			SetVolumes();
-			SetDesiredLevel();
+			_playButton.SetActive(true);
 		}
 
-		#region SettingsData
 		private void CheckSettingsData()
 		{
 			_settingsData = _app.GetSettingsData();
@@ -39,7 +36,6 @@ namespace Utils
 			};
 			_app.SaveSettings(_settingsData);
 		}
-		#endregion
 
 		private void CheckProgressData()
 		{
@@ -56,10 +52,15 @@ namespace Utils
 			_app.SetSoundVolume(_settingsData.SoundVolume);
 		}
 
-		private void SetDesiredLevel()
+		public void OnPlayButtonClick()
 		{
 			var levelId = _app.GetLastPlayedLevelId();
-			_playButton.LevelId = levelId;
+			if (_app.LevelProgressController.IsLevelLocked(levelId))
+			{
+				levelId = 0;
+			}
+			_app.CurrentLevelId = levelId;
+			SceneManager.LoadScene("Game");
 		}
 	}
 }

@@ -23,14 +23,14 @@ namespace Gameplay
 
 		public void CreateProgressData()
 		{
-			var progressData = new ProgressData
+			_cachedProgressData = new ProgressData
 			{
 				UnfulfilledLevelIds = new List<int>(),
 				CompletedLevelIds = new List<int>()
 			};
 			int firstLevelId = 0;
-			progressData.UnfulfilledLevelIds.Add(firstLevelId);
-			_app.SaveProgressData(progressData);
+			_cachedProgressData.UnfulfilledLevelIds.Add(firstLevelId);
+			_app.SaveProgressData(_cachedProgressData);
 		}
 
 		public List<int> GetUnfulfilledLevels()

@@ -1,4 +1,5 @@
 ﻿using Gameplay;
+using System;
 using UnityEngine;
 
 namespace Managers
@@ -7,7 +8,6 @@ namespace Managers
 	{
 		private const float _pinchTurnRatio = Mathf.PI / 2f;
 		private const float _minTurnAngle = 0f;
-		private float _turnAngleDelta = 0f;
 		private Vector3 _onScreenPosition = new Vector2(0f, 0f);
 		private float _angleDelta = 0f;
 
@@ -60,43 +60,34 @@ namespace Managers
 				target.Body.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezePositionY;
 			}
 
-			var desiredRotation = target.transform.rotation;
+			var turnAngle = CalcTurnAngle();
 
-			CalcAngle();
-
-			if (Mathf.Abs(_turnAngleDelta) > 0)
+			if (Mathf.Abs(turnAngle) > 0f)
 			{
 				var rotationDeg = Vector3.zero;
-				rotationDeg.z = -_turnAngleDelta;
-				desiredRotation *= Quaternion.Euler(rotationDeg);
+				rotationDeg.z = turnAngle;
+				var desiredRotation = Quaternion.Euler(rotationDeg);
+				target.Body.MoveRotation(target.transform.rotation * desiredRotation);
 			}
-
-			target.Body.MoveRotation(desiredRotation); 
 		}
 
-		private void CalcAngle()
+		private float CalcTurnAngle()
 		{
 			float turnAngle;
-			_turnAngleDelta = 0f;
+			float turnAngleDelta = 0f;
 
 			var one = Input.GetTouch(0);
 			var another = Input.GetTouch(1);
 
-			if (one.phase == TouchPhase.Moved || another.phase == TouchPhase.Moved)
+			if (one.phase == TouchPhase.Moved && another.phase == TouchPhase.Moved)
 			{
 				turnAngle = GetAngleBetween(one.position, another.position);
-				float prevTurn = GetAngleBetween(one.position - one.deltaPosition, another.position - another.deltaPosition);
-				_turnAngleDelta = Mathf.DeltaAngle(prevTurn, turnAngle);
-
-				if (Mathf.Abs(_turnAngleDelta) > _minTurnAngle)
-				{
-					_turnAngleDelta *= _pinchTurnRatio;
-				}
-				else
-				{
-					_turnAngleDelta = 0f;
-				}
+				float previousTurn = GetAngleBetween(one.position - one.deltaPosition, another.position - another.deltaPosition);
+				turnAngleDelta = Mathf.DeltaAngle(previousTurn, turnAngle);
+				turnAngleDelta *= (Mathf.Abs(turnAngleDelta) > _minTurnAngle) ? _pinchTurnRatio : 0f;
 			}
+
+			return turnAngleDelta;
 		}
 
 		private float GetAngleBetween(Vector2 one, Vector2 another)

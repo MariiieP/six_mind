@@ -31,7 +31,7 @@ using LunarConsolePluginInternal;
 namespace LunarConsoleEditorInternal
 {
     [CustomEditor(typeof(LunarConsole))]
-    class LunarConsoleEditor : Editor
+    class LunarConsoleEditor : UnityEditor.Editor
     {
         private GUIStyle m_buttonStyle;
 

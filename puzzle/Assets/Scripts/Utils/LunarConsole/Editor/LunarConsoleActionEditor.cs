@@ -35,7 +35,7 @@ using System.Text;
 namespace LunarConsoleEditorInternal
 {
     [CustomEditor(typeof(LunarConsoleAction))]
-    class LunarConsoleActionEditor : Editor
+    class LunarConsoleActionEditor : UnityEditor.Editor
     {
         private const string kPropCalls = "m_calls";
         private const string kPropMode = "m_mode";

@@ -35,7 +35,7 @@ namespace LunarConsoleEditorInternal
     #pragma warning disable 0618
     [CustomEditor(typeof(LunarConsoleLegacyActions))]
     #pragma warning restore 0618
-    class LunarConsoleLegacyActionsEditor : Editor
+    class LunarConsoleLegacyActionsEditor : UnityEditor.Editor
     {
         struct Functions
         {

@@ -12,15 +12,15 @@ namespace Gameplay
 
         private void OnEnable()
         {
-            InputManager.TargetDropped += OnTargetDropped;
+            InputManager.TargetCaptureEvent += OnTargetCaptured;
         }
 
         private void OnDisable()
         {
-            InputManager.TargetDropped -= OnTargetDropped;
+            InputManager.TargetCaptureEvent -= OnTargetCaptured;
         }
 
-        private void OnTargetDropped(LetterPart last)
+        private void OnTargetCaptured(LetterPart last)
         {
             _lastLetterPart = last;
         }

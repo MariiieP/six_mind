@@ -8,23 +8,19 @@ namespace Managers
 {
 	public class InputManager : MonoBehaviour
 	{
-		[SerializeField] private Button[] _flipButtons;
-
 		private bool _targetCaptured = false;
 		private LetterPart _target = null;
 
-		public static Action<LetterPart> TargetDropped;
-		public static Action<LetterPart> TargetCaptured;
+		public static Action<LetterPart> TargetDropEvent;
+		public static Action<LetterPart> TargetCaptureEvent;
 
 		private TargetMover _targetMover;
 		private TargetRotator _targetRotator;
-		private SpriteFlicker _spriteFlicker;
 
 		private void Awake()
 		{
 			_targetMover = new TargetMover();
 			_targetRotator = new TargetRotator();
-			_spriteFlicker = new SpriteFlicker();
 		}
 
 		private void Update()
@@ -52,7 +48,7 @@ namespace Managers
 					CaptureTarget();
 					if (_targetCaptured)
 					{
-						TargetCaptured?.Invoke(_target);
+						TargetCaptureEvent?.Invoke(_target);
 					}
 				}
 
@@ -91,7 +87,7 @@ namespace Managers
 					CaptureTarget();
 					if (_targetCaptured)
 					{
-						TargetCaptured?.Invoke(_target);
+						TargetCaptureEvent?.Invoke(_target);
 					}
 				}
 				
@@ -167,15 +163,10 @@ namespace Managers
 				| RigidbodyConstraints2D.FreezePositionY
 				| RigidbodyConstraints2D.FreezeRotation;
 
-			TargetDropped?.Invoke(_target);
+			TargetDropEvent?.Invoke(_target);
 
 			_target = null;
 			_targetCaptured = false;
-
-			foreach (var flipButton in _flipButtons)
-			{
-				flipButton.interactable = true;
-			}
 		}
 	}
 }

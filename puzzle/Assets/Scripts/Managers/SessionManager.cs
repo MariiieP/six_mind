@@ -1,6 +1,7 @@
 ﻿using App;
 using Data;
 using Gameplay;
+using System;
 using System.Collections;
 using UI;
 using UnityEngine;
@@ -17,24 +18,37 @@ namespace Managers
 		[SerializeField] private float _rotationDelta;
 		[SerializeField] private Image _noticeImage;
 		[SerializeField] private Popup _winPopup;
+		[SerializeField] private Button[] _flipButtons;
 		[SerializeField] private LevelButton _nextLevelButton;
 		public RectTransform[] BoundsCoordinates;
 
+		public Action<Button[], bool> ButtonsFlipEvent;
 		public Letter LetterInstance;
 
 		private AppController _app => AppController.Instance;
+		private FlipButtonsSwitcher _flipButtonsSwitcher;
+		private SpriteFlicker _spriteFlicker;
 
 		private void OnEnable()
 		{
-			InputManager.TargetDropped += OnTargetDropped;
+			InputManager.TargetDropEvent += OnTargetDropped;
+			InputManager.TargetCaptureEvent += OnTargetCaptured;
 			SceneLoader.SceneChangeEvent += OnSceneChangeEvent;
 		}
 
 		private void OnDisable()
 		{
-			InputManager.TargetDropped -= OnTargetDropped;
+			InputManager.TargetDropEvent -= OnTargetDropped;
+			InputManager.TargetCaptureEvent -= OnTargetCaptured;
 			SceneLoader.SceneChangeEvent -= OnSceneChangeEvent;
 		}
+
+		private void Awake()
+		{
+			_flipButtonsSwitcher = new FlipButtonsSwitcher();
+			_spriteFlicker = new SpriteFlicker();
+		}
+
 		private void Start()
 		{
 			SetupBounds();
@@ -67,8 +81,15 @@ namespace Managers
 			}
 		}
 
+		private void OnTargetCaptured(LetterPart obj)
+		{
+			ButtonsFlipEvent.Invoke(_flipButtons, true);
+		}
+
 		private void OnTargetDropped(LetterPart obj)
 		{
+			ButtonsFlipEvent?.Invoke(_flipButtons, false);
+
 			var result = CheckWin();
 			if (result)
 			{
@@ -79,7 +100,6 @@ namespace Managers
 					_app.LevelProgressController.AddUnfulfilledLevel(firstLockedLevel);
 				}
 				_nextLevelButton.LevelId = _app.CurrentLevelId + 1;
-				Debug.Log("Победа!");
 				_winPopup.gameObject.SetActive(true);
 			}
 		}

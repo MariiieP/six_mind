@@ -310,6 +310,9 @@ MonoBehaviour:
   _rotationDelta: 5
   _noticeImage: {fileID: 1698394300}
   _winPopup: {fileID: 84703759}
+  _flipButtons:
+  - {fileID: 2025336199}
+  - {fileID: 280898762}
   _nextLevelButton: {fileID: 202463028}
   BoundsCoordinates:
   - {fileID: 6405355}
@@ -343,9 +346,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4624998c3b654684b20b2b6882f0799, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _flipButtons:
-  - {fileID: 280898762}
-  - {fileID: 2025336199}
 --- !u!114 &30009406
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1026,7 +1026,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 280898760}
   m_OnClick:
     m_PersistentCalls:
@@ -4430,7 +4430,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 2025336197}
   m_OnClick:
     m_PersistentCalls:

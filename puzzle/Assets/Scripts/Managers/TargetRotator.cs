@@ -15,12 +15,12 @@ namespace Managers
 
 		public TargetRotator()
 		{
-			InputManager.TargetDropped += OnTargetDropped;
+			InputManager.TargetDropEvent += OnTargetDropped;
 		}
 
 		~TargetRotator()
 		{
-			InputManager.TargetDropped -= OnTargetDropped;
+			InputManager.TargetDropEvent -= OnTargetDropped;
 		}
 
 		public void Rotate(LetterPart target)

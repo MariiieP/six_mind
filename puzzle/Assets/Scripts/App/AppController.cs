@@ -9,17 +9,17 @@ namespace App
 	public class AppController : MonoBehaviourSingleton<AppController>
 	{
 		public int CurrentLevelId { get; set; }
-		public LevelProgressController LevelProgressController;
+		public ProgressController ProgressController;
 
 		private void Awake()
 		{
 			DontDestroyOnLoad(gameObject);
-			LevelProgressController = new LevelProgressController();
+			ProgressController = new ProgressController();
 		}
 
-		public void OpenPopup(GameObject popupPrefab)
+		public GameObject OpenPopup(GameObject popupPrefab)
 		{
-			Instantiate(popupPrefab);
+			return Instantiate(popupPrefab);
 		}
 
 		#region Sounds & Music

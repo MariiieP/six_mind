@@ -338,6 +338,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _noticeImage: {fileID: 0}
+  NextLevelButton: {fileID: 5961041311974319841}
 --- !u!1 &5961041312247737401
 GameObject:
   m_ObjectHideFlags: 0

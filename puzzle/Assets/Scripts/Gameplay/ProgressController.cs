@@ -6,17 +6,17 @@ using Utils;
 
 namespace Gameplay
 {
-	public class LevelProgressController
+	public class ProgressController
 	{
 		private AppController _app => AppController.Instance;
 		private ProgressData _cachedProgressData = AppController.Instance.GetProgressData();
 
-		public LevelProgressController()
+		public ProgressController()
 		{
 			SceneLoader.SceneChangeEvent += OnSceneChanged;
 		}
 
-		~LevelProgressController()
+		~ProgressController()
 		{
 			SceneLoader.SceneChangeEvent -= OnSceneChanged;
 		}
@@ -71,6 +71,23 @@ namespace Gameplay
 				wasAdded = true;
 			}
 			return wasAdded;
+		}
+
+		public void AddMoney(int count)
+		{
+			_cachedProgressData.Money += count;
+			_app.SaveProgressData(_cachedProgressData);
+		}
+
+		public int GetMoney()
+		{
+			return _cachedProgressData.Money;
+		}
+
+		public void ReduceMoney(int count)
+		{
+			_cachedProgressData.Money -= count;
+			_app.SaveProgressData(_cachedProgressData);
 		}
 
 		public bool IsLevelLocked(int levelId)

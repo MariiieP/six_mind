@@ -23,7 +23,7 @@ namespace Gameplay
 				return;
 			}
 
-			if (app.LevelProgressController.IsLevelLocked(LevelId))
+			if (app.ProgressController.IsLevelLocked(LevelId))
 			{
 				return;
 			}

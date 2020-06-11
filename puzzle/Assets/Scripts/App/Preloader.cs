@@ -64,7 +64,7 @@ namespace App
 		public void OnPlayButtonClick()
 		{
 			var levelId = _app.GetLastPlayedLevelId();
-			if (_app.LevelProgressController.IsLevelLocked(levelId))
+			if (_app.ProgressController.IsLevelLocked(levelId))
 			{
 				levelId = 0;
 			}

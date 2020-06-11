@@ -1,4 +1,5 @@
 ﻿using App;
+using Gameplay;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,6 +11,7 @@ namespace UI
 	{
 		[SerializeField] private Image _noticeImage;
 		private List<Action> _closePopupCallbacks = new List<Action>();
+		public LevelButton NextLevelButton;
 
 		private void Awake()
 		{

@@ -39,7 +39,7 @@ namespace UI
 				var levelButton = buttonGameObject.GetComponent<LevelButton>();
 
 				levelButton.LevelId = levelId;
-				if (!_app.LevelProgressController.IsLevelLocked(levelId))
+				if (!_app.ProgressController.IsLevelLocked(levelId))
 				{
 					levelButton.ButtonText.text = (levelId + 1).ToString(); // потому что с 0
 				}
@@ -53,8 +53,8 @@ namespace UI
 
 		private Sprite GetLevelButtonSprite(int levelId) // TODO: обдумать простыню
 		{
-			var unfulfilledLevelIds = _app.LevelProgressController.GetUnfulfilledLevels();
-			var completedLevelIds = _app.LevelProgressController.GetCompletedLevels();
+			var unfulfilledLevelIds = _app.ProgressController.GetUnfulfilledLevels();
+			var completedLevelIds = _app.ProgressController.GetCompletedLevels();
 			var dataLevelConfig = _app.LevelsConfig.Levels[levelId];
 
 			Sprite result = null;

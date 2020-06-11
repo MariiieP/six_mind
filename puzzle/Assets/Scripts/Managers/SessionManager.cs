@@ -21,6 +21,7 @@ namespace Managers
 		[SerializeField] private Image _noticeImage;
 		[SerializeField] private Button[] _flipButtons;
 		[SerializeField] private LevelButton _nextLevelButton;
+		[SerializeField] private int _moneyCount;
 		public RectTransform[] BoundsCoordinates;
 
 		public Action<Button[], bool> ButtonsFlipEvent;
@@ -94,14 +95,15 @@ namespace Managers
 			var result = CheckWin();
 			if (result)
 			{
-				var wasAdded = _app.LevelProgressController.AddCompletedLevel(_app.CurrentLevelId);
+				var wasAdded = _app.ProgressController.AddCompletedLevel(_app.CurrentLevelId);
 				if (wasAdded) 
 				{
-					var firstLockedLevel = _app.LevelProgressController.GetFirstLockedLevelId();
-					_app.LevelProgressController.AddUnfulfilledLevel(firstLockedLevel);
+					var firstLockedLevel = _app.ProgressController.GetFirstLockedLevelId();
+					_app.ProgressController.AddUnfulfilledLevel(firstLockedLevel);
 				}
-				_nextLevelButton.LevelId = _app.CurrentLevelId + 1;
-				_app.OpenPopup(_winPopupPrefab);
+				_app.ProgressController.AddMoney(_moneyCount);
+				var winPopup = _app.OpenPopup(_winPopupPrefab).GetComponent<Popup>();
+				winPopup.NextLevelButton.LevelId = _app.CurrentLevelId + 1;
 			}
 		}
 

@@ -18,6 +18,7 @@ namespace Configs
 			public Letter LetterPrefab;
 			public Sprite NoticeIcon;
 			public Complexity Complexity;
+			public Sprite[] HintsIcons;
 		}
 
 		public List<DataLevelConfig> Levels;

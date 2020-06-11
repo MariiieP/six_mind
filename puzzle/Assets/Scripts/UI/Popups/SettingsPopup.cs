@@ -3,10 +3,11 @@ using Data;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI
+
+namespace UI.Popups
 {
-    public class VolumeSlider : MonoBehaviour
-    {
+	public class SettingsPopup : CommonPopup
+	{
         [SerializeField] private Slider _musicSlider;
         [SerializeField] private Slider _soundSlider;
 

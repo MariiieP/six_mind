@@ -933,8 +933,7 @@ GameObject:
   - component: {fileID: 6037478553858739498}
   - component: {fileID: 6037478553858739509}
   - component: {fileID: 6037478553858739508}
-  - component: {fileID: 6037478553858739496}
-  - component: {fileID: 6037478553858739497}
+  - component: {fileID: 2181355571239153896}
   m_Layer: 5
   m_Name: SettingsPopup
   m_TagString: Untagged
@@ -1026,7 +1025,7 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &6037478553858739496
+--- !u!114 &2181355571239153896
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1035,20 +1034,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6037478553858739511}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6835dd689670f384fa27b56811044e74, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _noticeImage: {fileID: 0}
---- !u!114 &6037478553858739497
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6037478553858739511}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a23f9f320b9d66140b4941fc93038385, type: 3}
+  m_Script: {fileID: 11500000, guid: 107cefdc60191da459868f8417e72b2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _musicSlider: {fileID: 6037478553555250558}
@@ -1171,7 +1157,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6037478553858739496}
+      - m_Target: {fileID: 2181355571239153896}
         m_MethodName: ClosePopup
         m_Mode: 1
         m_Arguments:
@@ -1325,7 +1311,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6037478553858739496}
+      - m_Target: {fileID: 2181355571239153896}
         m_MethodName: ClosePopup
         m_Mode: 1
         m_Arguments:

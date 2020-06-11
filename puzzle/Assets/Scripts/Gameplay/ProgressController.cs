@@ -10,6 +10,7 @@ namespace Gameplay
 	{
 		private AppController _app => AppController.Instance;
 		private ProgressData _cachedProgressData = AppController.Instance.GetProgressData();
+		public Action MoneyChangeEvent;
 
 		public ProgressController()
 		{
@@ -77,6 +78,7 @@ namespace Gameplay
 		{
 			_cachedProgressData.Money += count;
 			_app.SaveProgressData(_cachedProgressData);
+			MoneyChangeEvent?.Invoke();
 		}
 
 		public int GetMoney()
@@ -88,6 +90,7 @@ namespace Gameplay
 		{
 			_cachedProgressData.Money -= count;
 			_app.SaveProgressData(_cachedProgressData);
+			MoneyChangeEvent?.Invoke();
 		}
 
 		public bool IsLevelLocked(int levelId)

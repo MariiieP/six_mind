@@ -190,7 +190,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8848986368778369994}
+      - m_Target: {fileID: 5287918106928583043}
         m_MethodName: ClosePopup
         m_Mode: 1
         m_Arguments:
@@ -213,7 +213,7 @@ GameObject:
   - component: {fileID: 8848986368778369999}
   - component: {fileID: 8848986368778369996}
   - component: {fileID: 8848986368778369997}
-  - component: {fileID: 8848986368778369994}
+  - component: {fileID: 5287918106928583043}
   m_Layer: 5
   m_Name: NoticePopup
   m_TagString: Untagged
@@ -303,7 +303,7 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &8848986368778369994
+--- !u!114 &5287918106928583043
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -312,7 +312,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8848986368778369995}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6835dd689670f384fa27b56811044e74, type: 3}
+  m_Script: {fileID: 11500000, guid: f6ba3e5085a60654dad6ce8fea5269eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _noticeImage: {fileID: 8848986367726694730}

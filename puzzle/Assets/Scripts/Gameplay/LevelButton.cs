@@ -17,7 +17,7 @@ namespace Gameplay
 		public void EntryCurrentLevel()
 		{
 			var app = AppController.Instance;
-			if (LevelId+1 > 9)
+			if (LevelId + 1 > 9)
 			{
 				app.OpenPopup(_levelInDevelopingPopup);
 				return;

@@ -3,6 +3,7 @@ using Configs;
 using Data;
 using UnityEngine;
 using Utils;
+using System;
 
 namespace App
 {
@@ -17,9 +18,9 @@ namespace App
 			ProgressController = new ProgressController();
 		}
 
-		public GameObject OpenPopup(GameObject popupPrefab)
+		public void OpenPopup(GameObject popupPrefab)
 		{
-			return Instantiate(popupPrefab);
+			Instantiate(popupPrefab);
 		}
 
 		#region Sounds & Music

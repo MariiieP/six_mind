@@ -4,6 +4,7 @@ using Gameplay;
 using System;
 using System.Collections;
 using UI;
+using UI.Popups;
 using UnityEngine;
 using UnityEngine.UI;
 using Utils;
@@ -26,6 +27,7 @@ namespace Managers
 
 		public Action<Button[], bool> ButtonsFlipEvent;
 		public Letter LetterInstance;
+		public int HintIndex { get; set; }
 
 		private AppController _app => AppController.Instance;
 		private FlipButtonsSwitcher _flipButtonsSwitcher;
@@ -80,6 +82,7 @@ namespace Managers
 					part.transform.localPosition = restoreData.LetterParts[i].Position;
 					part.transform.eulerAngles = restoreData.LetterParts[i].Rotation;
 				}
+				HintIndex = restoreData.HintIndex;
 			}
 		}
 
@@ -102,7 +105,7 @@ namespace Managers
 					_app.ProgressController.AddUnfulfilledLevel(firstLockedLevel);
 				}
 				_app.ProgressController.AddMoney(_moneyCount);
-				var winPopup = _app.OpenPopup(_winPopupPrefab).GetComponent<Popup>();
+				var winPopup = Instantiate(_winPopupPrefab).GetComponent<WinPopup>();
 				winPopup.NextLevelButton.LevelId = _app.CurrentLevelId + 1;
 			}
 		}
@@ -136,6 +139,7 @@ namespace Managers
 			var levelConfig = _app.GetLevelConfig();
 
 			restoreData.LetterPrefab = levelConfig.LetterPrefab;
+			restoreData.HintIndex = HintIndex;
 			foreach (var letterPart in LetterInstance.LetterParts)
 			{
 				var letterData = new RestoreData.LetterPart

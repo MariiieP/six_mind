@@ -32,6 +32,12 @@ namespace App
 			_soundSource.volume = value;
 		}
 
+		public void PlaySound(AudioClip sound)
+		{
+			_soundSource.clip = sound;
+			_soundSource.Play();
+		}
+
 		#endregion
 
 		#region Data

@@ -1,4 +1,5 @@
 ﻿using Data;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -42,7 +43,15 @@ namespace App
 			var progressData = _app.GetProgressData();
 			if (progressData == null)
 			{
-				_app.LevelProgressController.CreateProgressData();
+				progressData = new ProgressData
+				{
+					Money = 0,
+					UnfulfilledLevelIds = new List<int>(),
+					CompletedLevelIds = new List<int>()
+				};
+				int firstLevelId = 0;
+				progressData.UnfulfilledLevelIds.Add(firstLevelId);
+				_app.SaveProgressData(progressData);
 			}
 		}
 

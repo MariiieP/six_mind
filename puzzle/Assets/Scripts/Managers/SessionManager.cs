@@ -13,11 +13,12 @@ namespace Managers
 	public class SessionManager : MonoBehaviourSingleton<SessionManager>
 	{
 		[SerializeField] private GameObject _boundsPrefab;
+		[SerializeField] private GameObject _winPopupPrefab;
+
 		[SerializeField] private Transform _spawnPoint;
 		[SerializeField] private float _distanceDelta;
 		[SerializeField] private float _rotationDelta;
 		[SerializeField] private Image _noticeImage;
-		[SerializeField] private Popup _winPopup;
 		[SerializeField] private Button[] _flipButtons;
 		[SerializeField] private LevelButton _nextLevelButton;
 		public RectTransform[] BoundsCoordinates;
@@ -100,7 +101,7 @@ namespace Managers
 					_app.LevelProgressController.AddUnfulfilledLevel(firstLockedLevel);
 				}
 				_nextLevelButton.LevelId = _app.CurrentLevelId + 1;
-				_winPopup.gameObject.SetActive(true);
+				_app.OpenPopup(_winPopupPrefab);
 			}
 		}
 

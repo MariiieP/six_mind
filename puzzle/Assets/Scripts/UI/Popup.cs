@@ -8,7 +8,6 @@ namespace UI
 {
 	public class Popup : MonoBehaviour
 	{
-		[SerializeField] private GameObject _popup;
 		[SerializeField] private Image _noticeImage;
 		private List<Action> _closePopupCallbacks = new List<Action>();
 
@@ -22,19 +21,13 @@ namespace UI
 			}
 		}
 
-		public void OpenPopup()
-		{
-			_popup.SetActive(true);
-		}
-
 		public void ClosePopup()
 		{
-			_popup.SetActive(false);
 			foreach (var callback in _closePopupCallbacks)
 			{
 				callback?.Invoke();
 			}
-			_closePopupCallbacks.Clear();
+			Destroy(gameObject);
 		}
 
 		public void AddCloseCallback(Action callback)

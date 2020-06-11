@@ -17,6 +17,11 @@ namespace App
 			LevelProgressController = new LevelProgressController();
 		}
 
+		public void OpenPopup(GameObject popupPrefab)
+		{
+			Instantiate(popupPrefab);
+		}
+
 		#region Sounds & Music
 
 		[SerializeField] private AudioSource _musicSource;

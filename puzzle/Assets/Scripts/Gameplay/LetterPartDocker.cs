@@ -1,194 +1,221 @@
-﻿using Managers;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿//using Managers;
+//using System;
+//using System.Collections;
+//using System.Collections.Generic;
+//using UnityEngine;
 
-namespace Gameplay
-{
-    public class LetterPartDocker : MonoBehaviour
-    {
-        private class MathVector
-        {
-            public Vector2 A;
-            public Vector2 B;
-            public Vector2 Middle;
-        }
+//namespace Gameplay
+//{
+//    public class LetterPartDocker : MonoBehaviour
+//    {
+//        private class MathVector
+//        {
+//            public Vector2 A;
+//            public Vector2 B;
+//            public Vector2 Middle;
+//        }
 
-        [SerializeField] private Transform[] _dots;
-        [SerializeField] private float _rotationMax;
-        [SerializeField] private float _distanceMax;
+//        [SerializeField] private Transform[] _dots;
+//        [SerializeField] private float _rotationMax;
+//        [SerializeField] private float _distanceMax;
+//        [SerializeField] private float _dockSpeed;
 
-        [SerializeField] private float _dockSpeed;
+//        private void OnEnable()
+//        {
+//            InputManager.TargetDropEvent += OnTargetDropped;
+//        }
 
-        private void OnEnable()
-        {
-            InputManager.TargetDropped += OnTargetDropped;
-        }
+//        private void OnDisable()
+//        {
+//            InputManager.TargetDropEvent -= OnTargetDropped;
+//        }
 
-        private void OnDisable()
-        {
-            InputManager.TargetDropped -= OnTargetDropped;
-        }
+//        private void OnTargetDropped(LetterPart one)
+//        {
+//            var colliders = one.GetOverlapCollider();
 
-        private void OnTargetDropped(LetterPart one)
-        {
-            LetterPart another = GetNearestLetterPart(one);
-            var distance = GetDistanceBetween(one.transform.position, another.transform.position);
-            if (distance > _distanceMax)
-            {
-                return;
-            }
+//            if (colliders.Length == 0)
+//            {
+//                Debug.Log("No colliders");
+//                return;
+//            }
 
-            var oneVectors = GetMathVectors(one.PolygonColldier);
-            var anotherVectors = GetMathVectors(another.PolygonColldier);
+//            LetterPart another = colliders[0].GetComponent<LetterPart>();
 
-            var oneClosestVector = GetClosestVector(oneVectors, another.transform.position);
-            var anotherClosestVector = GetClosestVector(anotherVectors, one.transform.position);
+//            List<MathVector> oneVectors = GetMathVectors(one.PolygonColldier);
+//            List<MathVector> anotherVectors = GetMathVectors(another.PolygonColldier);
 
-            var rotationAngle = CalcArcCosBetweenVectors(oneClosestVector, anotherClosestVector);
+//            var anotherIntersectionPoint = GetIntersection(one, another.transform.position);
+//            var oneIntersectionPoint = GetIntersection(another, one.transform.position);
 
-            if (!float.IsNaN(rotationAngle))
-            {
-                if (rotationAngle > 90f)
-                {
-                    rotationAngle = Mathf.Abs(rotationAngle - 180f);
-                }
+//            var oneClosestVector = GetClosestVectorToPoint(oneVectors, oneIntersectionPoint);
+//            var anotherClosestVector = GetClosestVectorToPoint(anotherVectors, anotherIntersectionPoint);
 
-                if (rotationAngle < _rotationMax)
-                {
-                    one.Body.SetRotation(one.Body.rotation - rotationAngle);
-                    Debug.Log("Done!");
-                }
-            }
+//            var rotationAngle = CalcArcCosBetweenVectors(oneClosestVector, anotherClosestVector);
 
-            Debug.Log(rotationAngle);
-            Debug.Log(another);
+//            if (!float.IsNaN(rotationAngle))
+//            {
+//                if (rotationAngle > 90f)
+//                {
+//                    rotationAngle -= 180f;
+//                }
 
-            _dots[0].position = oneClosestVector.A;
-            _dots[1].position = oneClosestVector.B;
+//                if (rotationAngle < _rotationMax)
+//                {
+//                    rotationAngle = (one.Body.rotation > 0) ? rotationAngle : -rotationAngle;
+//                    one.Body.SetRotation(one.Body.rotation + rotationAngle);
+//                    Debug.Log("Done!");
+//                }
+//            }
 
-            _dots[2].position = anotherClosestVector.A;
-            _dots[3].position = anotherClosestVector.B;
-        }
+//            Debug.Log("Rotation angle: " + rotationAngle);
+//            _dots[0].position = oneClosestVector.A;
+//            _dots[1].position = oneClosestVector.B;
 
-        //private IEnumerator DockPart(LetterPart part, float rotationAngle)
-        //{
-        //    isDocking = true;
-        //    part.Body.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezePositionY;
+//            _dots[2].position = anotherClosestVector.A;
+//            _dots[3].position = anotherClosestVector.B;
+//        }
 
-        //    var quaternion = Quaternion.Euler(rotationAngle, 0f, 0f);
-        //    var desiredRotation = part.transform.rotation.z + rotationAngle;
+//        private MathVector[] GetCommonVectors(List<MathVector> one, List<MathVector> another)
+//        {
+//            var result = new MathVector[2];
+//            int idx = 0;
+//            foreach (var oneVector in one)
+//            {
+//                var dot = oneVector.A;
+//                foreach (var anotherVector in another)
+//                {
+//                    if (IsDotCommon(dot, anotherVector))
+//                    {
+//                        result[idx] = anotherVector;
+//                        idx++;
+//                    }
+//                }
+//            }
 
-        //    while (!Mathf.Approximately(part.transform.rotation.z, desiredRotation))
-        //    {
-        //        var towards = Quaternion.RotateTowards(part.transform.rotation, quaternion, _dockSpeed * Time.deltaTime);
-        //        part.Body.MoveRotation(towards);
-        //        yield return null;
-        //    }
+//            var letter = SessionManager.Instance.LetterInstance;
+//            float maxDistance = float.MaxValue;
+//            LetterPart desiredPart = null;
 
-        //    part.Body.constraints = RigidbodyConstraints2D.FreezePositionX
-        //                          | RigidbodyConstraints2D.FreezePositionY
-        //                          | RigidbodyConstraints2D.FreezeRotation;
-        //    isDocking = false;
-        //}
+//            foreach (var suspect in letter.LetterParts)
+//            {
+//                if (suspect != currentPart)
+//                {
+//                    var distance = GetDistanceBetween(suspect.transform.position, currentPart.transform.position);
+//                    if (distance < maxDistance)
+//                    {
+//                        maxDistance = distance;
+//                        desiredPart = suspect;
+//                    }
+//                }
+//            }
 
-        private LetterPart GetNearestLetterPart(LetterPart currentPart)
-        {
-            var letter = SessionManager.Instance.LetterInstance;
-            float maxDistance = float.MaxValue;
-            LetterPart desiredPart = null;
+//            return desiredPart;
+//        }
 
-            foreach (var suspect in letter.LetterParts)
-            {
-                if (suspect != currentPart)
-                {
-                    var currentDistance = GetDistanceBetween(suspect.transform.position, currentPart.transform.position);
-                    if (currentDistance < maxDistance)
-                    {
-                        maxDistance = currentDistance;
-                        desiredPart = suspect;
-                    }
-                }
-            }
+//        private Vector2 GetIntersection(LetterPart part, Vector3 target)
+//        {
+//            var from = part.transform.position;
+//            var to = target - from;
+//            var raycastResults = Physics2D.RaycastAll(from, to, _distanceMax);
 
-            return desiredPart;
-        }
+//            Vector2 intersecton = Vector2.zero;
 
-        private MathVector GetClosestVector(List<MathVector> vectors, Vector2 position)
-        {
-            MathVector desiredVector = null;
+//            foreach (var result in raycastResults)
+//            {
+//                if (result.transform != part.transform)
+//                {
+//                    intersecton = result.point;
+//                }
+//            }
 
-            float maxDistance = float.MaxValue;
-            foreach (var vector in vectors)
-            {
-                var distance = GetDistanceBetween(vector.Middle, position);
-                if (distance < maxDistance)
-                {
-                    maxDistance = distance;
-                    desiredVector = vector;
-                }
+//            return intersecton;
+//        }
 
-            }
-            return desiredVector;
-        }
+//        private bool IsDotCommon(Vector3 dot, MathVector vector)
+//        {
+//            var minuend = (dot.x - vector.A.x) / (vector.B.x - vector.A.x);
+//            var subtrahend = (dot.y - vector.A.y) / (vector.B.y - vector.A.y);
+//            var pointToLine = Math.Abs(minuend - subtrahend);
+//            const float raycastEpsilon = 0.3f;
+//            return pointToLine < raycastEpsilon;
+//        }
 
-        private float GetDistanceBetween(Vector3 one, Vector3 another)
-        {
-            var distanceVector = one - another;
-            return Mathf.Sqrt(distanceVector.x * distanceVector.x + distanceVector.y * distanceVector.y);
-        }
+//        private MathVector GetClosestVectorToPoint(List<MathVector> vectors, Vector3 point)
+//        {
+//            MathVector desiredVector = null;
 
-        private List<MathVector> GetMathVectors(PolygonCollider2D collider)
-        {
-            var points = collider.points;
-            var result = new List<MathVector>();
-            for (int i = 0, j = 1; i < points.Length; ++i, ++j)
-            {
-                if (j == points.Length)
-                {
-                    j = 0;
-                }
+//            foreach (var vector in vectors)
+//            {
+//                var minuend = (point.x - vector.A.x) / (vector.B.x - vector.A.x);
+//                var subtrahend = (point.y - vector.A.y) / (vector.B.y - vector.A.y);
+//                var pointToLine = Math.Abs(minuend - subtrahend);
+//                const float raycastEpsilon = 0.3f;
+//                if (pointToLine < raycastEpsilon)
+//                {
+//                    desiredVector = vector;
+//                }
+//            }
+//            return desiredVector;
+//        }
 
-                var onePosition = CalcWorldPointPosition(points[i].x, points[i].y, collider.transform);
-                var anotherPosition = CalcWorldPointPosition(points[j].x, points[j].y, collider.transform);
-                var mathVector = new MathVector
-                {
-                    A = onePosition,
-                    B = anotherPosition,
-                    Middle = CalcMiddleVector(onePosition, anotherPosition)
-                };
+//        private float GetDistanceBetween(Vector3 one, Vector3 another)
+//        {
+//            var distanceVector = one - another;
+//            return Mathf.Sqrt(distanceVector.x * distanceVector.x + distanceVector.y * distanceVector.y);
+//        }
 
-                result.Add(mathVector);
-            }
-            return result;
-        }
+//        private List<MathVector> GetMathVectors(PolygonCollider2D collider)
+//        {
+//            var points = collider.points;
+//            var result = new List<MathVector>();
+//            for (int i = 0, j = 1; i < points.Length; ++i, ++j)
+//            {
+//                if (j == points.Length)
+//                {
+//                    j = 0;
+//                }
 
-        private Vector2 CalcMiddleVector(Vector2 one, Vector2 another)
-        {
-            return new Vector2((one.x + another.x) / 2, (one.y + another.y) / 2);
-        }
+//                var onePosition = CalcWorldPointPosition(points[i].x, points[i].y, collider.transform);
+//                var anotherPosition = CalcWorldPointPosition(points[j].x, points[j].y, collider.transform);
+//                var mathVector = new MathVector
+//                {
+//                    A = onePosition,
+//                    B = anotherPosition,
+//                    Middle = CalcMiddleVector(onePosition, anotherPosition)
+//                };
 
-        private Vector2 CalcWorldPointPosition(float x, float y, Transform owner)
-        {
-            var pointLocalPosition = new Vector2(x, y);
-            return owner.TransformPoint(pointLocalPosition);
-        }
+//                result.Add(mathVector);
+//            }
+//            return result;
+//        }
 
-        private Vector2 CalcVectorCoords(MathVector vector)
-        {
-            return new Vector2(vector.B.x - vector.A.x, vector.B.y - vector.A.y);
-        }
+//        private Vector2 CalcMiddleVector(Vector2 one, Vector2 another)
+//        {
+//            return new Vector2((one.x + another.x) / 2, (one.y + another.y) / 2);
+//        }
 
-        private float CalcArcCosBetweenVectors(MathVector one, MathVector another)
-        {
-            var oneVectorCoords = CalcVectorCoords(one);
-            var anotherVectorCoords = CalcVectorCoords(another);
-            float numerator = oneVectorCoords.x * anotherVectorCoords.x + oneVectorCoords.y * anotherVectorCoords.y;
-            float oneVectorLength = Mathf.Sqrt(oneVectorCoords.x * oneVectorCoords.x + oneVectorCoords.y * oneVectorCoords.y);
-            float anotherVectorLength = Mathf.Sqrt(anotherVectorCoords.x * anotherVectorCoords.x + anotherVectorCoords.y * anotherVectorCoords.y);
-            float denominator = oneVectorLength * anotherVectorLength;
-            float angle = Mathf.Acos(numerator / denominator) * Mathf.Rad2Deg;
-            return angle;
-        }
-    }
-}
+//        private Vector2 CalcWorldPointPosition(float x, float y, Transform owner)
+//        {
+//            var pointLocalPosition = new Vector2(x, y);
+//            return owner.TransformPoint(pointLocalPosition);
+//        }
+
+//        private Vector2 CalcVectorCoords(MathVector vector)
+//        {
+//            return new Vector2(vector.B.x - vector.A.x, vector.B.y - vector.A.y);
+//        }
+
+//        private float CalcArcCosBetweenVectors(MathVector one, MathVector another)
+//        {
+//            var oneVectorCoords = CalcVectorCoords(one);
+//            var anotherVectorCoords = CalcVectorCoords(another);
+//            float numerator = oneVectorCoords.x * anotherVectorCoords.x + oneVectorCoords.y * anotherVectorCoords.y;
+//            float oneVectorLength = Mathf.Sqrt(oneVectorCoords.x * oneVectorCoords.x + oneVectorCoords.y * oneVectorCoords.y);
+//            float anotherVectorLength = Mathf.Sqrt(anotherVectorCoords.x * anotherVectorCoords.x + anotherVectorCoords.y * anotherVectorCoords.y);
+//            float denominator = oneVectorLength * anotherVectorLength;
+//            float angle = Mathf.Acos(numerator / denominator) * Mathf.Rad2Deg;
+//            return angle;
+//        }
+//    }
+//}

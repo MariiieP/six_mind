@@ -154,6 +154,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a2413e5df379204089b4a43ac0324be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _levelInDevelopingPopup: {fileID: 598092002292377235, guid: 9cc8519fc0337ca4790bcb5df42888cc,
+    type: 3}
   ButtonText: {fileID: 6355507449829386997}
   ButtonImage: {fileID: 6355507449124153274}
 --- !u!114 &3496933133859043221

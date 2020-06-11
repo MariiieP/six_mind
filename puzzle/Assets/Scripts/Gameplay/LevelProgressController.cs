@@ -21,18 +21,6 @@ namespace Gameplay
 			SceneLoader.SceneChangeEvent -= OnSceneChanged;
 		}
 
-		public void CreateProgressData()
-		{
-			_cachedProgressData = new ProgressData
-			{
-				UnfulfilledLevelIds = new List<int>(),
-				CompletedLevelIds = new List<int>()
-			};
-			int firstLevelId = 0;
-			_cachedProgressData.UnfulfilledLevelIds.Add(firstLevelId);
-			_app.SaveProgressData(_cachedProgressData);
-		}
-
 		public List<int> GetUnfulfilledLevels()
 		{
 			return _cachedProgressData.UnfulfilledLevelIds;
@@ -96,7 +84,6 @@ namespace Gameplay
 		{
 			return GetLockedLevels()[0];
 		}
-
 
 		private void OnSceneChanged()
 		{

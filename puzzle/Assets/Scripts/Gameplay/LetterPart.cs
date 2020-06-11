@@ -51,7 +51,12 @@ namespace Gameplay
 
 		public int GetCollisionsCount()
 		{
-			return GetOverlapCollider().Length;
+			var contactFilter = new ContactFilter2D
+			{
+				useTriggers = false
+			};
+			var colliders = new Collider2D[SessionManager.Instance.LetterInstance.LetterParts.Length + 5];
+			return Body.OverlapCollider(contactFilter, colliders);
 		}
 
 		public Collider2D[] GetOverlapCollider()

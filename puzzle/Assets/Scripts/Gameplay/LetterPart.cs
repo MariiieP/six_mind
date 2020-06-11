@@ -7,6 +7,7 @@ namespace Gameplay
 	public class LetterPart : MonoBehaviour
 	{
 		[HideInInspector] public Rigidbody2D Body;
+		[HideInInspector] public PolygonCollider2D PolygonColldier;
 		[HideInInspector] public SpriteRenderer SpriteRenderer;
 
 		[HideInInspector] public LetterPart Neighbour;
@@ -17,6 +18,7 @@ namespace Gameplay
 		{
 			Body = GetComponent<Rigidbody2D>();
 			SpriteRenderer = GetComponent<SpriteRenderer>();
+			PolygonColldier = GetComponent<PolygonCollider2D>();
 		}
 
 		public bool NeighbourCorrect(float rotationDelta, float distanceDelta)

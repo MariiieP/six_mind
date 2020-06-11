@@ -71,7 +71,6 @@ namespace Managers
 
 			if (leftMouseButtonUp && _target != null && (_targetRotator.IsRotating || _targetMover.IsMoving))
 			{
-				TargetDropped?.Invoke(_target);
 				DropTarget();
 			}
 		}
@@ -111,7 +110,6 @@ namespace Managers
 
 			if (touches[0].phase == TouchPhase.Ended && _target != null && (_targetRotator.IsRotating || _targetMover.IsMoving))
 			{
-				TargetDropped?.Invoke(_target);
 				DropTarget();
 			}
 		}
@@ -168,6 +166,9 @@ namespace Managers
 				RigidbodyConstraints2D.FreezePositionX
 				| RigidbodyConstraints2D.FreezePositionY
 				| RigidbodyConstraints2D.FreezeRotation;
+
+			TargetDropped?.Invoke(_target);
+
 			_target = null;
 			_targetCaptured = false;
 

@@ -9,6 +9,7 @@ namespace UI.Popups
 		[SerializeField] private Text _priceText;
 		[SerializeField] private int _cost;
 		[SerializeField] private GameObject _hintPopupPrefab;
+		[SerializeField] private GameObject _notEnoughPopupPrefab;
 
 		private void Awake()
 		{
@@ -20,12 +21,17 @@ namespace UI.Popups
 			var app = AppController.Instance;
 			var progress = app.ProgressController;
 			var money = progress.GetMoney();
+			GameObject prefab;
 			if (money < _cost)
 			{
-				return;
+				prefab = _notEnoughPopupPrefab;
 			}
-			progress.ReduceMoney(_cost);
-			app.OpenPopup(_hintPopupPrefab);
+			else
+			{
+				progress.ReduceMoney(_cost);
+				prefab = _hintPopupPrefab;
+			}
+			app.OpenPopup(prefab);
 			ClosePopup();
 		}
 	}

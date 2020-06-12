@@ -885,6 +885,8 @@ MonoBehaviour:
   _cost: 70
   _hintPopupPrefab: {fileID: 2399408192785065950, guid: 55a9dbdaa2e349c4381fc4adc8a45713,
     type: 3}
+  _notEnoughPopupPrefab: {fileID: 1958035211630099252, guid: 6c9d242ba86b79946990014f57f8da91,
+    type: 3}
 --- !u!1 &8376135107812456503
 GameObject:
   m_ObjectHideFlags: 0

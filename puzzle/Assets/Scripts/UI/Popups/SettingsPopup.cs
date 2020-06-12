@@ -11,11 +11,11 @@ namespace UI.Popups
         [SerializeField] private Slider _musicSlider;
         [SerializeField] private Slider _soundSlider;
 
-        private SettingsData _settingsData;
+        private PersistentData _settingsData;
 
         private void OnEnable()
         {
-            _settingsData = AppController.Instance.GetSettingsData();
+            _settingsData = AppController.Instance.GetPersistentData();
 
             _soundSlider.value = _settingsData.SoundVolume;
             _musicSlider.value = _settingsData.MusicVolume;
@@ -26,7 +26,7 @@ namespace UI.Popups
 
         private void OnDisable()
         {
-            AppController.Instance.SaveSettings(_settingsData);
+            AppController.Instance.SavePersistentData(_settingsData);
 
             _soundSlider.onValueChanged.RemoveListener(OnSoundValueChanged);
             _musicSlider.onValueChanged.RemoveListener(OnMusicValueChanged);

@@ -13,6 +13,7 @@ namespace Managers
 
 		public static Action<LetterPart> TargetDropEvent;
 		public static Action<LetterPart> TargetCaptureEvent;
+		public static bool InputAccess { get; set; }
 
 		private TargetMover _targetMover;
 		private TargetRotator _targetRotator;
@@ -25,6 +26,11 @@ namespace Managers
 
 		private void Update()
 		{
+			if (!InputAccess)
+			{
+				return;
+			}
+
 #if UNITY_IPHONE || UNITY_ANDROID && !UNITY_EDITOR
 			SmartPhoneCast();
 #endif

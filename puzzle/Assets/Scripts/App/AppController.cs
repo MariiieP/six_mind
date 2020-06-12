@@ -23,6 +23,11 @@ namespace App
 			Instantiate(popupPrefab);
 		}
 
+		public GameObject InitPopup(GameObject popupPrefab)
+		{
+			return Instantiate(popupPrefab);
+		}
+
 		#region Sounds & Music
 
 		[SerializeField] private AudioSource _musicSource;
@@ -54,9 +59,9 @@ namespace App
 			return PlayerData.LoadData<RestoreData>(KeyList.RestoreKey, CurrentLevelId.ToString());
 		}
 
-		public SettingsData GetSettingsData()
+		public PersistentData GetPersistentData()
 		{
-			return PlayerData.LoadData<SettingsData>(KeyList.SettingsKey, string.Empty);
+			return PlayerData.LoadData<PersistentData>(KeyList.PersistentKey, string.Empty);
 		}
 
 		public LevelsConfig.DataLevelConfig GetLevelConfig()
@@ -69,9 +74,9 @@ namespace App
 			PlayerData.SaveData(data, KeyList.RestoreKey, CurrentLevelId.ToString());
 		}
 
-		public void SaveSettings(SettingsData data)
+		public void SavePersistentData(PersistentData data)
 		{
-			PlayerData.SaveData(data, KeyList.SettingsKey, string.Empty);
+			PlayerData.SaveData(data, KeyList.PersistentKey, string.Empty);
 		}
 
 		public void SaveLastPlayedLevelId(int id)

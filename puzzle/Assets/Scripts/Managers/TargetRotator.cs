@@ -13,6 +13,8 @@ namespace Managers
 
 		public bool IsRotating = false;
 
+		public static Action TargetDropEvent;
+
 		public TargetRotator()
 		{
 			InputManager.TargetDropEvent += OnTargetDropped;
@@ -107,6 +109,7 @@ namespace Managers
 
 		private void OnTargetDropped(LetterPart obj)
 		{
+			TargetDropEvent?.Invoke();
 			IsRotating = false;
 		}
 	}

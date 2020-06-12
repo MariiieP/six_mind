@@ -7,7 +7,7 @@ namespace App
 {
 	public class Preloader : MonoBehaviour
 	{
-		private SettingsData _settingsData;
+		private PersistentData _settingsData;
 		[SerializeField] private GameObject _playButton;
 		private AppController _app => AppController.Instance;
 
@@ -21,7 +21,7 @@ namespace App
 
 		private void CheckSettingsData()
 		{
-			_settingsData = _app.GetSettingsData();
+			_settingsData = _app.GetPersistentData();
 			if (_settingsData == null)
 			{
 				CreateSettingsData();
@@ -30,12 +30,13 @@ namespace App
 
 		private void CreateSettingsData()
 		{
-			_settingsData = new SettingsData
+			_settingsData = new PersistentData
 			{
 				MusicVolume = 0.5f,
 				SoundVolume = 0.5f,
+				Tutorial = true,
 			};
-			_app.SaveSettings(_settingsData);
+			_app.SavePersistentData(_settingsData);
 		}
 
 		private void CheckProgressData()

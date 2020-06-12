@@ -105,7 +105,7 @@ namespace Managers
 					_app.ProgressController.AddUnfulfilledLevel(firstLockedLevel);
 				}
 				_app.ProgressController.AddMoney(_moneyCount);
-				var winPopup = Instantiate(_winPopupPrefab).GetComponent<WinPopup>();
+				var winPopup = _app.InitPopup(_winPopupPrefab).GetComponent<WinPopup>();
 				winPopup.NextLevelButton.LevelId = _app.CurrentLevelId + 1;
 			}
 		}

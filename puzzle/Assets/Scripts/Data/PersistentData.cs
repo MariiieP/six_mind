@@ -3,9 +3,10 @@
 namespace Data
 {
 	[Serializable]
-	public class SettingsData
+	public class PersistentData
 	{
 		public float SoundVolume;
 		public float MusicVolume;
+		public bool Tutorial;
 	}
 }

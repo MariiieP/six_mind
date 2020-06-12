@@ -1,0 +1,142 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "http://example.com/example.json",
+    "type": "object",
+    "title": "The root schema",
+    "description": "The root schema comprises the entire JSON document.",
+    "default": {},
+    "required": [
+        "LetterParts",
+        "LetterPrefab",
+        "HintIndex"
+    ],
+    "additionalProperties": true,
+    "properties": {
+        "LetterParts": {
+            "$id": "#/properties/LetterParts",
+            "type": "array",
+            "title": "The LetterParts schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": [],
+            "additionalItems": true,
+            "items": {
+                "anyOf": [
+                    {
+                        "$id": "#/properties/LetterParts/items/anyOf/0",
+                        "type": "object",
+                        "title": "The first anyOf schema",
+                        "description": "An explanation about the purpose of this instance.",
+                        "default": {},
+                        "required": [
+                            "Rotation",
+                            "Position"
+                        ],
+                        "additionalProperties": true,
+                        "properties": {
+                            "Rotation": {
+                                "$id": "#/properties/LetterParts/items/anyOf/0/properties/Rotation",
+                                "type": "object",
+                                "title": "The Rotation schema",
+                                "description": "An explanation about the purpose of this instance.",
+                                "default": {},
+                                "required": [
+                                    "x",
+                                    "y",
+                                    "z"
+                                ],
+                                "additionalProperties": true,
+                                "properties": {
+                                    "x": {
+                                        "$id": "#/properties/LetterParts/items/anyOf/0/properties/Rotation/properties/x",
+                                        "type": "number",
+                                        "title": "The x schema",
+                                        "description": "An explanation about the purpose of this instance.",
+                                        "default": 0.0,
+                                    },
+                                    "y": {
+                                        "$id": "#/properties/LetterParts/items/anyOf/0/properties/Rotation/properties/y",
+                                        "type": "number",
+                                        "title": "The y schema",
+                                        "description": "An explanation about the purpose of this instance.",
+                                        "default": 0.0,
+                                    },
+                                    "z": {
+                                        "$id": "#/properties/LetterParts/items/anyOf/0/properties/Rotation/properties/z",
+                                        "type": "number",
+                                        "title": "The z schema",
+                                        "description": "An explanation about the purpose of this instance.",
+                                        "default": 0.0,
+                                    }
+                                }
+                            },
+                            "Position": {
+                                "$id": "#/properties/LetterParts/items/anyOf/0/properties/Position",
+                                "type": "object",
+                                "title": "The Position schema",
+                                "description": "An explanation about the purpose of this instance.",
+                                "default": {},
+                                "required": [
+                                    "x",
+                                    "y",
+                                    "z"
+                                ],
+                                "additionalProperties": true,
+                                "properties": {
+                                    "x": {
+                                        "$id": "#/properties/LetterParts/items/anyOf/0/properties/Position/properties/x",
+                                        "type": "number",
+                                        "title": "The x schema",
+                                        "description": "An explanation about the purpose of this instance.",
+                                        "default": 0.0,
+                                    },
+                                    "y": {
+                                        "$id": "#/properties/LetterParts/items/anyOf/0/properties/Position/properties/y",
+                                        "type": "number",
+                                        "title": "The y schema",
+                                        "description": "An explanation about the purpose of this instance.",
+                                        "default": 0.0,
+                                    },
+                                    "z": {
+                                        "$id": "#/properties/LetterParts/items/anyOf/0/properties/Position/properties/z",
+                                        "type": "number",
+                                        "title": "The z schema",
+                                        "description": "An explanation about the purpose of this instance.",
+                                        "default": 0.0,
+                                    }
+                                }
+                            }
+                        }
+                    }
+                ],
+                "$id": "#/properties/LetterParts/items"
+            }
+        },
+        "LetterPrefab": {
+            "$id": "#/properties/LetterPrefab",
+            "type": "object",
+            "title": "The LetterPrefab schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": {},
+            "required": [
+                "instanceID"
+            ],
+            "additionalProperties": true,
+            "properties": {
+                "instanceID": {
+                    "$id": "#/properties/LetterPrefab/properties/instanceID",
+                    "type": "integer",
+                    "title": "The instanceID schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": 0,
+                }
+            }
+        },
+        "HintIndex": {
+            "$id": "#/properties/HintIndex",
+            "type": "integer",
+            "title": "The HintIndex schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": 0,
+        }
+    }
+}

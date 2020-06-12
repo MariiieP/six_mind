@@ -12,13 +12,19 @@ namespace UI
 
 		private void OnEnable()
 		{
-			_progress.MoneyChangeEvent += OnMoneyChanged;
+			if (_progress != null)
+			{
+				_progress.MoneyChangeEvent += OnMoneyChanged;
+			}
 			OnMoneyChanged();
 		}
 
 		private void OnDisable()
 		{
-			_progress.MoneyChangeEvent -= OnMoneyChanged;
+			if (_progress != null)
+			{
+				_progress.MoneyChangeEvent -= OnMoneyChanged;
+			}
 		}
 
 		private void OnMoneyChanged()

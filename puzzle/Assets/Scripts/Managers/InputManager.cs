@@ -22,6 +22,7 @@ namespace Managers
 		{
 			_targetMover = new TargetMover();
 			_targetRotator = new TargetRotator();
+			InputAccess = true;
 		}
 
 		private void Update()

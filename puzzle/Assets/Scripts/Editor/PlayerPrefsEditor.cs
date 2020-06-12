@@ -9,7 +9,7 @@ namespace Editor
 		private string _key;
 		private string _log = string.Empty;
 
-		[MenuItem("Lines/Player Prefs Editor")]
+		[MenuItem("Puzzle/Player Prefs Editor")]
 		private static void ShowWindow()
 		{
 			var window = GetWindow<PlayerPrefsEditor>();

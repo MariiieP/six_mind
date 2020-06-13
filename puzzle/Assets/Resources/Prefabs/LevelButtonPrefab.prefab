@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6355507449124153274}
   - component: {fileID: 6355507449124153273}
   - component: {fileID: 6355507449124153272}
+  - component: {fileID: 3496933133859043221}
   m_Layer: 5
   m_Name: LevelButtonPrefab
   m_TagString: Untagged
@@ -130,6 +131,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 3496933133859043221}
+        m_MethodName: PlaySound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &6355507449124153272
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -142,8 +154,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a2413e5df379204089b4a43ac0324be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _levelInDevelopingPopup: {fileID: 598092002292377235, guid: 9cc8519fc0337ca4790bcb5df42888cc,
+    type: 3}
   ButtonText: {fileID: 6355507449829386997}
   ButtonImage: {fileID: 6355507449124153274}
+--- !u!114 &3496933133859043221
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6355507449124153278}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4702ec22c10297046a290afa25247607, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _sound: {fileID: 8300000, guid: 057a3a5ad4cb2bc42a43f5e4fa9667db, type: 3}
 --- !u!1 &6355507449829387003
 GameObject:
   m_ObjectHideFlags: 0

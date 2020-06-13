@@ -7,6 +7,7 @@ namespace Gameplay
 	public class LetterPart : MonoBehaviour
 	{
 		[HideInInspector] public Rigidbody2D Body;
+		[HideInInspector] public PolygonCollider2D PolygonColldier;
 		[HideInInspector] public SpriteRenderer SpriteRenderer;
 
 		[HideInInspector] public LetterPart Neighbour;
@@ -17,6 +18,7 @@ namespace Gameplay
 		{
 			Body = GetComponent<Rigidbody2D>();
 			SpriteRenderer = GetComponent<SpriteRenderer>();
+			PolygonColldier = GetComponent<PolygonCollider2D>();
 		}
 
 		public bool NeighbourCorrect(float rotationDelta, float distanceDelta)
@@ -54,8 +56,18 @@ namespace Gameplay
 				useTriggers = false
 			};
 			var colliders = new Collider2D[SessionManager.Instance.LetterInstance.LetterParts.Length + 5];
-			int collisionsCount = Body.OverlapCollider(contactFilter, colliders);
-			return collisionsCount;
+			return Body.OverlapCollider(contactFilter, colliders);
+		}
+
+		public Collider2D[] GetOverlapCollider()
+		{
+			var contactFilter = new ContactFilter2D
+			{
+				useTriggers = false
+			};
+			var colliders = new Collider2D[SessionManager.Instance.LetterInstance.LetterParts.Length + 5];
+			Body.OverlapCollider(contactFilter, colliders);
+			return colliders;
 		}
 
 		public void SetSpriteAlpha(float alpha)

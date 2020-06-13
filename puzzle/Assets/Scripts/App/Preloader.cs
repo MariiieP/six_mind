@@ -1,4 +1,5 @@
 ﻿using Data;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -6,7 +7,7 @@ namespace App
 {
 	public class Preloader : MonoBehaviour
 	{
-		private SettingsData _settingsData;
+		private PersistentData _settingsData;
 		[SerializeField] private GameObject _playButton;
 		private AppController _app => AppController.Instance;
 
@@ -20,7 +21,7 @@ namespace App
 
 		private void CheckSettingsData()
 		{
-			_settingsData = _app.GetSettingsData();
+			_settingsData = _app.GetPersistentData();
 			if (_settingsData == null)
 			{
 				CreateSettingsData();
@@ -29,12 +30,13 @@ namespace App
 
 		private void CreateSettingsData()
 		{
-			_settingsData = new SettingsData
+			_settingsData = new PersistentData
 			{
 				MusicVolume = 0.5f,
 				SoundVolume = 0.5f,
+				Tutorial = true,
 			};
-			_app.SaveSettings(_settingsData);
+			_app.SavePersistentData(_settingsData);
 		}
 
 		private void CheckProgressData()
@@ -42,7 +44,15 @@ namespace App
 			var progressData = _app.GetProgressData();
 			if (progressData == null)
 			{
-				_app.LevelProgressController.CreateProgressData();
+				progressData = new ProgressData
+				{
+					Money = 0,
+					UnfulfilledLevelIds = new List<int>(),
+					CompletedLevelIds = new List<int>()
+				};
+				int firstLevelId = 0;
+				progressData.UnfulfilledLevelIds.Add(firstLevelId);
+				_app.SaveProgressData(progressData);
 			}
 		}
 
@@ -55,7 +65,7 @@ namespace App
 		public void OnPlayButtonClick()
 		{
 			var levelId = _app.GetLastPlayedLevelId();
-			if (_app.LevelProgressController.IsLevelLocked(levelId))
+			if (_app.ProgressController.IsLevelLocked(levelId))
 			{
 				levelId = 0;
 			}

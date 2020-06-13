@@ -79,6 +79,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Body: {fileID: 0}
+  PolygonColldier: {fileID: 0}
   SpriteRenderer: {fileID: 0}
   Neighbour: {fileID: 0}
   NeighbourRotation: 0
@@ -161,6 +162,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Body: {fileID: 0}
+  PolygonColldier: {fileID: 0}
   SpriteRenderer: {fileID: 0}
   Neighbour: {fileID: 0}
   NeighbourRotation: 0
@@ -244,6 +246,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Body: {fileID: 0}
+  PolygonColldier: {fileID: 0}
   SpriteRenderer: {fileID: 0}
   Neighbour: {fileID: 0}
   NeighbourRotation: 0
@@ -328,6 +331,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Body: {fileID: 0}
+  PolygonColldier: {fileID: 0}
   SpriteRenderer: {fileID: 0}
   Neighbour: {fileID: 0}
   NeighbourRotation: 0
@@ -411,6 +415,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Body: {fileID: 0}
+  PolygonColldier: {fileID: 0}
   SpriteRenderer: {fileID: 0}
   Neighbour: {fileID: 0}
   NeighbourRotation: 0

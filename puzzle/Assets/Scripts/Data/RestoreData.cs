@@ -17,5 +17,6 @@ namespace Data
 
         [SerializeField] public List<LetterPart> LetterParts = new List<LetterPart>();
         [SerializeField] public Letter LetterPrefab;
+        [SerializeField] public int HintIndex;
     }
 }

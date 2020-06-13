@@ -1,5 +1,6 @@
 ﻿using Gameplay;
 using Managers;
+using UnityEngine.UI;
 
 namespace UI
 {
@@ -10,14 +11,14 @@ namespace UI
 
 		public SpriteFlicker()
 		{
-			InputManager.TargetCaptured += OnTargetCaptured;
-			InputManager.TargetDropped += OnTargetDropped;
+			InputManager.TargetCaptureEvent += OnTargetCaptured;
+			InputManager.TargetDropEvent += OnTargetDropped;
 		}
 
 		~SpriteFlicker()
 		{
-			InputManager.TargetCaptured -= OnTargetCaptured;
-			InputManager.TargetDropped -= OnTargetDropped;
+			InputManager.TargetCaptureEvent -= OnTargetCaptured;
+			InputManager.TargetDropEvent -= OnTargetDropped;
 		}
 
 		private void OnTargetCaptured(LetterPart obj)

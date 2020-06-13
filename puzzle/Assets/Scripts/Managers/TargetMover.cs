@@ -11,12 +11,12 @@ namespace Managers
 
 		public TargetMover()
 		{
-			InputManager.TargetDropped += OnTargetDropped;
+			InputManager.TargetDropEvent += OnTargetDropped;
 		}
 
 		~TargetMover()
 		{
-			InputManager.TargetDropped -= OnTargetDropped;
+			InputManager.TargetDropEvent -= OnTargetDropped;
 		}
 
 		public void Move(LetterPart target)

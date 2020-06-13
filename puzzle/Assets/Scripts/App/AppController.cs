@@ -3,18 +3,29 @@ using Configs;
 using Data;
 using UnityEngine;
 using Utils;
+using System;
 
 namespace App
 {
 	public class AppController : MonoBehaviourSingleton<AppController>
 	{
 		public int CurrentLevelId { get; set; }
-		public LevelProgressController LevelProgressController;
+		public ProgressController ProgressController;
 
 		private void Awake()
 		{
 			DontDestroyOnLoad(gameObject);
-			LevelProgressController = new LevelProgressController();
+			ProgressController = new ProgressController();
+		}
+
+		public void OpenPopup(GameObject popupPrefab)
+		{
+			Instantiate(popupPrefab);
+		}
+
+		public GameObject InitPopup(GameObject popupPrefab)
+		{
+			return Instantiate(popupPrefab);
 		}
 
 		#region Sounds & Music
@@ -32,6 +43,12 @@ namespace App
 			_soundSource.volume = value;
 		}
 
+		public void PlaySound(AudioClip sound)
+		{
+			_soundSource.clip = sound;
+			_soundSource.Play();
+		}
+
 		#endregion
 
 		#region Data
@@ -42,9 +59,9 @@ namespace App
 			return PlayerData.LoadData<RestoreData>(KeyList.RestoreKey, CurrentLevelId.ToString());
 		}
 
-		public SettingsData GetSettingsData()
+		public PersistentData GetPersistentData()
 		{
-			return PlayerData.LoadData<SettingsData>(KeyList.SettingsKey, string.Empty);
+			return PlayerData.LoadData<PersistentData>(KeyList.PersistentKey, string.Empty);
 		}
 
 		public LevelsConfig.DataLevelConfig GetLevelConfig()
@@ -57,9 +74,9 @@ namespace App
 			PlayerData.SaveData(data, KeyList.RestoreKey, CurrentLevelId.ToString());
 		}
 
-		public void SaveSettings(SettingsData data)
+		public void SavePersistentData(PersistentData data)
 		{
-			PlayerData.SaveData(data, KeyList.SettingsKey, string.Empty);
+			PlayerData.SaveData(data, KeyList.PersistentKey, string.Empty);
 		}
 
 		public void SaveLastPlayedLevelId(int id)

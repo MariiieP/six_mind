@@ -1,4 +1,5 @@
 using Managers;
+using System;
 using UnityEngine;
 
 namespace Gameplay
@@ -9,18 +10,19 @@ namespace Gameplay
         [SerializeField] private float _yAngle;
 
         private LetterPart _lastLetterPart;
+        public static Action TargetFlipEvent;
 
         private void OnEnable()
         {
-            InputManager.TargetDropped += OnTargetDropped;
+            InputManager.TargetCaptureEvent += OnTargetCaptured;
         }
 
         private void OnDisable()
         {
-            InputManager.TargetDropped -= OnTargetDropped;
+            InputManager.TargetCaptureEvent -= OnTargetCaptured;
         }
 
-        private void OnTargetDropped(LetterPart last)
+        private void OnTargetCaptured(LetterPart last)
         {
             _lastLetterPart = last;
         }
@@ -41,6 +43,7 @@ namespace Gameplay
                 currentEulerAngles.y += _yAngle;
             }
             _lastLetterPart.transform.eulerAngles = currentEulerAngles;
+            TargetFlipEvent?.Invoke();
         }
     }
 }

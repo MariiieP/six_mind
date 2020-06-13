@@ -8,27 +8,30 @@ namespace Managers
 {
 	public class InputManager : MonoBehaviour
 	{
-		[SerializeField] private Button[] _flipButtons;
-
 		private bool _targetCaptured = false;
 		private LetterPart _target = null;
 
-		public static Action<LetterPart> TargetDropped;
-		public static Action<LetterPart> TargetCaptured;
+		public static Action<LetterPart> TargetDropEvent;
+		public static Action<LetterPart> TargetCaptureEvent;
+		public static bool InputAccess { get; set; }
 
 		private TargetMover _targetMover;
 		private TargetRotator _targetRotator;
-		private SpriteFlicker _spriteFlicker;
 
 		private void Awake()
 		{
 			_targetMover = new TargetMover();
 			_targetRotator = new TargetRotator();
-			_spriteFlicker = new SpriteFlicker();
+			InputAccess = true;
 		}
 
 		private void Update()
 		{
+			if (!InputAccess)
+			{
+				return;
+			}
+
 #if UNITY_IPHONE || UNITY_ANDROID && !UNITY_EDITOR
 			SmartPhoneCast();
 #endif
@@ -52,7 +55,7 @@ namespace Managers
 					CaptureTarget();
 					if (_targetCaptured)
 					{
-						TargetCaptured?.Invoke(_target);
+						TargetCaptureEvent?.Invoke(_target);
 					}
 				}
 
@@ -71,7 +74,6 @@ namespace Managers
 
 			if (leftMouseButtonUp && _target != null && (_targetRotator.IsRotating || _targetMover.IsMoving))
 			{
-				TargetDropped?.Invoke(_target);
 				DropTarget();
 			}
 		}
@@ -92,7 +94,7 @@ namespace Managers
 					CaptureTarget();
 					if (_targetCaptured)
 					{
-						TargetCaptured?.Invoke(_target);
+						TargetCaptureEvent?.Invoke(_target);
 					}
 				}
 				
@@ -111,7 +113,6 @@ namespace Managers
 
 			if (touches[0].phase == TouchPhase.Ended && _target != null && (_targetRotator.IsRotating || _targetMover.IsMoving))
 			{
-				TargetDropped?.Invoke(_target);
 				DropTarget();
 			}
 		}
@@ -168,13 +169,11 @@ namespace Managers
 				RigidbodyConstraints2D.FreezePositionX
 				| RigidbodyConstraints2D.FreezePositionY
 				| RigidbodyConstraints2D.FreezeRotation;
+
+			TargetDropEvent?.Invoke(_target);
+
 			_target = null;
 			_targetCaptured = false;
-
-			foreach (var flipButton in _flipButtons)
-			{
-				flipButton.interactable = true;
-			}
 		}
 	}
 }

@@ -1,8 +1,10 @@
 ﻿using App;
 using Data;
 using Gameplay;
+using System;
 using System.Collections;
 using UI;
+using UI.Popups;
 using UnityEngine;
 using UnityEngine.UI;
 using Utils;
@@ -12,29 +14,45 @@ namespace Managers
 	public class SessionManager : MonoBehaviourSingleton<SessionManager>
 	{
 		[SerializeField] private GameObject _boundsPrefab;
+		[SerializeField] private GameObject _winPopupPrefab;
+
 		[SerializeField] private Transform _spawnPoint;
 		[SerializeField] private float _distanceDelta;
 		[SerializeField] private float _rotationDelta;
 		[SerializeField] private Image _noticeImage;
-		[SerializeField] private Popup _winPopup;
+		[SerializeField] private Button[] _flipButtons;
 		[SerializeField] private LevelButton _nextLevelButton;
+		[SerializeField] private int _moneyCount;
 		public RectTransform[] BoundsCoordinates;
 
+		public Action<Button[], bool> ButtonsFlipEvent;
 		public Letter LetterInstance;
+		public int HintIndex { get; set; }
 
 		private AppController _app => AppController.Instance;
+		private FlipButtonsSwitcher _flipButtonsSwitcher;
+		private SpriteFlicker _spriteFlicker;
 
 		private void OnEnable()
 		{
-			InputManager.TargetDropped += OnTargetDropped;
+			InputManager.TargetDropEvent += OnTargetDropped;
+			InputManager.TargetCaptureEvent += OnTargetCaptured;
 			SceneLoader.SceneChangeEvent += OnSceneChangeEvent;
 		}
 
 		private void OnDisable()
 		{
-			InputManager.TargetDropped -= OnTargetDropped;
+			InputManager.TargetDropEvent -= OnTargetDropped;
+			InputManager.TargetCaptureEvent -= OnTargetCaptured;
 			SceneLoader.SceneChangeEvent -= OnSceneChangeEvent;
 		}
+
+		private void Awake()
+		{
+			_flipButtonsSwitcher = new FlipButtonsSwitcher();
+			_spriteFlicker = new SpriteFlicker();
+		}
+
 		private void Start()
 		{
 			SetupBounds();
@@ -64,23 +82,31 @@ namespace Managers
 					part.transform.localPosition = restoreData.LetterParts[i].Position;
 					part.transform.eulerAngles = restoreData.LetterParts[i].Rotation;
 				}
+				HintIndex = restoreData.HintIndex;
 			}
+		}
+
+		private void OnTargetCaptured(LetterPart obj)
+		{
+			ButtonsFlipEvent.Invoke(_flipButtons, true);
 		}
 
 		private void OnTargetDropped(LetterPart obj)
 		{
+			ButtonsFlipEvent?.Invoke(_flipButtons, false);
+
 			var result = CheckWin();
 			if (result)
 			{
-				var wasAdded = _app.LevelProgressController.AddCompletedLevel(_app.CurrentLevelId);
+				var wasAdded = _app.ProgressController.AddCompletedLevel(_app.CurrentLevelId);
 				if (wasAdded) 
 				{
-					var firstLockedLevel = _app.LevelProgressController.GetFirstLockedLevelId();
-					_app.LevelProgressController.AddUnfulfilledLevel(firstLockedLevel);
+					var firstLockedLevel = _app.ProgressController.GetFirstLockedLevelId();
+					_app.ProgressController.AddUnfulfilledLevel(firstLockedLevel);
 				}
-				_nextLevelButton.LevelId = _app.CurrentLevelId + 1;
-				Debug.Log("Победа!");
-				_winPopup.gameObject.SetActive(true);
+				_app.ProgressController.AddMoney(_moneyCount);
+				var winPopup = _app.InitPopup(_winPopupPrefab).GetComponent<WinPopup>();
+				winPopup.NextLevelButton.LevelId = _app.CurrentLevelId + 1;
 			}
 		}
 
@@ -113,6 +139,7 @@ namespace Managers
 			var levelConfig = _app.GetLevelConfig();
 
 			restoreData.LetterPrefab = levelConfig.LetterPrefab;
+			restoreData.HintIndex = HintIndex;
 			foreach (var letterPart in LetterInstance.LetterParts)
 			{
 				var letterData = new RestoreData.LetterPart

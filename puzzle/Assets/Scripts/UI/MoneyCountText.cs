@@ -15,8 +15,8 @@ namespace UI
 			if (_progress != null)
 			{
 				_progress.MoneyChangeEvent += OnMoneyChanged;
+				OnMoneyChanged();
 			}
-			OnMoneyChanged();
 		}
 
 		private void OnDisable()

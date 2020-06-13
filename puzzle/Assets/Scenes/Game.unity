@@ -392,7 +392,7 @@ MonoBehaviour:
   - {fileID: 813434681}
   - {fileID: 1890813389}
   - {fileID: 36867441}
-  _rotationMax: 40
+  _rotationMax: 25
   _distanceMax: 1.5
   _dockSpeed: 1000
 --- !u!1 &36867440

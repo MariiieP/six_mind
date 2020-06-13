@@ -12,74 +12,98 @@ namespace Gameplay
             public Vector2 A;
             public Vector2 B;
             public Vector2 Middle;
-            public LetterPart Part;
         }
 
         [SerializeField] private Transform[] _dots;
         [SerializeField] private float _rotationMax;
         [SerializeField] private float _distanceMax;
 
-        [SerializeField] private float _dockSpeed;
+        private float _previousRotation;
 
         private void OnEnable()
         {
             InputManager.TargetDropEvent += OnTargetDropped;
+            InputManager.TargetCaptureEvent += OnTargetCaptured;
         }
 
         private void OnDisable()
         {
             InputManager.TargetDropEvent -= OnTargetDropped;
+            InputManager.TargetCaptureEvent -= OnTargetCaptured;
+        }
+
+        private void OnTargetCaptured(LetterPart obj)
+        {
+            _previousRotation = obj.Body.rotation;
         }
 
         private void OnTargetDropped(LetterPart one)
         {
-            var oneVectors = GetMathVectors(one);
+            LetterPart another = GetNearestLetterPart(one);
+            var distance = GetDistanceBetween(one.transform.position, another.transform.position);
+            if (distance > _distanceMax)
+            {
+                return;
+            }
 
-            var anotherPart = GetClosestLetterPart(one, oneVectors);
-            var anotherVectors = GetMathVectors(anotherPart);
+            var oneVectors = GetMathVectors(one.PolygonColldier);
+            var anotherVectors = GetMathVectors(another.PolygonColldier);
 
-            var closestVectors = GetClosestVectors(anotherVectors, oneVectors);
-            var rotationAngle = CalcArcCosBetweenVectors(closestVectors[0], closestVectors[1]);
+            var oneClosestVector = GetClosestVector(oneVectors, another.transform.position);
+            var anotherClosestVector = GetClosestVector(anotherVectors, one.transform.position);
 
-            _dots[0].position = closestVectors[0].A;
-            _dots[1].position = closestVectors[0].B;
-
-            _dots[2].position = closestVectors[1].A;
-            _dots[3].position = closestVectors[1].B;
+            var rotationAngle = CalcArcCosBetweenVectors(oneClosestVector, anotherClosestVector);
 
             if (!float.IsNaN(rotationAngle))
             {
-                if (rotationAngle > _rotationMax)
+                if (rotationAngle > 90f)
                 {
-                    return;
+                    rotationAngle = Mathf.Abs(rotationAngle - 180f);
                 }
 
-                one.Body.SetRotation(one.Body.rotation + rotationAngle);
+                if (rotationAngle < _rotationMax)
+                {
+                    float rotation = 0f;
+
+                    if (one.Body.rotation <= _previousRotation)
+                    {
+                        rotation = (one.Body.rotation > 0) ? one.Body.rotation + rotationAngle : one.Body.rotation + rotationAngle;
+                    }
+                    else
+                    {
+                        rotation = (one.Body.rotation > 0) ? one.Body.rotation + rotationAngle : one.Body.rotation - rotationAngle;
+                    }
+
+                    one.Body.SetRotation(rotation);
+
+                }
             }
+
+            Debug.Log(rotationAngle);
+            Debug.Log(another);
+
+            _dots[0].position = oneClosestVector.A;
+            _dots[1].position = oneClosestVector.B;
+
+            _dots[2].position = anotherClosestVector.A;
+            _dots[3].position = anotherClosestVector.B;
         }
 
-        private LetterPart GetClosestLetterPart(LetterPart currentPart, List<MathVector> vectors)
+        private LetterPart GetNearestLetterPart(LetterPart currentPart)
         {
-            var letterParts = SessionManager.Instance.LetterInstance.LetterParts;
+            var letter = SessionManager.Instance.LetterInstance;
             float maxDistance = float.MaxValue;
             LetterPart desiredPart = null;
 
-            foreach (var suspect in letterParts)
+            foreach (var suspect in letter.LetterParts)
             {
                 if (suspect != currentPart)
                 {
-                    var suspectVectors = GetMathVectors(suspect);
-                    foreach (var vector in vectors)
+                    var currentDistance = GetDistanceBetween(suspect.transform.position, currentPart.transform.position);
+                    if (currentDistance < maxDistance)
                     {
-                        foreach (var suspectVector in suspectVectors)
-                        {
-                            var currentDistance = GetDistanceBetweenVectors(vector, suspectVector);
-                            if (currentDistance < maxDistance)
-                            {
-                                maxDistance = currentDistance;
-                                desiredPart = suspect;
-                            }
-                        }
+                        maxDistance = currentDistance;
+                        desiredPart = suspect;
                     }
                 }
             }
@@ -87,146 +111,32 @@ namespace Gameplay
             return desiredPart;
         }
 
-        private float GetDistanceBetweenVectors(MathVector one, MathVector another)
+        private MathVector GetClosestVector(List<MathVector> vectors, Vector2 position)
         {
-            float Distance(float x1, float y1, float x2, float y2, float x3, float y3)
+            MathVector desiredVector = null;
+
+            float maxDistance = float.MaxValue;
+            foreach (var vector in vectors)
             {
-                if (x1 == x2)
+                var distance = GetDistanceBetween(vector.Middle, position);
+                if (distance < maxDistance)
                 {
-                    float temp = x1;
-                    x1 = y1;
-                    y1 = temp;
-
-                    temp = x2;
-                    x2 = y2;
-                    y2 = temp;
-
-                    temp = x3;
-                    x3 = y3;
-                    y3 = temp;
+                    maxDistance = distance;
+                    desiredVector = vector;
                 }
 
-                float k = (y1 - y2) / (x1 - x2);
-                float d = y1 - k * x1;
-                float xz = (x3 * x2 - x3 * x1 + y2 * y3 - y1 * y3 + y1 * d - y2 * d) / (k * y2 - k * y1 + x2 - x1);
-                float dl = -1;
-
-                if ((xz <= x2 && xz >= x1) || (xz <= x1 && xz >= x2))
-                {
-                    dl = Mathf.Sqrt((x3 - xz) * (x3 - xz) + (y3 - xz * k - d) * (y3 - xz * k - d));
-                }
-                return dl;
             }
-
-            float t = -2;
-            float s = -2;
-            float min;
-
-            float xa = one.A.x;
-            float ya = one.A.y;
-
-            float xb = one.B.x;
-            float yb = one.B.y;
-
-            float xc = another.A.x;
-            float yc = another.A.y;
-
-            float xd = another.B.x;
-            float yd = another.B.y;
-
-            float o = (xb - xa) * (-yd + yc) - (yb - ya) * (-xd + xc);
-            float o1 = (xb - xa) * (yc - ya) - (yb - ya) * (xc - xa);
-            float o2 = (-yd + yc) * (xc - xa) - (-xd + xc) * (yc - ya);
-
-            if (o != 0)
-            {
-                t = o1 / o;
-                s = o2 / o;
-            }
-
-            if ((t >= 0 && s >= 0) && (t <= 1 && s <= 1))
-            {
-                min = 0;
-            }
-            else
-            {
-                float dl1 = Distance(xa, ya, xb, yb, xc, yc);
-
-                min = dl1;
-
-                float dl2 = Distance(xa, ya, xb, yb, xd, yd);
-
-                if ((dl2 < min && dl2 != -1) || min == -1)
-                {
-                    min = dl2;
-                }
-                float dl3 = Distance(xc, yc, xd, yd, xa, ya);
-
-                if ((dl3 < min && dl3 != -1) || min == -1) 
-                { 
-                    min = dl3; 
-                }
-
-                float dl4 = Distance(xc, yc, xd, yd, xb, yb);
-
-                if ((dl4 < min && dl4 != -1) || min == -1)
-                {
-                    min = dl4;
-                }
-                if (min == -1)
-                {
-                    dl1 = Mathf.Sqrt((xa - xc) * (xa - xc) + (ya - yc) * (ya - yc));
-
-                    min = dl1;
-
-                    dl2 = Mathf.Sqrt((xb - xd) * (xb - xd) + (yb - yd) * (yb - yd));
-
-                    if (dl2 < min)
-                    {
-                        min = dl2;
-                    }
-
-                    dl3 = Mathf.Sqrt((xb - xc) * (xb - xc) + (yb - yc) * (yb - yc));
-
-                    if (dl3 < min)
-                    {
-                        min = dl3;
-                    }
-
-                    dl4 = Mathf.Sqrt((xa - xd) * (xa - xd) + (ya - yd) * (ya - yd));
-
-                    if (dl4 < min)
-                    {
-                        min = dl4;
-                    }
-                }
-            }
-            return min;
+            return desiredVector;
         }
 
-        private MathVector[] GetClosestVectors(List<MathVector> oneVectors, List<MathVector> anotherVectors)
+        private float GetDistanceBetween(Vector3 one, Vector3 another)
         {
-            MathVector[] result = new MathVector[2];
-            float maxValue = float.MaxValue;
-            foreach (var vector in oneVectors)
-            {
-                foreach (var anotherVector in anotherVectors)
-                {
-                    float distance = GetDistanceBetweenVectors(vector, anotherVector);
-                    if (distance <= maxValue)
-                    {
-                        maxValue = distance;
-                        result[0] = vector;
-                        result[1] = anotherVector;
-                    }
-                }
-            }
-            return result;
+            var distanceVector = one - another;
+            return Mathf.Sqrt(distanceVector.x * distanceVector.x + distanceVector.y * distanceVector.y);
         }
 
-        private List<MathVector> GetMathVectors(LetterPart part)
+        private List<MathVector> GetMathVectors(PolygonCollider2D collider)
         {
-            var collider = part.PolygonColldier;
             var points = collider.points;
             var result = new List<MathVector>();
             for (int i = 0, j = 1; i < points.Length; ++i, ++j)
@@ -242,8 +152,7 @@ namespace Gameplay
                 {
                     A = onePosition,
                     B = anotherPosition,
-                    Middle = CalcMiddleVector(onePosition, anotherPosition),
-                    Part = part,
+                    Middle = CalcMiddleVector(onePosition, anotherPosition)
                 };
 
                 result.Add(mathVector);
@@ -276,13 +185,7 @@ namespace Gameplay
             float anotherVectorLength = Mathf.Sqrt(anotherVectorCoords.x * anotherVectorCoords.x + anotherVectorCoords.y * anotherVectorCoords.y);
             float denominator = oneVectorLength * anotherVectorLength;
             float angle = Mathf.Acos(numerator / denominator) * Mathf.Rad2Deg;
-
-            if (angle > 90f)
-            {
-                angle -= 180f;
-            }
-
-            return Mathf.Abs(angle);
+            return angle;
         }
     }
 }

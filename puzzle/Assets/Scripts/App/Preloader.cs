@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Utils;
 
 namespace App
 {
@@ -13,10 +14,21 @@ namespace App
 
 		private void Start()
 		{
+			CheckClearData();
 			CheckSettingsData();
 			CheckProgressData();
 			SetVolumes();
+			_app.InitProgressCotroller();
 			_playButton.SetActive(true);
+		}
+
+		private void CheckClearData()
+		{
+			if (!PlayerPrefs.HasKey(KeyList.FirstLoadClearKey))
+			{
+				PlayerData.ClearAllData();
+				PlayerPrefs.SetInt(KeyList.FirstLoadClearKey, 1);
+			}
 		}
 
 		private void CheckSettingsData()

@@ -15,6 +15,10 @@ namespace App
 		private void Awake()
 		{
 			DontDestroyOnLoad(gameObject);
+		}
+
+		public void InitProgressCotroller()
+		{
 			ProgressController = new ProgressController();
 		}
 

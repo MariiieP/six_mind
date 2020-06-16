@@ -1,8 +1,6 @@
 ﻿using Gameplay;
 using System;
-using UI;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace Managers
 {
@@ -46,9 +44,8 @@ namespace Managers
 		{
 			var leftMouseButtonPressed = Input.GetMouseButton(0);
 			var rightMouseButtonPressed = Input.GetMouseButton(1);
-			var leftMouseButtonUp = Input.GetMouseButtonUp(0);
 
-			if (leftMouseButtonPressed)
+			if (leftMouseButtonPressed || rightMouseButtonPressed)
 			{
 				if (!_targetCaptured && !IsMouseMoving && !_targetMover.IsMoving && !_targetRotator.IsRotating)
 				{
@@ -61,18 +58,21 @@ namespace Managers
 
 				if (_targetCaptured && IsMouseMoving)
 				{
-					if (rightMouseButtonPressed)
-					{
-						_targetRotator.Rotate(_target);
-					}
-					else
+					if (leftMouseButtonPressed)
 					{
 						_targetMover.Move(_target);
+					}
+					else if (rightMouseButtonPressed)
+					{
+						_targetRotator.Rotate(_target);
 					}
 				}
 			}
 
-			if (leftMouseButtonUp && _target != null && (_targetRotator.IsRotating || _targetMover.IsMoving))
+			var leftMouseButtonUp = Input.GetMouseButtonUp(0);
+			var rightMouseButtonUp = Input.GetMouseButtonUp(1);
+
+			if ((leftMouseButtonUp || rightMouseButtonUp) && _target != null && (_targetRotator.IsRotating || _targetMover.IsMoving))
 			{
 				DropTarget();
 			}
@@ -97,7 +97,7 @@ namespace Managers
 						TargetCaptureEvent?.Invoke(_target);
 					}
 				}
-				
+
 				if (_targetCaptured && IsMouseMoving)
 				{
 					if (touches.Length > 1)

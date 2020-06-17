@@ -22,6 +22,12 @@ MonoBehaviour:
     - {fileID: 21300000, guid: 6735310b1c654c740b39b45f1fa3002d, type: 3}
     - {fileID: 21300000, guid: a246d9cd7a9382f46bba2b06107e321f, type: 3}
     - {fileID: 21300000, guid: a1af2f784d8299549a39c24827d06fb6, type: 3}
+    CorrectDataJsons:
+    - '{"PartsInfo":[{"CurrentPartName":"T Letter Part 1","NeighborName":"T Letter
+      Part 2","NeighborDistance":3.1633710861206056,"NeighborRotation":0.0},{"CurrentPartName":"T
+      Letter Part 2","NeighborName":"T Letter Part 3","NeighborDistance":2.2350895404815676,"NeighborRotation":270.0},{"CurrentPartName":"T
+      Letter Part 3","NeighborName":"T Letter Part 4","NeighborDistance":0.7779953479766846,"NeighborRotation":233.541259765625},{"CurrentPartName":"T
+      Letter Part 4","NeighborName":"T Letter Part 1","NeighborDistance":2.5401611328125,"NeighborRotation":179.87789916992188}]}'
   - LevelId: 1
     LetterPrefab: {fileID: 7827805484679388246, guid: 277b11573209b42f78b68e594d20165c,
       type: 3}
@@ -32,6 +38,9 @@ MonoBehaviour:
     - {fileID: 21300000, guid: 589c7507233d8ef4095a056ca851e8a7, type: 3}
     - {fileID: 21300000, guid: f01d7244e2993be449c7af9ee11dba6b, type: 3}
     - {fileID: 21300000, guid: c2a611aa52494de4d88f8a8016815256, type: 3}
+    CorrectDataJsons:
+    - '{"PartsInfo":[{"CurrentPartName":"LetterMPart1","NeighborName":"LetterMPart2","NeighborDistance":1.0386964082717896,"NeighborRotation":0.0},{"CurrentPartName":"LetterMPart2","NeighborName":"LetterMPart3","NeighborDistance":0.8894594311714172,"NeighborRotation":47.429996490478519},{"CurrentPartName":"LetterMPart3","NeighborName":"LetterMPart4","NeighborDistance":2.5831003189086916,"NeighborRotation":0.0},{"CurrentPartName":"LetterMPart4","NeighborName":"LetterMPart5","NeighborDistance":0.21960075199604035,"NeighborRotation":0.0},{"CurrentPartName":"LetterMPart5","NeighborName":"LetterMPart1","NeighborDistance":0.3226465880870819,"NeighborRotation":315.3805847167969}]}'
+    - '{"PartsInfo":[{"CurrentPartName":"LetterMPart1","NeighborName":"LetterMPart2","NeighborDistance":0.6672683358192444,"NeighborRotation":0.0},{"CurrentPartName":"LetterMPart2","NeighborName":"LetterMPart3","NeighborDistance":0.59510338306427,"NeighborRotation":2.1788156032562258},{"CurrentPartName":"LetterMPart3","NeighborName":"LetterMPart4","NeighborDistance":1.3148164749145508,"NeighborRotation":0.0},{"CurrentPartName":"LetterMPart4","NeighborName":"LetterMPart5","NeighborDistance":0.22908331453800202,"NeighborRotation":0.0},{"CurrentPartName":"LetterMPart5","NeighborName":"LetterMPart1","NeighborDistance":1.9769283533096314,"NeighborRotation":359.38385009765627}]}'
   - LevelId: 2
     LetterPrefab: {fileID: 8134616686278314179, guid: e9f069c58ec0f42f3b87085c53828e4b,
       type: 3}
@@ -41,6 +50,8 @@ MonoBehaviour:
     - {fileID: 21300000, guid: a6fd2c4d1b32f404d9a7be0477f5fe64, type: 3}
     - {fileID: 21300000, guid: 28aa1e40e07d7284aa2163795d7b0af3, type: 3}
     - {fileID: 21300000, guid: 249071741b22e0e41aceee88aa9895f4, type: 3}
+    CorrectDataJsons:
+    - '{"PartsInfo":[{"CurrentPartName":"DiamondPart1","NeighborName":"DiamondPart2","NeighborDistance":0.8023792505264282,"NeighborRotation":359.28094482421877},{"CurrentPartName":"DiamondPart2","NeighborName":"DiamondPart3","NeighborDistance":1.7912859916687012,"NeighborRotation":359.20208740234377},{"CurrentPartName":"DiamondPart3","NeighborName":"DiamondPart4","NeighborDistance":1.0835328102111817,"NeighborRotation":0.2315097153186798},{"CurrentPartName":"DiamondPart4","NeighborName":"DiamondPart1","NeighborDistance":1.6721067428588868,"NeighborRotation":0.0}]}'
   - LevelId: 3
     LetterPrefab: {fileID: 4157269338421473921, guid: 94e2ed54437bf48bdabe557ddfbd9c9a,
       type: 3}
@@ -51,6 +62,8 @@ MonoBehaviour:
     - {fileID: 21300000, guid: 1ebd9961d1a42554b985b3eabd76d070, type: 3}
     - {fileID: 21300000, guid: d43780589e69ef14d825266c586c4951, type: 3}
     - {fileID: 21300000, guid: 48371c836f3ef73419377454b80c774d, type: 3}
+    CorrectDataJsons:
+    - '{"PartsInfo":[{"CurrentPartName":"LetterAPart1","NeighborName":"LetterAPart2","NeighborDistance":1.779833436012268,"NeighborRotation":57.987178802490237},{"CurrentPartName":"LetterAPart2","NeighborName":"LetterAPart3","NeighborDistance":0.3196958005428314,"NeighborRotation":117.88614654541016},{"CurrentPartName":"LetterAPart3","NeighborName":"LetterAPart4","NeighborDistance":3.1080758571624758,"NeighborRotation":47.01267623901367},{"CurrentPartName":"LetterAPart4","NeighborName":"LetterAPart5","NeighborDistance":1.6933560371398926,"NeighborRotation":5.172308921813965},{"CurrentPartName":"LetterAPart5","NeighborName":"LetterAPart1","NeighborDistance":0.6155202984809876,"NeighborRotation":108.4700698852539}]}'
   - LevelId: 4
     LetterPrefab: {fileID: 2249831400967783533, guid: bbea13b1435e149f9a6a1a661004b2f8,
       type: 3}
@@ -60,6 +73,10 @@ MonoBehaviour:
     - {fileID: 21300000, guid: d514b50f869350d43acb7a81012d21f5, type: 3}
     - {fileID: 21300000, guid: b55d092a446d6904395ef8fbe6bee8e4, type: 3}
     - {fileID: 21300000, guid: 5437b2b8d262f15449ab127b800e1dc7, type: 3}
+    CorrectDataJsons:
+    - '{"PartsInfo":[{"CurrentPartName":"Number7Part1","NeighborName":"Number7Part2","NeighborDistance":0.001549124950543046,"NeighborRotation":0.0},{"CurrentPartName":"Number7Part2","NeighborName":"Number7Part3","NeighborDistance":1.233283519744873,"NeighborRotation":0.0},{"CurrentPartName":"Number7Part3","NeighborName":"Number7Part4","NeighborDistance":0.3523746728897095,"NeighborRotation":359.80059814453127},{"CurrentPartName":"Number7Part4","NeighborName":"Number7Part1","NeighborDistance":1.3366979360580445,"NeighborRotation":0.0}]}'
+    - '{"PartsInfo":[{"CurrentPartName":"Number7Part1","NeighborName":"Number7Part2","NeighborDistance":0.001549124950543046,"NeighborRotation":0.0},{"CurrentPartName":"Number7Part2","NeighborName":"Number7Part3","NeighborDistance":1.433223843574524,"NeighborRotation":180.0},{"CurrentPartName":"Number7Part3","NeighborName":"Number7Part4","NeighborDistance":0.3582831919193268,"NeighborRotation":179.80101013183595},{"CurrentPartName":"Number7Part4","NeighborName":"Number7Part1","NeighborDistance":1.3081904649734498,"NeighborRotation":0.0}]}'
+    - '{"PartsInfo":[{"CurrentPartName":"Number7Part1","NeighborName":"Number7Part2","NeighborDistance":0.0003896094858646393,"NeighborRotation":180.0},{"CurrentPartName":"Number7Part2","NeighborName":"Number7Part3","NeighborDistance":1.3231450319290162,"NeighborRotation":180.0},{"CurrentPartName":"Number7Part3","NeighborName":"Number7Part4","NeighborDistance":0.35828304290771487,"NeighborRotation":179.80101013183595},{"CurrentPartName":"Number7Part4","NeighborName":"Number7Part1","NeighborDistance":1.3705899715423585,"NeighborRotation":180.0}]}'
   - LevelId: 5
     LetterPrefab: {fileID: 1051842908436516080, guid: e0b842645d0d14903ae6a2f910ec26b0,
       type: 3}
@@ -69,6 +86,8 @@ MonoBehaviour:
     - {fileID: 21300000, guid: 95f57226397ffbd4f902e464a47b8154, type: 3}
     - {fileID: 21300000, guid: 5ce657cbc31579643b1b9b847c708448, type: 3}
     - {fileID: 21300000, guid: 9830f4af6288cd944942d9649c6cdaf6, type: 3}
+    CorrectDataJsons:
+    - '{"PartsInfo":[{"CurrentPartName":"Plus1","NeighborName":"Plus2","NeighborDistance":0.9668342471122742,"NeighborRotation":176.82156372070313},{"CurrentPartName":"Plus2","NeighborName":"Plus3","NeighborDistance":1.0595022439956666,"NeighborRotation":90.82592010498047},{"CurrentPartName":"Plus3","NeighborName":"Plus4","NeighborDistance":1.045892357826233,"NeighborRotation":91.63118743896485},{"CurrentPartName":"Plus4","NeighborName":"Plus1","NeighborDistance":1.0165081024169922,"NeighborRotation":358.149658203125}]}'
   - LevelId: 6
     LetterPrefab: {fileID: 1032602205412929459, guid: 47006dd81e2c14d6cabf2dd5673b8ba9,
       type: 3}
@@ -78,6 +97,9 @@ MonoBehaviour:
     - {fileID: 21300000, guid: 145c15b39a2ff8046be9323a6ba43aed, type: 3}
     - {fileID: 21300000, guid: bab1f2462e3d90e46956f13ceb0b2951, type: 3}
     - {fileID: 21300000, guid: 2a0b5ac1cb99438408f6c6e776af7cb9, type: 3}
+    CorrectDataJsons:
+    - '{"PartsInfo":[{"CurrentPartName":"RectanglePart1","NeighborName":"RectanglePart2","NeighborDistance":0.7768270969390869,"NeighborRotation":134.67962646484376},{"CurrentPartName":"RectanglePart2","NeighborName":"RectanglePart3","NeighborDistance":1.057320475578308,"NeighborRotation":224.77139282226563},{"CurrentPartName":"RectanglePart3","NeighborName":"RectanglePart4","NeighborDistance":0.8116865158081055,"NeighborRotation":0.0},{"CurrentPartName":"RectanglePart4","NeighborName":"RectanglePart1","NeighborDistance":1.2434035539627076,"NeighborRotation":270.094970703125}]}'
+    - '{"PartsInfo":[{"CurrentPartName":"RectanglePart1","NeighborName":"RectanglePart2","NeighborDistance":0.7753669619560242,"NeighborRotation":314.22857666015627},{"CurrentPartName":"RectanglePart2","NeighborName":"RectanglePart3","NeighborDistance":1.0562398433685303,"NeighborRotation":44.91865921020508},{"CurrentPartName":"RectanglePart3","NeighborName":"RectanglePart4","NeighborDistance":0.8285123705863953,"NeighborRotation":181.15138244628907},{"CurrentPartName":"RectanglePart4","NeighborName":"RectanglePart1","NeighborDistance":1.267724871635437,"NeighborRotation":89.80000305175781}]}'
   - LevelId: 7
     LetterPrefab: {fileID: 1025483652286527795, guid: 709fc61523da0468e9eb849bfdc44822,
       type: 3}
@@ -87,6 +109,8 @@ MonoBehaviour:
     - {fileID: 21300000, guid: cd4babfad14d84b45addff399b74848f, type: 3}
     - {fileID: 21300000, guid: 61a83f18a185dab46a6d05c795df4429, type: 3}
     - {fileID: 21300000, guid: c3c823d87be834044ab8c00fe3a05070, type: 3}
+    CorrectDataJsons:
+    - '{"PartsInfo":[{"CurrentPartName":"SquarePart1","NeighborName":"SquarePart2","NeighborDistance":0.7589788436889648,"NeighborRotation":0.4845249354839325},{"CurrentPartName":"SquarePart2","NeighborName":"SquarePart3","NeighborDistance":1.6155343055725098,"NeighborRotation":269.7032470703125},{"CurrentPartName":"SquarePart3","NeighborName":"SquarePart4","NeighborDistance":0.7477660775184631,"NeighborRotation":89.95735931396485},{"CurrentPartName":"SquarePart4","NeighborName":"SquarePart1","NeighborDistance":1.47053861618042,"NeighborRotation":0.0}]}'
   - LevelId: 8
     LetterPrefab: {fileID: 606648574578375861, guid: 9941274b8f7404e41ae1c152f77c16a6,
       type: 3}
@@ -97,111 +121,130 @@ MonoBehaviour:
     - {fileID: 21300000, guid: af247a677630bde4393274213f5cf9cf, type: 3}
     - {fileID: 21300000, guid: 99a008df1652f1842bdde2dd0395549e, type: 3}
     - {fileID: 21300000, guid: 9ad9638716f9c374b86f35faabb46071, type: 3}
+    CorrectDataJsons: []
   - LevelId: 9
     LetterPrefab: {fileID: 6789885375417059363, guid: e40f8aded5455474a83d8f6f27ab3b12,
       type: 3}
     NoticeIcon: {fileID: 21300000, guid: 7a2c39a9b12f14121868081c0eb8a5e6, type: 3}
     Complexity: 1
     HintsIcons: []
+    CorrectDataJsons: []
   - LevelId: 10
     LetterPrefab: {fileID: 1494871103396467604, guid: 5a091d7b667ba43d9926fead24220f9a,
       type: 3}
     NoticeIcon: {fileID: 21300000, guid: 9a712e6e1409846ca832e468ae917aa8, type: 3}
     Complexity: 1
     HintsIcons: []
+    CorrectDataJsons: []
   - LevelId: 11
     LetterPrefab: {fileID: 7862219995958319392, guid: e01c57bd8c22e4e0dba5df457c428a61,
       type: 3}
     NoticeIcon: {fileID: 21300000, guid: 01021c83b03b64c868dd22cfe4c96ddd, type: 3}
     Complexity: 1
     HintsIcons: []
+    CorrectDataJsons: []
   - LevelId: 12
     LetterPrefab: {fileID: 366561870684419649, guid: 4f45436bf2a6b414e8acf28f929fa152,
       type: 3}
     NoticeIcon: {fileID: 21300000, guid: 2276527fcd682414bb3ca46212f2b597, type: 3}
     Complexity: 1
     HintsIcons: []
+    CorrectDataJsons: []
   - LevelId: 13
     LetterPrefab: {fileID: 459994961556638482, guid: b4176d4f903214674ab54c485d0f1a16,
       type: 3}
     NoticeIcon: {fileID: 21300000, guid: 2f5c266d9987143d8870cc670b2ec172, type: 3}
     Complexity: 1
     HintsIcons: []
+    CorrectDataJsons: []
   - LevelId: 14
     LetterPrefab: {fileID: 7321154452056616694, guid: 123b21b5c1ab24205aa88daf30e892b1,
       type: 3}
     NoticeIcon: {fileID: 21300000, guid: 579a7e28a88e64f7b8a6c0e7fc4d3963, type: 3}
     Complexity: 1
     HintsIcons: []
+    CorrectDataJsons: []
   - LevelId: 14
     LetterPrefab: {fileID: 7321154452056616694, guid: 123b21b5c1ab24205aa88daf30e892b1,
       type: 3}
     NoticeIcon: {fileID: 21300000, guid: 579a7e28a88e64f7b8a6c0e7fc4d3963, type: 3}
     Complexity: 1
     HintsIcons: []
+    CorrectDataJsons: []
   - LevelId: 14
     LetterPrefab: {fileID: 7321154452056616694, guid: 123b21b5c1ab24205aa88daf30e892b1,
       type: 3}
     NoticeIcon: {fileID: 21300000, guid: 579a7e28a88e64f7b8a6c0e7fc4d3963, type: 3}
     Complexity: 1
     HintsIcons: []
+    CorrectDataJsons: []
   - LevelId: 14
     LetterPrefab: {fileID: 7321154452056616694, guid: 123b21b5c1ab24205aa88daf30e892b1,
       type: 3}
     NoticeIcon: {fileID: 21300000, guid: 579a7e28a88e64f7b8a6c0e7fc4d3963, type: 3}
     Complexity: 1
     HintsIcons: []
+    CorrectDataJsons: []
   - LevelId: 14
     LetterPrefab: {fileID: 7321154452056616694, guid: 123b21b5c1ab24205aa88daf30e892b1,
       type: 3}
     NoticeIcon: {fileID: 21300000, guid: 579a7e28a88e64f7b8a6c0e7fc4d3963, type: 3}
     Complexity: 2
     HintsIcons: []
+    CorrectDataJsons: []
   - LevelId: 14
     LetterPrefab: {fileID: 7321154452056616694, guid: 123b21b5c1ab24205aa88daf30e892b1,
       type: 3}
     NoticeIcon: {fileID: 21300000, guid: 579a7e28a88e64f7b8a6c0e7fc4d3963, type: 3}
     Complexity: 2
     HintsIcons: []
+    CorrectDataJsons: []
   - LevelId: 14
     LetterPrefab: {fileID: 7321154452056616694, guid: 123b21b5c1ab24205aa88daf30e892b1,
       type: 3}
     NoticeIcon: {fileID: 21300000, guid: 579a7e28a88e64f7b8a6c0e7fc4d3963, type: 3}
     Complexity: 2
     HintsIcons: []
+    CorrectDataJsons: []
   - LevelId: 14
     LetterPrefab: {fileID: 7321154452056616694, guid: 123b21b5c1ab24205aa88daf30e892b1,
       type: 3}
     NoticeIcon: {fileID: 21300000, guid: 579a7e28a88e64f7b8a6c0e7fc4d3963, type: 3}
     Complexity: 2
     HintsIcons: []
+    CorrectDataJsons: []
   - LevelId: 14
     LetterPrefab: {fileID: 7321154452056616694, guid: 123b21b5c1ab24205aa88daf30e892b1,
       type: 3}
     NoticeIcon: {fileID: 21300000, guid: 579a7e28a88e64f7b8a6c0e7fc4d3963, type: 3}
     Complexity: 2
     HintsIcons: []
+    CorrectDataJsons: []
   - LevelId: 14
     LetterPrefab: {fileID: 7321154452056616694, guid: 123b21b5c1ab24205aa88daf30e892b1,
       type: 3}
     NoticeIcon: {fileID: 21300000, guid: 579a7e28a88e64f7b8a6c0e7fc4d3963, type: 3}
     Complexity: 2
     HintsIcons: []
+    CorrectDataJsons: []
   - LevelId: 14
     LetterPrefab: {fileID: 7321154452056616694, guid: 123b21b5c1ab24205aa88daf30e892b1,
       type: 3}
     NoticeIcon: {fileID: 21300000, guid: 579a7e28a88e64f7b8a6c0e7fc4d3963, type: 3}
     Complexity: 2
     HintsIcons: []
+    CorrectDataJsons: []
   - LevelId: 14
     LetterPrefab: {fileID: 7321154452056616694, guid: 123b21b5c1ab24205aa88daf30e892b1,
       type: 3}
     NoticeIcon: {fileID: 21300000, guid: 579a7e28a88e64f7b8a6c0e7fc4d3963, type: 3}
     Complexity: 2
     HintsIcons: []
+    CorrectDataJsons: []
   - LevelId: 14
     LetterPrefab: {fileID: 7321154452056616694, guid: 123b21b5c1ab24205aa88daf30e892b1,
       type: 3}
     NoticeIcon: {fileID: 21300000, guid: 579a7e28a88e64f7b8a6c0e7fc4d3963, type: 3}
     Complexity: 2
     HintsIcons: []
+    CorrectDataJsons: []

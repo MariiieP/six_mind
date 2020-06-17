@@ -80,6 +80,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Body: {fileID: 0}
+  PolygonColldier: {fileID: 0}
   SpriteRenderer: {fileID: 0}
   Neighbour: {fileID: 0}
   NeighbourRotation: 0
@@ -212,6 +213,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Body: {fileID: 0}
+  PolygonColldier: {fileID: 0}
   SpriteRenderer: {fileID: 0}
   Neighbour: {fileID: 0}
   NeighbourRotation: 0
@@ -296,6 +298,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Body: {fileID: 0}
+  PolygonColldier: {fileID: 0}
   SpriteRenderer: {fileID: 0}
   Neighbour: {fileID: 0}
   NeighbourRotation: 0
@@ -380,6 +383,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Body: {fileID: 0}
+  PolygonColldier: {fileID: 0}
   SpriteRenderer: {fileID: 0}
   Neighbour: {fileID: 0}
   NeighbourRotation: 0
@@ -454,12 +458,12 @@ PrefabInstance:
     - target: {fileID: 4343633477693102341, guid: 58333e0c1ad2fe94cb5c2ab7138ca1c5,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -3.1062
+      value: -3.08
       objectReference: {fileID: 0}
     - target: {fileID: 4343633477693102341, guid: 58333e0c1ad2fe94cb5c2ab7138ca1c5,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.5494
+      value: 2.51
       objectReference: {fileID: 0}
     - target: {fileID: 4343633477693102341, guid: 58333e0c1ad2fe94cb5c2ab7138ca1c5,
         type: 3}

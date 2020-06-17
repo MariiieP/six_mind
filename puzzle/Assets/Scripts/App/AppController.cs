@@ -4,6 +4,7 @@ using Data;
 using UnityEngine;
 using Utils;
 using System;
+using System.Collections.Generic;
 
 namespace App
 {
@@ -66,6 +67,20 @@ namespace App
 		public PersistentData GetPersistentData()
 		{
 			return PlayerData.LoadData<PersistentData>(KeyList.PersistentKey, string.Empty);
+		}
+
+		public List<WinningCombinationData> GetCurrentCombinations()
+		{
+			var levelCfg = GetLevelConfig();
+			var dataJsons = levelCfg.CorrectDataJsons;
+			var deserializedData = new List<WinningCombinationData>();
+
+			foreach (var json in dataJsons)
+			{
+				deserializedData.Add(JsonUtility.FromJson<WinningCombinationData>(json));
+			}
+
+			return deserializedData;
 		}
 
 		public LevelsConfig.DataLevelConfig GetLevelConfig()

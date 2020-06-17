@@ -3,11 +3,13 @@ using Data;
 using Gameplay;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UI;
 using UI.Popups;
 using UnityEngine;
 using UnityEngine.UI;
 using Utils;
+using static Data.WinningCombinationData;
 
 namespace Managers
 {
@@ -99,28 +101,50 @@ namespace Managers
 			if (result)
 			{
 				var wasAdded = _app.ProgressController.AddCompletedLevel(_app.CurrentLevelId);
-				if (wasAdded) 
+				if (wasAdded)
 				{
 					var firstLockedLevel = _app.ProgressController.GetFirstLockedLevelId();
 					_app.ProgressController.AddUnfulfilledLevel(firstLockedLevel);
+					_app.ProgressController.AddMoney(_moneyCount);
 				}
-				_app.ProgressController.AddMoney(_moneyCount);
 				var winPopup = _app.InitPopup(_winPopupPrefab).GetComponent<WinPopup>();
 				winPopup.NextLevelButton.LevelId = _app.CurrentLevelId + 1;
 			}
 		}
 
-		private bool CheckWin()
+		private bool CheckData(List<LetterInfo> partsInfo)
 		{
-			foreach (var letterPart in LetterInstance.LetterParts)
+			var parts = LetterInstance.LetterParts;
+
+			for (int i = 0; i < partsInfo.Count; ++i)
 			{
-				if (!letterPart.NeighbourCorrect(_rotationDelta, _distanceDelta))
+				var block = partsInfo[i];
+
+				var currentLetterPart = Array.Find(parts, match => match.name == block.CurrentPartName);
+				currentLetterPart.Neighbour = Array.Find(parts, match => match.name == block.NeighborName);
+				currentLetterPart.NeighbourRotation = block.NeighborRotation;
+				currentLetterPart.NeighbourDistance = block.NeighborDistance;
+
+				if (!currentLetterPart.NeighbourCorrect(_rotationDelta, _distanceDelta))
 				{
 					return false;
 				}
 			}
 
 			return true;
+		}
+
+		private bool CheckWin()
+		{
+			var deserializedData = AppController.Instance.GetCurrentCombinations();
+			var results = new List<bool>();
+			foreach (var data in deserializedData)
+			{
+				var partsInfo = data.PartsInfo;
+				results.Add(CheckData(partsInfo));
+			}
+			bool result = results.Find(m => m == true);
+			return result;
 		}
 
 		private void OnApplicationQuit()
@@ -156,23 +180,35 @@ namespace Managers
 
 		private void TrackCorrectData()
 		{
+			var correctData = new WinningCombinationData();
+			var parts = LetterInstance.LetterParts;
 			for (int currentIdx = 0, neighbourIdx = 1; currentIdx < LetterInstance.LetterParts.Length; ++currentIdx, ++neighbourIdx)
 			{
-				if (neighbourIdx == LetterInstance.LetterParts.Length - 1)
+				if (neighbourIdx == parts.Length)
 				{
 					neighbourIdx = 0;
 				}
 
-				var neighbour = LetterInstance.LetterParts[neighbourIdx];
+				var current = parts[currentIdx];
+				var neighbour = parts[neighbourIdx];
 				var neighbourRotation = neighbour.transform.eulerAngles.z;
-				var current = LetterInstance.LetterParts[currentIdx];
-				var dist = current.transform.position - neighbour.transform.position;
-				var neighbourDistance = Mathf.Sqrt(dist.x * dist.x + dist.y * dist.y);
+				var neighbourDistance = (current.transform.position - neighbour.transform.position).sqrMagnitude;
 
 				current.Neighbour = neighbour;
 				current.NeighbourRotation = neighbourRotation;
 				current.NeighbourDistance = neighbourDistance;
+
+				var data = new LetterInfo
+				{
+					CurrentPartName = current.name,
+					NeighborRotation = neighbour.transform.eulerAngles.z,
+					NeighborName = neighbour.name,
+					NeighborDistance = neighbourDistance
+				};
+				correctData.PartsInfo.Add(data);
 			}
+
+			Debug.Log(JsonUtility.ToJson(correctData));
 		}
 
 		private void SetupBounds()

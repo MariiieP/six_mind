@@ -19,6 +19,7 @@ namespace Configs
 			public Sprite NoticeIcon;
 			public Complexity Complexity;
 			public Sprite[] HintsIcons;
+			public string[] CorrectDataJsons;
 		}
 
 		public List<DataLevelConfig> Levels;

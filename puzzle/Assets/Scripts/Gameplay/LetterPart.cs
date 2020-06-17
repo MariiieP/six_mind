@@ -25,8 +25,6 @@ namespace Gameplay
 		{
 			float rotationMin = NeighbourRotation - rotationDelta;
 			float rotationMax = NeighbourRotation + rotationDelta;
-
-			float distanceMin = NeighbourDistance - distanceDelta;
 			float distanceMax = NeighbourDistance + distanceDelta;
 
 			float currentNeighbourRotation = Neighbour.transform.eulerAngles.z;
@@ -38,10 +36,9 @@ namespace Gameplay
 				return false;
 			}
 
-			var dist = transform.position - Neighbour.transform.position;
-			var currentNeighbourDistance = Mathf.Sqrt(dist.x * dist.x + dist.y * dist.y);
+			var currentNeighbourDistance = (transform.position - Neighbour.transform.position).sqrMagnitude;
 
-			if (currentNeighbourDistance < distanceMin || currentNeighbourDistance > distanceMax)
+			if (currentNeighbourDistance > distanceMax)
 			{
 				return false;
 			}      
